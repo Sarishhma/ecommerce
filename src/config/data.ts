@@ -1,0 +1,483 @@
+import type { Product, Collection } from "../types";
+
+/**
+ * This file acts as a temporary data source during frontend development.
+ */
+
+export const categories = [
+  "All",
+  "Singing Bowls",
+  "Jewelry",
+  "Home Décor",
+  "Felt",
+  "Gifts",
+] as const;
+
+export type ProductCategory = (typeof categories)[number];
+
+export const products: Product[] = [
+  {
+    id: 1,
+    name: "Resonance Singing Bowl",
+    slug: "resonance-singing-bowl",
+    description: "Hand-hammered brass bowl with wooden striker.",
+    longDescription:
+      "Forged in a workshop in the Kathmandu Valley, each bowl carries the subtle marks of the hands that made it. Struck or circled with the wooden mallet, it releases a warm, lingering tone — an invitation to pause. The traditional seven-metal alloy creates rich overtones that deepen with use, making every bowl truly unique. Ideal for meditation, sound therapy, or as a stunning centrepiece.",
+    price: 128,
+    compareAtPrice: 160,
+    rating: 4.9,
+    reviewCount: 312,
+    image: "/images/cc-product-bowl.png",
+    images: [
+      "/images/cc-product-bowl.png",
+      "/images/cc-collection-bowls.png",
+    ],
+    category: "Singing Bowls",
+    categorySlug: "singing-bowls",
+    inStock: true,
+    artisan: "Master Rajendra Shakya",
+    origin: "Kathmandu Valley, Nepal",
+    materials: ["Bronze", "Copper", "Tin", "Iron", "Silver traces"],
+    dimensions: "18 cm diameter × 9 cm height",
+    weight: "850 g",
+    features: [
+      "Hand-hammered by a master smith over several days",
+      "Traditional seven-metal Himalayan alloy",
+      "Includes wooden striker and cushion",
+      "Free from synthetic coatings",
+      "Rich, sustained resonance ideal for meditation",
+    ],
+    tags: ["bestseller", "meditation", "sound-healing"],
+  },
+  {
+    id: 2,
+    name: "Turquoise Pendant Necklace",
+    slug: "turquoise-pendant-necklace",
+    description: "Sterling silver setting with Himalayan turquoise.",
+    longDescription:
+      "Each pendant features a hand-selected Himalayan turquoise stone, prized for its vivid blue-green hue and natural matrix patterns. Set in sterling silver by Newar silversmiths, the bail is finished with traditional rope-twist detailing. Comes on an adjustable silver chain — a striking everyday piece with deep cultural roots.",
+    price: 86,
+    rating: 4.8,
+    reviewCount: 189,
+    image: "/images/cc-product-jewelry.png",
+    images: [
+      "/images/cc-product-jewelry.png",
+      "/images/cc-collection-jewelry.png",
+    ],
+    category: "Jewelry",
+    categorySlug: "jewelry",
+    inStock: true,
+    artisan: "Newar Silver Cooperative",
+    origin: "Patan, Nepal",
+    materials: ["Sterling silver", "Himalayan turquoise"],
+    dimensions: "Pendant: 2.5 cm × 1.8 cm; Chain: 45 cm adjustable",
+    weight: "12 g",
+    features: [
+      "Hand-set natural turquoise stone",
+      "Sterling silver (.925) setting",
+      "Traditional Newar rope-twist bail",
+      "Adjustable chain length",
+      "Comes in a handmade lokta paper box",
+    ],
+    tags: ["jewelry", "turquoise", "silver"],
+  },
+  {
+    id: 3,
+    name: "Felted Wool Basket",
+    slug: "felted-wool-basket",
+    description: "Soft, durable storage in natural clay tones.",
+    longDescription:
+      "Wet-felted by hand from pure New Zealand wool, these baskets hold their shape while remaining wonderfully soft to the touch. The warm, earthy clay tones complement any interior style. Use them for throws, toys, plants or bathroom essentials — they're as practical as they are beautiful.",
+    price: 54,
+    rating: 4.7,
+    reviewCount: 145,
+    image: "/images/cc-product-felt.png",
+    images: [
+      "/images/cc-product-felt.png",
+      "/images/cc-collection-felt.png",
+    ],
+    category: "Felt",
+    categorySlug: "felt",
+    inStock: true,
+    artisan: "Felt Women's Collective",
+    origin: "Bhaktapur, Nepal",
+    materials: ["100% New Zealand merino wool"],
+    dimensions: "28 cm diameter × 22 cm height",
+    weight: "280 g",
+    features: [
+      "Wet-felted entirely by hand",
+      "Holds shape without any wire or plastic",
+      "Natural dye colours that soften with age",
+      "Collapsible for storage",
+      "Fair-trade certified production",
+    ],
+    tags: ["felt", "storage", "home"],
+  },
+  {
+    id: 4,
+    name: "Heritage Prayer Flags",
+    slug: "heritage-prayer-flags",
+    description: "Cotton flags block-printed with age-old motifs.",
+    longDescription:
+      "These traditional Tibetan prayer flags are block-printed on unbleached cotton using hand-carved wooden blocks, a technique unchanged for centuries. Strung on a garden terrace, balcony or meditation space, they carry mantras and blessings on the wind. The natural cotton fades gracefully over time, symbolising the impermanence at the heart of Buddhist philosophy.",
+    price: 32,
+    rating: 5.0,
+    reviewCount: 267,
+    image: "/images/cc-product-flags.png",
+    images: ["/images/cc-product-flags.png"],
+    category: "Home Décor",
+    categorySlug: "home-decor",
+    inStock: true,
+    artisan: "Boudhanath Print Workshop",
+    origin: "Boudhanath, Kathmandu",
+    materials: ["Unbleached cotton", "Natural mineral inks"],
+    dimensions: "25 flags, each 20 × 25 cm; Total span ~6 m",
+    weight: "180 g",
+    features: [
+      "Block-printed with hand-carved wooden blocks",
+      "Five traditional colours representing the elements",
+      "Unbleached cotton fades naturally over time",
+      "Indoor or outdoor use",
+      "Includes hanging cord",
+    ],
+    tags: ["prayer-flags", "spiritual", "outdoor"],
+  },
+  {
+    id: 5,
+    name: "Bronze Meditation Statue",
+    slug: "bronze-meditation-statue",
+    description: "Lost-wax cast and finished entirely by hand.",
+    longDescription:
+      "Created using the lost-wax casting method perfected by Patan's Newar artisans over a thousand years, this Buddha statue is a testament to one of the world's oldest continuous metalworking traditions. After casting, each piece is hand-chased, engraved and given a warm patina finish. It makes a contemplative focal point for any space.",
+    price: 214,
+    compareAtPrice: 260,
+    rating: 4.9,
+    reviewCount: 98,
+    image: "/images/cc-product-statue.png",
+    images: ["/images/cc-product-statue.png"],
+    category: "Home Décor",
+    categorySlug: "home-decor",
+    inStock: true,
+    artisan: "Master Sculptor Ashok Shakya",
+    origin: "Patan, Nepal",
+    materials: ["Bronze alloy", "24k gold detailing (face)"],
+    dimensions: "22 cm height × 14 cm width",
+    weight: "1.8 kg",
+    features: [
+      "Lost-wax (cire perdue) casting method",
+      "Hand-chased and engraved detailing",
+      "Warm antique patina finish",
+      "Solid bronze — not hollow",
+      "Certificate of authenticity included",
+    ],
+    tags: ["statue", "meditation", "bronze", "premium"],
+  },
+  {
+    id: 6,
+    name: "Handwoven Hemp Tote",
+    slug: "handwoven-hemp-tote",
+    description: "Sturdy hemp and wool weave with subtle pattern.",
+    longDescription:
+      "Handwoven from wild Himalayan hemp on a traditional backstrap loom, this tote combines rugged durability with understated elegance. The wool-blend accent stripe adds a touch of artisan character. A cotton lining and internal pocket keep essentials organised, while reinforced leather-trimmed handles ensure it lasts for years of daily use.",
+    price: 68,
+    rating: 4.6,
+    reviewCount: 87,
+    image: "/images/cc-product-bag.png",
+    images: ["/images/cc-product-bag.png"],
+    category: "Gifts",
+    categorySlug: "gifts",
+    inStock: true,
+    artisan: "Himalayan Hemp Weavers",
+    origin: "Solukhumbu, Nepal",
+    materials: ["Wild Himalayan hemp", "Wool accent", "Cotton lining", "Leather trim"],
+    dimensions: "38 × 35 × 12 cm",
+    weight: "420 g",
+    features: [
+      "Backstrap-loom woven hemp canvas",
+      "Cotton-lined interior with pocket",
+      "Reinforced leather-trimmed handles",
+      "Natural, undyed hemp colour",
+      "Magnetic snap closure",
+    ],
+    tags: ["bag", "hemp", "gift"],
+  },
+  {
+    id: 7,
+    name: "Meditation Bowl Gift Set",
+    slug: "meditation-bowl-gift-set",
+    description: "Bowl, cushion and striker in a keepsake box.",
+    longDescription:
+      "The perfect introduction to sound meditation — or a thoughtful gift for someone special. This set includes a hand-hammered singing bowl (15 cm), a silk-covered cushion and a suede-wrapped wooden striker, all presented in a handmade lokta-paper box. Includes a fold-out guide to playing techniques.",
+    price: 156,
+    compareAtPrice: 190,
+    rating: 4.9,
+    reviewCount: 204,
+    image: "/images/cc-product-bowl.png",
+    images: [
+      "/images/cc-product-bowl.png",
+      "/images/cc-collection-bowls.png",
+    ],
+    category: "Gifts",
+    categorySlug: "gifts",
+    inStock: true,
+    artisan: "Master Rajendra Shakya",
+    origin: "Kathmandu Valley, Nepal",
+    materials: ["Bronze alloy bowl", "Silk cushion", "Suede-wrapped mallet", "Lokta paper box"],
+    dimensions: "Bowl: 15 cm diameter; Box: 20 × 20 × 12 cm",
+    weight: "1.2 kg (boxed)",
+    features: [
+      "Complete meditation starter set",
+      "Hand-hammered bowl with rich tone",
+      "Silk-covered ring cushion",
+      "Suede-wrapped hardwood striker",
+      "Handmade lokta-paper gift box",
+    ],
+    tags: ["gift-set", "bestseller", "meditation"],
+  },
+  {
+    id: 8,
+    name: "Copper Filigree Earrings",
+    slug: "copper-filigree-earrings",
+    description: "Delicate hand-twisted copper with coral beads.",
+    longDescription:
+      "These delicate earrings showcase the meticulous filigree technique of Newar goldsmiths, adapted here in warm copper. Each pair features hand-twisted wire spirals set with natural Tibetan coral beads. The hooks are hypoallergenic sterling silver, making them comfortable for all-day wear.",
+    price: 48,
+    rating: 4.8,
+    reviewCount: 156,
+    image: "/images/cc-product-jewelry.png",
+    images: [
+      "/images/cc-product-jewelry.png",
+      "/images/cc-collection-jewelry.png",
+    ],
+    category: "Jewelry",
+    categorySlug: "jewelry",
+    inStock: true,
+    artisan: "Newar Silver Cooperative",
+    origin: "Patan, Nepal",
+    materials: ["Copper filigree", "Tibetan coral", "Sterling silver hooks"],
+    dimensions: "Drop: 4.5 cm",
+    weight: "6 g (pair)",
+    features: [
+      "Hand-twisted copper filigree work",
+      "Natural Tibetan coral beads",
+      "Hypoallergenic sterling silver hooks",
+      "Lightweight for comfortable all-day wear",
+      "Presented in a handmade lokta paper pouch",
+    ],
+    tags: ["earrings", "copper", "coral"],
+  },
+  {
+    id: 9,
+    name: "Felt Ball Trivet Set",
+    slug: "felt-ball-trivet-set",
+    description: "A trio of felted trivets in earthy hues.",
+    longDescription:
+      "Protect your surfaces in style with this set of three hand-rolled felt ball trivets. Each ball is individually needle-felted, then carefully stitched together to create a heat-resistant, scratch-free pad. The graduated earthy tones — clay, sand and charcoal — coordinate beautifully and nest for easy storage.",
+    price: 38,
+    rating: 4.7,
+    reviewCount: 112,
+    image: "/images/cc-product-felt.png",
+    images: [
+      "/images/cc-product-felt.png",
+      "/images/cc-collection-felt.png",
+    ],
+    category: "Felt",
+    categorySlug: "felt",
+    inStock: true,
+    artisan: "Felt Women's Collective",
+    origin: "Bhaktapur, Nepal",
+    materials: ["100% New Zealand merino wool"],
+    dimensions: "Large: 20 cm, Medium: 15 cm, Small: 10 cm diameter",
+    weight: "95 g (set)",
+    features: [
+      "Set of three graduating sizes",
+      "Each ball individually needle-felted",
+      "Heat-resistant up to 100 °C",
+      "Scratch-free on all surfaces",
+      "Stackable for neat storage",
+    ],
+    tags: ["trivet", "felt", "kitchen"],
+  },
+];
+
+export const collections: Collection[] = [
+  {
+    name: "Singing Bowls",
+    slug: "singing-bowls",
+    count: "24 pieces",
+    image: "/images/cc-collection-bowls.png",
+    blurb: "Hand-hammered for resonance and ritual.",
+  },
+  {
+    name: "Home Décor",
+    slug: "home-decor",
+    count: "48 pieces",
+    image: "/images/cc-collection-decor.png",
+    blurb: "Warm textures for a considered home.",
+  },
+  {
+    name: "Handcrafted Jewelry",
+    slug: "jewelry",
+    count: "36 pieces",
+    image: "/images/cc-collection-jewelry.png",
+    blurb: "Silver, copper and stones, set by hand.",
+  },
+  {
+    name: "Wooden Crafts",
+    slug: "wooden-crafts",
+    count: "19 pieces",
+    image: "/images/cc-collection-wooden.png",
+    blurb: "Carved from richly grained walnut.",
+  },
+  {
+    name: "Felt Collection",
+    slug: "felt",
+    count: "42 pieces",
+    image: "/images/cc-collection-felt.png",
+    blurb: "Soft, felted wool in natural tones.",
+  },
+  {
+    name: "Traditional Clothing",
+    slug: "traditional-clothing",
+    count: "27 pieces",
+    image: "/images/cc-collection-clothing.png",
+    blurb: "Handwoven pashmina, wool and scarves.",
+  },
+];
+
+export const testimonials = [
+  {
+    id: 1,
+    quote:
+      "My singing bowl is easily the most beautiful object in our home. You can feel the care in every hammer mark, and the tone is simply magical.",
+    author: "Amélie Rousseau",
+    location: "Lyon, France",
+    rating: 5,
+    avatar: "/images/cc-avatar-1.png",
+  },
+  {
+    id: 2,
+    quote:
+      "I stock Crystal Clan pieces in my boutique and customers adore them. Knowing the artisans are paid fairly makes every sale feel meaningful.",
+    author: "Daniel Okafor",
+    location: "Melbourne, Australia",
+    rating: 5,
+    avatar: "/images/cc-avatar-2.png",
+  },
+  {
+    id: 3,
+    quote:
+      "The felt baskets and woven throws transformed our reading nook. Beautifully made, thoughtfully packaged, and they arrived faster than expected.",
+    author: "Greta Lindqvist",
+    location: "Gothenburg, Sweden",
+    rating: 5,
+    avatar: "/images/cc-avatar-3.png",
+  },
+];
+
+export const blogArticles = [
+  {
+    id: 1,
+    title: "The Heritage of Nepalese Handicrafts",
+    slug: "heritage-nepalese-handicrafts",
+    excerpt:
+      "How mountain valleys became home to some of the world's most enduring craft traditions.",
+    category: "Heritage",
+    readTime: "6 min read",
+    image: "/images/cc-blog-1.png",
+    date: "2025-11-15",
+  },
+  {
+    id: 2,
+    title: "How Handmade Products Preserve Culture",
+    slug: "handmade-products-preserve-culture",
+    excerpt:
+      "Meet the makers keeping ancestral techniques alive—and why it matters more than ever.",
+    category: "Community",
+    readTime: "5 min read",
+    image: "/images/cc-blog-2.png",
+    date: "2025-10-28",
+  },
+  {
+    id: 3,
+    title: "Decorating Your Home with Artisan Pieces",
+    slug: "decorating-with-artisan-pieces",
+    excerpt:
+      "Simple ways to layer texture, warmth and meaning into the spaces you live in.",
+    category: "Living",
+    readTime: "4 min read",
+    image: "/images/cc-blog-3.png",
+    date: "2025-10-10",
+  },
+];
+
+export const galleryImages = [
+  { src: "/images/cc-gallery-1.png", caption: "At Home" },
+  { src: "/images/cc-gallery-3.png", caption: "The Himalayas" },
+  { src: "/images/cc-gallery-4.png", caption: "Thoughtful Gifting" },
+  { src: "/images/cc-blog-3.png", caption: "Lived-in Spaces" },
+];
+
+export const marqueeValues = [
+  "Handmade by Skilled Artisans",
+  "Authentic Nepalese Craftsmanship",
+  "Fair Trade Partnerships",
+  "Sustainable Materials",
+  "Worldwide Shipping",
+  "Ethically Sourced",
+];
+
+export const stats = [
+  { value: "40+", label: "Artisan partners" },
+  { value: "12", label: "Craft communities" },
+  { value: "60+", label: "Countries shipped" },
+  { value: "100%", label: "Handmade goods" },
+];
+
+export const wholesalePartners = [
+  "Boutiques",
+  "Hotels & Resorts",
+  "Spas & Studios",
+  "Gift Shops",
+  "Interior Designers",
+  "Concept Stores",
+];
+
+export const wholesaleBenefits = [
+  "Wholesale pricing with low minimums",
+  "Made-to-order and custom collections",
+  "Reliable global shipping and lead times",
+  "Story cards that share each maker's craft",
+];
+
+export const footerColumns = [
+  {
+    title: "Shop",
+    links: [
+      { name: "Singing Bowls", href: "/collections/singing-bowls" },
+      { name: "Home Décor", href: "/collections/home-decor" },
+      { name: "Jewelry", href: "/collections/jewelry" },
+      { name: "Felt Collection", href: "/collections/felt" },
+      { name: "Gifts", href: "/collections/gifts" },
+    ],
+  },
+  {
+    title: "Explore",
+    links: [
+      { name: "Collections", href: "/shop" },
+      { name: "Our Story", href: "/story" },
+      { name: "Wholesale", href: "/wholesale" },
+      { name: "Journal", href: "/journal" },
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      { name: "Contact", href: "#" },
+      { name: "FAQs", href: "#" },
+      { name: "Shipping", href: "#" },
+      { name: "Returns", href: "#" },
+      { name: "Privacy Policy", href: "#" },
+    ],
+  },
+];

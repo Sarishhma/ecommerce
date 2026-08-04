@@ -1,0 +1,23 @@
+import { isAxiosError } from "axios";
+
+export const handleApiError = (error: unknown): string => {
+  if (isAxiosError(error)) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      return error.response.data?.message || "An error occurred with the server response.";
+    } else if (error.request) {
+      // The request was made but no response was received
+      return "No response received from the server. Please check your network connection.";
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      return error.message;
+    }
+  }
+  
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "An unexpected error occurred.";
+};
