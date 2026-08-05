@@ -115,12 +115,7 @@ export function HeroSection() {
                   Shop the Collection
                   <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Link>
-                <Link
-                  to="/story"
-                  className="inline-flex items-center gap-2 text-white/40 hover:text-white px-4 py-2 rounded-full text-xs uppercase tracking-wider font-light transition-colors"
-                >
-                  Discover Our Story
-                </Link>
+            
               </div>
 
               {/* Feature badges */}

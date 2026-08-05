@@ -34,10 +34,7 @@ export function FeaturedProductsSection({ products = mockProducts, categories = 
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-charcoal text-balance">
             Handmade favorites, ready to gift
           </h2>
-          <p className="text-muted-foreground mt-4 leading-relaxed">
-            A curated selection of our most-loved pieces, each finished by an
-            artisan and made to be kept for years.
-          </p>
+        
         </div>
 
         <div
@@ -50,10 +47,10 @@ export function FeaturedProductsSection({ products = mockProducts, categories = 
               key={category}
               type="button"
               onClick={() => setActiveCategory(category)}
-              className={`px-5 py-2 rounded-full text-sm transition-colors ${
+              className={`px-5 py-1.5 text-xs tracking-wider transition-all duration-300 ${
                 activeCategory === category
-                  ? "bg-charcoal text-ivory"
-                  : "bg-ivory text-charcoal/70 hover:text-charcoal border border-border"
+                  ? "text-amber-600 border-b-2 border-amber-600"
+                  : "text-stone-400 hover:text-stone-600 border-b-2 border-transparent hover:border-stone-300"
               }`}
             >
               {category}
