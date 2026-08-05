@@ -2,7 +2,7 @@ import { testimonials as mockTestimonials } from "@/config/data";
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 
 

@@ -1,7 +1,7 @@
 import { wholesalePartners as mockPartners, wholesaleBenefits as mockBenefits } from "@/config/data";
 
 import { Check } from "lucide-react";
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 // const partners = ["Boutiques", "Hotels & Resorts", "Spas & Studios", "Gift Shops", "Interior Designers", "Concept Stores"];
 

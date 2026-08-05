@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { useAppDispatch, useAppSelector, selectWishlistIds, addToCart, toggleWishlistItem } from '@/redux';
 import { products } from '@/config/data';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 
 export const WishlistPage = () => {
   const dispatch = useAppDispatch();

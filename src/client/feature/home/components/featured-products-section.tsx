@@ -2,7 +2,7 @@ import { products as mockProducts, categories as mockCategories } from "@/config
 import { useAppDispatch, useAppSelector, addToCart, toggleWishlistItem, selectWishlistIds } from "@/redux";
 import { useState } from "react";
 import { Star, Heart, ShoppingBag } from "lucide-react";
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 export function FeaturedProductsSection({ products = mockProducts, categories = mockCategories }: { products?: any[], categories?: readonly string[] }) {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.1 });

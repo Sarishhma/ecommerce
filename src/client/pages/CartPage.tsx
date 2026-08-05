@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { useAppDispatch, useAppSelector, selectCartItems, selectCartTotal, updateQuantity, removeFromCart, clearCart } from '@/redux';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 
 export const CartPage = () => {
   const dispatch = useAppDispatch();

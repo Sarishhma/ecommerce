@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { products, collections } from '@/config/data';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 import { ProductCard } from '@/components/common/ProductCard';
 
 export const CollectionPage = () => {

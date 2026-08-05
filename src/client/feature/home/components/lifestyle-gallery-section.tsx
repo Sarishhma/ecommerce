@@ -1,6 +1,6 @@
 import { galleryImages as mockImages } from "@/config/data";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
 
 // const images = [
   

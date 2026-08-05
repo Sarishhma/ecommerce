@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
 import { blogArticles } from '@/config/data';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 
 export const JournalPage = () => {
   const headerReveal = useScrollReveal();

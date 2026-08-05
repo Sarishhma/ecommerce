@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Navigation } from './Navigation';
+import { FooterSection } from '@/client/feature/home/components/footer-section';
 // Assuming FooterSection exists or we will create a placeholder. 
 // For now, I'll import from a likely location or create a simple fallback.
 // Since the prompt says "The FooterSection component at bottom", I assume it exists somewhere like `@/components/layout/FooterSection` or `@/features/home/components/FooterSection`
-import { FooterSection } from '@/features/home/components/footer-section'; 
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();

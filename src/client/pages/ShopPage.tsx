@@ -1,16 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { SlidersHorizontal, ArrowUpDown, X } from 'lucide-react';
 import { products, categories } from '@/config/data';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 import { ProductCard } from '@/components/common/ProductCard';
 
 export const ShopPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'featured' | 'price-low' | 'price-high' | 'rating'>('featured');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const headerReveal = useScrollReveal();
   const gridReveal = useScrollReveal();
 
   const filteredProducts = useMemo(() => {

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 export function EditorialSection() {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.2 });

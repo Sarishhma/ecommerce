@@ -1,5 +1,5 @@
 import React from 'react';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 
 export const StoryPage = () => {
   const heroReveal = useScrollReveal();

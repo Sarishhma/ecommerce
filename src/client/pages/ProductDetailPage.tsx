@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Heart, Star, Check, Minus, Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector, addToCart, toggleWishlistItem, selectWishlistIds } from '@/redux';
 import { products } from '@/config/data';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 
 export const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>();

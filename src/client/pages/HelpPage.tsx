@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, ChevronDown, Mail, Phone, MessageSquare } from 'lucide-react';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 
 const faqCategories = [
   {

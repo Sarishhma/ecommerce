@@ -2,7 +2,7 @@ import { collections as mockCollections } from "@/config/data";
 
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 
 

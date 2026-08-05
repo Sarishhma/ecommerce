@@ -1,6 +1,7 @@
 import { useAppDispatch, addToCart } from "@/redux";
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
+
 import { Hammer, Leaf, Globe, Star } from "lucide-react";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 const details = [
   {

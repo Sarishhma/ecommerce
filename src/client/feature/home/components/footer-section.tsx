@@ -1,6 +1,6 @@
 import { footerColumns as mockColumns } from "@/config/data";
 import { Link } from "react-router-dom";
-import { useScrollReveal } from "@/features/home/hooks/use-scroll-reveal";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 export function FooterSection({ footerColumns = mockColumns }: { footerColumns?: any[] }) {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.2 });

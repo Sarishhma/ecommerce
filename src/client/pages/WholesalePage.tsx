@@ -1,12 +1,13 @@
 import React, { useRef } from 'react';
 import { Check, Mail } from 'lucide-react';
-import { useScrollReveal } from '@/features/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { wholesaleSchema } from '@/features/wholesale/schema/wholesale.schema';
-import type { WholesaleFormValues } from '@/features/wholesale/types/wholesale.types';
-import { useSubmitWholesaleInquiry } from '@/features/wholesale/hooks/use-wholesale';
-import { useToast } from '@/features/home/hooks/use-toast';
+import { useSubmitWholesaleInquiry } from '../feature/wholesale/hooks/use-wholesale';
+import { useToast } from '@/components/ui/use-toast';
+import type { WholesaleFormValues } from '../feature/wholesale/types/wholesale.types';
+import { wholesaleSchema } from '../feature/wholesale/schema/wholesale.schema';
 
 export const WholesalePage = () => {
   const headerReveal = useScrollReveal();
