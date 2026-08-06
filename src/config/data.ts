@@ -24,6 +24,7 @@ export const products: Product[] = [
     longDescription:
       "Forged in a workshop in the Kathmandu Valley, each bowl carries the subtle marks of the hands that made it. Struck or circled with the wooden mallet, it releases a warm, lingering tone — an invitation to pause. The traditional seven-metal alloy creates rich overtones that deepen with use, making every bowl truly unique. Ideal for meditation, sound therapy, or as a stunning centrepiece.",
     price: 128,
+    maxQuantity:99,
     compareAtPrice: 160,
     rating: 4.9,
     reviewCount: 312,
@@ -58,6 +59,7 @@ export const products: Product[] = [
       "Each pendant features a hand-selected Himalayan turquoise stone, prized for its vivid blue-green hue and natural matrix patterns. Set in sterling silver by Newar silversmiths, the bail is finished with traditional rope-twist detailing. Comes on an adjustable silver chain — a striking everyday piece with deep cultural roots.",
     price: 86,
     rating: 4.8,
+      maxQuantity:99,
     reviewCount: 189,
     image: "/images/cc-product-jewelry.png",
     images: [
@@ -90,6 +92,7 @@ export const products: Product[] = [
       "Wet-felted by hand from pure New Zealand wool, these baskets hold their shape while remaining wonderfully soft to the touch. The warm, earthy clay tones complement any interior style. Use them for throws, toys, plants or bathroom essentials — they're as practical as they are beautiful.",
     price: 54,
     rating: 4.7,
+      maxQuantity:99,
     reviewCount: 145,
     image: "/images/cc-product-felt.png",
     images: [
@@ -121,6 +124,7 @@ export const products: Product[] = [
     longDescription:
       "These traditional Tibetan prayer flags are block-printed on unbleached cotton using hand-carved wooden blocks, a technique unchanged for centuries. Strung on a garden terrace, balcony or meditation space, they carry mantras and blessings on the wind. The natural cotton fades gracefully over time, symbolising the impermanence at the heart of Buddhist philosophy.",
     price: 32,
+      maxQuantity:99,
     rating: 5.0,
     reviewCount: 267,
     image: "/images/cc-product-flags.png",
@@ -151,6 +155,7 @@ export const products: Product[] = [
       "Created using the lost-wax casting method perfected by Patan's Newar artisans over a thousand years, this Buddha statue is a testament to one of the world's oldest continuous metalworking traditions. After casting, each piece is hand-chased, engraved and given a warm patina finish. It makes a contemplative focal point for any space.",
     price: 214,
     compareAtPrice: 260,
+      maxQuantity:99,
     rating: 4.9,
     reviewCount: 98,
     image: "/images/cc-product-statue.png",
@@ -182,6 +187,7 @@ export const products: Product[] = [
     price: 68,
     rating: 4.6,
     reviewCount: 87,
+      maxQuantity:99,
     image: "/images/cc-product-bag.png",
     images: ["/images/cc-product-bag.png"],
     category: "Gifts",
@@ -210,6 +216,7 @@ export const products: Product[] = [
       "The perfect introduction to sound meditation — or a thoughtful gift for someone special. This set includes a hand-hammered singing bowl (15 cm), a silk-covered cushion and a suede-wrapped wooden striker, all presented in a handmade lokta-paper box. Includes a fold-out guide to playing techniques.",
     price: 156,
     compareAtPrice: 190,
+      maxQuantity:99,
     rating: 4.9,
     reviewCount: 204,
     image: "/images/cc-product-bowl.png",
@@ -243,6 +250,7 @@ export const products: Product[] = [
       "These delicate earrings showcase the meticulous filigree technique of Newar goldsmiths, adapted here in warm copper. Each pair features hand-twisted wire spirals set with natural Tibetan coral beads. The hooks are hypoallergenic sterling silver, making them comfortable for all-day wear.",
     price: 48,
     rating: 4.8,
+      maxQuantity:99,
     reviewCount: 156,
     image: "/images/cc-product-jewelry.png",
     images: [
@@ -276,6 +284,7 @@ export const products: Product[] = [
     price: 38,
     rating: 4.7,
     reviewCount: 112,
+      maxQuantity:99,
     image: "/images/cc-product-felt.png",
     images: [
       "/images/cc-product-felt.png",

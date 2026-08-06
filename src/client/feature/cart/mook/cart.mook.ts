@@ -1,4 +1,4 @@
-import type { CartItem } from "@/redux";
+import type { CartItem } from "../types/cart.types";
 
 
 export const mockCartItems: CartItem[] = [

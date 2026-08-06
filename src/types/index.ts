@@ -1,3 +1,5 @@
+import type { CartItemInput, CartResponse } from "@/client/feature/cart/schema/cart.schema";
+
 export interface Product {
   id: number;
   name: string;
@@ -9,6 +11,7 @@ export interface Product {
   rating: number;
   reviewCount: number;
   image: string;
+    maxQuantity: number; 
   images: string[];
   category: string;
   categorySlug: string;
@@ -68,3 +71,7 @@ export interface GalleryImage {
   src: string;
   caption: string;
 }
+
+
+export type CartItem = CartItemInput
+export type Cart = CartResponse

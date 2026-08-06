@@ -1,20 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingBag } from 'lucide-react';
-import { useAppDispatch, useAppSelector, selectWishlistIds, addToCart, toggleWishlistItem } from '@/redux';
+import { useAppDispatch, useAppSelector, selectWishlistIds, toggleWishlistItem } from '@/redux';
 import { products } from '@/config/data';
 import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
+import { useAddToCart } from '../feature/product';
 
 export const WishlistPage = () => {
   const dispatch = useAppDispatch();
   const wishlistIds = useAppSelector(selectWishlistIds);
+  const addToCartMutation = useAddToCart();
   const contentReveal = useScrollReveal();
-  
+
   const wishlistItems = products.filter(p => wishlistIds.includes(p.id));
 
   if (wishlistItems.length === 0) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 pt-24 pb-20">
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 pt-[calc(var(--nav-height)+2rem)] pb-20">
         <div className="w-24 h-24 bg-sand/30 rounded-full flex items-center justify-center mb-6 text-terracotta">
           <Heart className="w-10 h-10" />
         </div>
@@ -39,14 +41,14 @@ export const WishlistPage = () => {
           <div key={product.id} className="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-sand/50">
             <div className="relative aspect-square overflow-hidden bg-sand/30">
               <Link to={`/product/${product.id}`}>
-                <img 
-                  src={product.image} 
-                  alt={product.name} 
+                <img
+                  src={product.image}
+                  alt={product.name}
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </Link>
-              
-              <button 
+
+              <button
                 onClick={(e) => {
                   e.preventDefault();
                   dispatch(toggleWishlistItem(product.id));
@@ -56,12 +58,12 @@ export const WishlistPage = () => {
                 <Heart className="w-5 h-5 fill-current" />
               </button>
             </div>
-            
+
             <div className="p-6 flex flex-col flex-grow">
               <Link to={`/product/${product.id}`} className="font-display text-lg font-bold text-charcoal hover:text-terracotta transition-colors mb-2">
                 {product.name}
               </Link>
-              
+
               <div className="flex items-center space-x-1 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-terracotta text-terracotta' : 'text-sand'}`}>
@@ -70,16 +72,17 @@ export const WishlistPage = () => {
                 ))}
                 <span className="text-xs text-stone ml-2">({product.reviewCount} reviews)</span>
               </div>
-              
+
               <p className="text-stone text-sm mb-4 line-clamp-2">{product.description}</p>
-              
+
               <div className="mt-auto flex items-center justify-between">
                 <span className="font-display text-xl font-bold text-charcoal">
                   ${product.price.toFixed(2)}
                 </span>
-                <button 
-                  onClick={() => dispatch(addToCart(product))}
-                  className="p-3 bg-terracotta text-white rounded-full hover:bg-charcoal transition-colors shadow-sm flex items-center justify-center"
+                <button
+                  onClick={() => addToCartMutation.mutate({ product, quantity: 1 })}
+                  disabled={addToCartMutation.isPending}
+                  className="p-3 bg-terracotta text-white rounded-full hover:bg-charcoal transition-colors shadow-sm flex items-center justify-center disabled:opacity-60"
                 >
                   <ShoppingBag className="w-5 h-5" />
                 </button>

@@ -26,6 +26,23 @@ export const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const headerRef = useRef<HTMLElement>(null);
+
+useEffect(() => {
+  const updateNavHeight = () => {
+    const height = headerRef.current?.getBoundingClientRect().bottom ?? 0;
+    document.documentElement.style.setProperty('--nav-height', `${height}px`);
+  };
+
+  updateNavHeight();
+  window.addEventListener('scroll', updateNavHeight);
+  window.addEventListener('resize', updateNavHeight);
+  return () => {
+    window.removeEventListener('scroll', updateNavHeight);
+    window.removeEventListener('resize', updateNavHeight);
+  };
+});
+
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
@@ -68,7 +85,7 @@ export const Navigation = () => {
         hoverColor={hoverColor}
       />
 
-      <header className={`${navClasses} ${isHomePage && !isScrolled ? 'top-0' : 'top-8'}`}>
+      <header ref={headerRef} className={`${navClasses} ${isHomePage && !isScrolled ? 'top-0' : 'top-8'}`}>
         {/* Tier 2: Main Header (Logo | Search Bar | Icons) */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 border-b border-black/5">
           <div className="flex justify-between items-center gap-4">

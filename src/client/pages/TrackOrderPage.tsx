@@ -108,7 +108,7 @@ export const TrackOrderPage = () => {
   };
 
   return (
-    <div className="pt-20 pb-20">
+    <div className="pt-[calc(var(--nav-height)+2rem)] pb-20">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-charcoal mb-2">Track Your Order</h1>
         <p className="text-stone mb-12">Enter your order number or view your recent orders</p>

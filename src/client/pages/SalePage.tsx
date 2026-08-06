@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Filter } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addToCart, toggleWishlistItem, selectWishlistIds } from '@/redux';
+import {  toggleWishlistItem, selectWishlistIds } from '@/redux';
 import { products } from '@/config/data';
+import { useAddToCart } from '../feature/product';
 
 export const SalePage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const wishlistIds = useAppSelector(selectWishlistIds);
+    const addToCartMutation = useAddToCart();
   const [sortBy, setSortBy] = useState('popular');
 
   // Sales products with discount
@@ -26,13 +28,7 @@ export const SalePage = () => {
   });
 
   const handleAddToCart = (product: typeof products[0]) => {
-    dispatch(addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      quantity: 1,
-    }));
+   addToCartMutation.mutate({ product, quantity: 1 });
   };
 
   const isWishlisted = (id: number) => (wishlistIds as number[]).includes(id);
@@ -42,7 +38,7 @@ export const SalePage = () => {
   };
 
   return (
-    <div className="pt-20 pb-20">
+    <div className="pt-[calc(var(--nav-height)+2rem)] pb-20">
       {/* Sale Banner */}
       <div className="bg-gradient-to-r from-terracotta/20 to-terracotta/10 py-16 mb-12">
         <div className="container mx-auto px-4">

@@ -1,17 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Heart } from 'lucide-react';
-import { useAppDispatch, useAppSelector, addToCart, toggleWishlistItem, selectWishlistIds } from '@/redux';
 
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  rating: number;
-  category: string;
-  categorySlug?: string;
-}
+import { Link, useNavigate } from 'react-router-dom';
+import { Heart } from 'lucide-react';
+import { 
+  useAppDispatch, 
+  useAppSelector, 
+  toggleWishlistItem, 
+  selectWishlistIds,
+  
+} from '@/redux';
+import type { Product } from '@/types';
+import { selectIsAuthenticated } from '@/redux/slices/authSlice';
+import { useAddToCart } from '@/client/feature/product';
+
 
 interface ProductCardProps {
   product: Product;
@@ -19,14 +19,31 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const wishlistIds = useAppSelector(selectWishlistIds);
   const isWishlisted = wishlistIds.includes(Number(product.id));
 
+  // 1. Use your TanStack Query mutation hook
+  const { mutate: handleAddToCart, isPending } = useAddToCart();
+
+  // 2. Buy Now logic
+  const handleBuyNow = () => {
+    handleAddToCart({ product, quantity: 1 });
+
+    if (isAuthenticated) {
+      navigate('/checkout');
+    } else {
+      navigate('/login', { state: { from: '/checkout' } });
+    }
+  };
+
   return (
-    <div className="group flex flex-col bg-white border border-[#E5E5E5] rounded-lg overflow-hidden transition-all duration-300 hover:border-[#1A1A1A]">
+    <div className="group flex flex-col bg-white border border-[#E5E5E5] rounded-lg overflow-hidden transition-all duration-300">
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden bg-[#F9F9F9]">
-        <Link to={`/product/${product.id}`} className="block w-full h-full">
+        <Link to={`/product/${product.slug}`} className="block w-full h-full">
           <img
             src={product.image}
             alt={product.name}
@@ -34,7 +51,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           />
         </Link>
 
-        {/* Minimal Wishlist Button */}
+        {/* Wishlist Button */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -59,7 +76,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </span>
 
           <Link
-            to={`/product/${product.id}`}
+            to={`/product/${product.slug}`}
             className="text-sm font-medium text-[#1A1A1A] hover:underline line-clamp-1 mb-2 block"
           >
             {product.name}
@@ -70,23 +87,24 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </p>
         </div>
 
-        {/* Clean Action Button */}
-        <button
-          onClick={() =>
-            dispatch(
-              addToCart({
-                id: Number(product.id),
-                name: product.name,
-                price: product.price,
-                image: product.image,
-                quantity: 1,
-              })
-            )
-          }
-          className="mt-4 w-full py-2.5 bg-[#1A1A1A] text-white text-xs font-medium tracking-wide rounded hover:bg-neutral-800 transition-colors"
-        >
-          Add to Cart
-        </button>
+        {/* Action Buttons */}
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <button
+            disabled={isPending || !product.inStock}
+            onClick={() => handleAddToCart({ product, quantity: 1 })}
+            className="w-full py-2.5 bg-neutral-100 text-[#1A1A1A] text-xs font-medium tracking-wide rounded hover:bg-neutral-200 transition-colors disabled:opacity-50"
+          >
+            {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+          </button>
+
+          <button
+            disabled={isPending || !product.inStock}
+            onClick={handleBuyNow}
+            className="w-full py-2.5 bg-[#1A1A1A] text-white text-xs font-medium tracking-wide rounded hover:bg-neutral-800 transition-colors disabled:opacity-50"
+          >
+            Buy Now
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export const CartPage = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 pt-24 pb-20">
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 pt-[calc(var(--nav-height)+2rem)] pb-20">
         <div className="w-24 h-24 bg-sand/30 rounded-full flex items-center justify-center mb-6 text-terracotta">
           <ShoppingBag className="w-10 h-10" />
         </div>
@@ -27,7 +27,7 @@ export const CartPage = () => {
   }
 
   return (
-    <div className="pt-24 pb-20 lg:pt-32 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div className="pt-[calc(var(--nav-height)+2rem)] pb-20 lg:pt-32 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="text-center mb-12">
         <h1 className="font-display text-4xl lg:text-5xl font-bold text-charcoal mb-4">Your Cart</h1>
       </div>

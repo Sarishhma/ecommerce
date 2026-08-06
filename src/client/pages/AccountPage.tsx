@@ -24,21 +24,21 @@ export const AccountPage = () => {
   const navigate = useNavigate()
   const user = useAppSelector(selectUser)
 
-  if (!user) {
-    return (
-      <div className="pt-32 pb-20 text-center">
-        <h2 className="text-2xl font-bold text-charcoal mb-4">
-          Please sign in to view your account
-        </h2>
-        <button
-          onClick={() => navigate("/login")}
-          className="px-6 py-3 bg-terracotta text-ivory rounded-lg font-medium hover:bg-opacity-90"
-        >
-          Sign In
-        </button>
-      </div>
-    )
-  }
+  // if (!user) {
+  //   return (
+  //     <div className="pt-[calc(var(--nav-height)+2rem)] pb-20 text-center min-h-screen">
+  //       <h2 className="text-2xl font-bold text-charcoal mb-4">
+  //         Please sign in to view your account
+  //       </h2>
+  //       <button
+  //         onClick={() => navigate("/login")}
+  //         className="px-6 py-3 bg-terracotta text-ivory rounded-lg font-medium hover:bg-opacity-90"
+  //       >
+  //         Sign In
+  //       </button>
+  //     </div>
+  //   )
+  // }
 
   const handleLogout = () => {
     dispatch(logout())
@@ -46,8 +46,8 @@ export const AccountPage = () => {
   }
 
   return (
-    <div className="pt-24 pb-20 lg:pt-32 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="text-center mb-12">
+<div className="pt-[calc(var(--nav-height)+2rem)] pb-20 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">     
+   <div className="text-center mb-12">
         <h1 className="font-display text-4xl lg:text-5xl font-bold text-charcoal mb-4">
           My Account
         </h1>
@@ -55,8 +55,7 @@ export const AccountPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-2xl shadow-sm border border-sand/50 p-6 space-y-2 sticky top-32">
-            {tabs.map(({ key, label, icon: Icon }) => (
+<div className="bg-white rounded-2xl shadow-sm border border-sand/50 p-6 space-y-2 sticky top-[calc(var(--nav-height)+1rem)]">            {tabs.map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}

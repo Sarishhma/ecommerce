@@ -130,5 +130,7 @@ export const CATEGORIES: Category[] = [
 ];
 
 export const PRIMARY_NAV_ITEMS = [
+   { name: "home", href: "/" },
   { name: "shop", href: "/shop" },
+ 
 ];
