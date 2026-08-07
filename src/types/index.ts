@@ -1,28 +1,28 @@
 import type { CartItemInput, CartResponse } from "@/client/feature/cart/schema/cart.schema";
 
 export interface Product {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-  longDescription: string;
-  price: number;
-  compareAtPrice?: number;
-  rating: number;
-  reviewCount: number;
-  image: string;
-    maxQuantity: number; 
-  images: string[];
-  category: string;
-  categorySlug: string;
-  inStock: boolean;
-  artisan: string;
-  origin: string;
-  materials: string[];
-  dimensions?: string;
-  weight?: string;
-  features: string[];
-  tags: string[];
+  id: number
+  title: string
+  slug: string
+  description: string
+  image: string | null
+  price: number
+  is_taxable: boolean
+  product_id: number | null
+  unit: string
+  category: number | null
+  barcode: string | null
+  reconcile: boolean
+  is_billing_item: boolean
+  ledger: number | null
+  ledger_name: string | null
+  opening_count: number
+  is_produced: boolean
+  cost_price: number
+  discount_exempt: boolean
+  minimum_stock: number
+  excise_duty_applicable: boolean
+  importtax_percent: string
 }
 
 export interface Collection {

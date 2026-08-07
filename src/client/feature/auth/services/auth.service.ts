@@ -1,49 +1,61 @@
-import api from '@/lib/api';
-import type { LoginCredentials, LoginResponse } from '../types/auth.types';
+import { jwtDecode } from 'jwt-decode'
+import api from '@/lib/api'
+import type { LoginCredentials, LoginResponse, User } from '../types/auth.types'
+
+const STORAGE_KEYS = {
+  ACCESS_TOKEN: 'accessToken',
+  REFRESH_TOKEN: 'refreshToken',
+  USER: 'user',
+} as const
+
+interface JwtPayload {
+  exp?: number
+}
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
-    const response = await api.post<LoginResponse>('/login/', credentials);
-    return response.data;
+    const { data } = await api.post<LoginResponse>('/login/', credentials)
+    return data
   },
 
   setTokens: (accessToken: string, refreshToken: string) => {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken)
+    localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken)
   },
 
   clearTokens: () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN)
+    localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN)
+    localStorage.removeItem(STORAGE_KEYS.USER)
   },
 
-  getAccessToken: () => localStorage.getItem('accessToken'),
-  getRefreshToken: () => localStorage.getItem('refreshToken'),
+  getAccessToken: (): string | null => localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN),
 
-  // Validates presence AND expiry of JWT
-hasValidToken: (): boolean => {
-  const token = localStorage.getItem('accessToken');
-  if (!token) return false;
+  setUser: (user: User) => {
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user))
+  },
 
-  try {
-    const base64Url = token.split('.')[1];
-    if (!base64Url) return false;
+  getUser: (): User | null => {
+    const raw = localStorage.getItem(STORAGE_KEYS.USER)
+    if (!raw) return null
+    try {
+      return JSON.parse(raw) as User
+    } catch {
+      return null
+    }
+  },
 
-    // Convert Base64Url to standard Base64 and handle UTF-8 characters
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    );
+  hasValidToken: (): boolean => {
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN)
+    if (!token) return false
 
-    const payload = JSON.parse(jsonPayload);
-    const currentTime = Math.floor(Date.now() / 1000);
+    try {
+      const payload = jwtDecode<JwtPayload>(token)
+      const currentTime = Math.floor(Date.now() / 1000)
 
-    return payload.exp ? payload.exp > currentTime : true;
-  } catch {
-    return false;
-  }
+      return payload.exp ? payload.exp > currentTime : true
+    } catch {
+      return false
+    }
+  },
 }
-};

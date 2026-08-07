@@ -3,15 +3,21 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  full_name: string;
+  phone_number: string;
+  address: string;
+  organization: number;
+  roles: string[];
 }
 
-export interface User {
-  id?: string | number;
-  username: string;
-  role?: string;
+export interface LoginResponse {
+  access: string;
+  refresh: string;
+  user: User;
 }
 
 export interface AuthState {

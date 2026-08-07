@@ -1,15 +1,13 @@
-import { authService } from '@/client/feature/auth/services/auth.service';
-import type { AuthState, User } from '@/client/feature/auth/types/auth.types';
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '..';
-
+import { authService } from '@/client/feature/auth/services/auth.service'
+import type { AuthState, User } from '@/client/feature/auth/types/auth.types'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: AuthState = {
   user: null,
-  isAuthenticated: authService.hasValidToken(),
+  isAuthenticated: false,
   isLoading: false,
   error: null,
-};
+}
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -17,29 +15,32 @@ export const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      action: PayloadAction<{ user?: User | null; accessToken: string; refreshToken: string }>
+      action: PayloadAction<{ user: User | null; accessToken: string; refreshToken: string }>
     ) => {
-      const { user, accessToken, refreshToken } = action.payload;
-      authService.setTokens(accessToken, refreshToken);
-      state.user = user || null;
-      state.isAuthenticated = true;
-      state.error = null;
+      state.user = action.payload.user
+      state.isAuthenticated = true
+      state.error = null
     },
-    logout: (state) => {
-      authService.clearTokens();
-      state.user = null;
-      state.isAuthenticated = false;
-      state.error = null;
+    setUser: (state, action: PayloadAction<User | null>) => {
+      state.user = action.payload
+    },
+    clearCredentials: (state) => {
+      state.user = null
+      state.isAuthenticated = false
+      state.error = null
+    },
+    hydrateAuth: (state) => {
+      const isValid = authService.hasValidToken()
+      const user = authService.getUser()
+      state.user = isValid && user ? user : null
+      state.isAuthenticated = isValid && !!user
     },
   },
-});
+})
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, setUser, clearCredentials, hydrateAuth } = authSlice.actions
 
-// Quick fix alias for SignupPage and legacy components
-export const setUser = setCredentials;
-// Selectors
-export const selectUser = (state: RootState) => state.auth.user;
-export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;
+export const selectUser = (state: { auth: AuthState }) => state.auth.user
+export const selectIsAuthenticated = (state: { auth: AuthState }) => state.auth.isAuthenticated
 
-export default authSlice.reducer;
+export default authSlice.reducer

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Product } from '../types/product.types'
+import { getProductImage } from '@/lib/product-image'
 
 export const RelatedProducts = ({ products }: { products: Product[] }) => {
   if (products.length === 0) return null
@@ -13,8 +14,8 @@ export const RelatedProducts = ({ products }: { products: Product[] }) => {
             <div className="relative aspect-square overflow-hidden bg-sand/30">
               <Link to={`/product/${p.id}`}>
                 <img
-                  src={p.image}
-                  alt={p.name}
+                  src={getProductImage(p)}
+                  alt={p.title}
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </Link>
@@ -22,7 +23,7 @@ export const RelatedProducts = ({ products }: { products: Product[] }) => {
             <div className="p-4 flex flex-col flex-grow">
               <Link to={`/product/${p.id}`}>
                 <h3 className="font-display text-lg font-bold text-charcoal hover:text-terracotta transition-colors truncate mb-1">
-                  {p.name}
+                  {p.title}
                 </h3>
               </Link>
               <span className="font-body font-semibold text-terracotta">${p.price.toFixed(2)}</span>

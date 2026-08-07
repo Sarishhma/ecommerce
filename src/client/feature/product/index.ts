@@ -1,5 +1,4 @@
 export{ useWishlist } from './hook/useWishList'
-export { ProductBreadcrumbs } from './component/ProductBreadCrumbs'
 export { RelatedProducts } from './component/RelatedProduct'
 export { useProduct } from './hook/useProduct'
 export { useAddToCart } from './hook/useAddToCart'

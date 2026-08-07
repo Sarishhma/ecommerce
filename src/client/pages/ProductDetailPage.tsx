@@ -5,12 +5,12 @@ import {
   useRelatedProducts,
   useAddToCart,
   useWishlist,
-  ProductBreadcrumbs,
   ProductGallery,
   ProductInfo,
   RelatedProducts,
 } from '../feature/product'
 import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal'
+import { PLACEHOLDER_IMAGE } from '@/lib/product-image'
 
 
 export const ProductDetailPage = () => {
@@ -44,10 +44,12 @@ export const ProductDetailPage = () => {
 
   return (
     <div className="pt-24 pb-20 lg:pt-32 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <ProductBreadcrumbs productName={product.name} />
 
       <div ref={contentReveal.ref as React.RefObject<HTMLDivElement | null>} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-24">
-        <ProductGallery images={product.images} name={product.name} />
+      <ProductGallery
+  images={product.image ? [product.image] : [PLACEHOLDER_IMAGE]}
+  name={product.title}
+/>
         <ProductInfo
           product={product}
           quantity={quantity}

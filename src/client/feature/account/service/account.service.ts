@@ -1,15 +1,23 @@
+
+import api from "@/lib/api"
 import { mockAddresses, mockPreferences } from "../mock/account.mook"
+import type { ProfileFormValues } from "../schema/account.schema"
 import type {
   Address,
   UserPreferences,
-  ProfileUpdatePayload,
   PasswordChangePayload,
+  User,
 } from "../types/account.types"
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const accountService = {
-  getAddresses: async (): Promise<Address[]> => {
+
+    updateProfile: async (userId: number, data: ProfileFormValues): Promise<User> => {
+    const response = await api.patch<User>(`/users/${userId}/`, data)
+    return response.data
+  },  
+    getAddresses: async (): Promise<Address[]> => {
     // TODO: const { data } = await api.get('/account/addresses'); return data;
     await delay(300)
     return mockAddresses
@@ -27,11 +35,7 @@ export const accountService = {
     return mockPreferences
   },
 
-  updateProfile: async (payload: ProfileUpdatePayload): Promise<ProfileUpdatePayload> => {
-    // TODO: const { data } = await api.patch('/account/profile', payload); return data;
-    await delay(400)
-    return payload
-  },
+
 
   changePassword: async (payload: PasswordChangePayload): Promise<{ success: boolean }> => {
     // TODO: const { data } = await api.post('/account/change-password', payload); return data;

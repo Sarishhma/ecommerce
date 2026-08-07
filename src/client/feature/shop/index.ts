@@ -1,5 +1,3 @@
-export { useCategories } from './hooks/useCategory'
-export { useProducts } from './hooks/useProducts'
 export { CategoryFilterBar } from './components/CategoryFilterBar'
 export { SortControl } from './components/SortControl'
 export { EmptyState } from './components/EmptyState'

@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { User, MapPin, Lock, LogOut, Settings } from "lucide-react"
-import { useAppDispatch, useAppSelector } from "@/redux"
-import { selectUser, logout } from "@/redux/slices/authSlice"
-import { ProfileTab } from "../feature/account/components/ProfileTap"
+import { useAppSelector } from "@/redux"
+import { selectUser,  } from "@/redux/slices/authSlice"
+import { ProfileTab } from "../feature/account/components/ProfileTab"
 import { AddressesTab } from "../feature/account/components/AddressTab"
 import { PasswordTab } from "../feature/account/components/PasswordTab"
 import { PreferencesTab } from "../feature/account/components/PreferenceTab"
-
+import { useLogout } from "../feature/auth/hooks/useLogout"
 
 type TabKey = "profile" | "addresses" | "password" | "preferences"
 
@@ -20,29 +20,24 @@ const tabs: { key: TabKey; label: string; icon: typeof User }[] = [
 
 export const AccountPage = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("profile")
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const user = useAppSelector(selectUser)
+  const handleLogout = useLogout()
 
-  // if (!user) {
-  //   return (
-  //     <div className="pt-[calc(var(--nav-height)+2rem)] pb-20 text-center min-h-screen">
-  //       <h2 className="text-2xl font-bold text-charcoal mb-4">
-  //         Please sign in to view your account
-  //       </h2>
-  //       <button
-  //         onClick={() => navigate("/login")}
-  //         className="px-6 py-3 bg-terracotta text-ivory rounded-lg font-medium hover:bg-opacity-90"
-  //       >
-  //         Sign In
-  //       </button>
-  //     </div>
-  //   )
-  // }
-
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate("/")
+  if (!user) {
+    return (
+      <div className="pt-[calc(var(--nav-height)+2rem)] pb-20 text-center min-h-screen">
+        <h2 className="text-2xl font-bold text-charcoal mb-4">
+          Please sign in to view your account
+        </h2>
+        <button
+          onClick={() => navigate("/login")}
+          className="px-6 py-3 bg-terracotta text-ivory rounded-lg font-medium hover:bg-opacity-90"
+        >
+          Sign In
+        </button>
+      </div>
+    )
   }
 
   return (

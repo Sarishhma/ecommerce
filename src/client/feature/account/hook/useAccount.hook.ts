@@ -1,5 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { accountService } from "../service/account.service"
+import { useAppDispatch } from "@/redux"
+import type { ProfileFormValues } from "../schema/account.schema"
+import { authService } from "../../auth/services/auth.service"
+import {  setUser } from "@/redux/slices/authSlice"
 
 
 export function useAddresses() {
@@ -26,8 +30,17 @@ export function usePreferences() {
   })
 }
 
-export function useUpdateProfile() {
-  return useMutation({ mutationFn: accountService.updateProfile })
+
+export const useUpdateProfile = (userId: number) => {
+  const dispatch = useAppDispatch()
+
+  return useMutation({
+    mutationFn: (data: ProfileFormValues) => accountService.updateProfile(userId, data),
+    onSuccess: (updatedUser) => {
+      authService.setUser(updatedUser)
+      dispatch(setUser(updatedUser))
+    },
+  })
 }
 
 export function useChangePassword() {

@@ -1,4 +1,3 @@
-
 import { Link, useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { 
@@ -6,18 +5,20 @@ import {
   useAppSelector, 
   toggleWishlistItem, 
   selectWishlistIds,
-  
 } from '@/redux';
-import type { Product } from '@/types';
+
 import { selectIsAuthenticated } from '@/redux/slices/authSlice';
 import { useAddToCart } from '@/client/feature/product';
+import type { Product } from '@/types';
+import type { Category } from '@/client/feature/category/types/category.types';
 
 
 interface ProductCardProps {
   product: Product;
+  categories?: Category[]; // Add categories prop
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({ product, categories }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -25,10 +26,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const wishlistIds = useAppSelector(selectWishlistIds);
   const isWishlisted = wishlistIds.includes(Number(product.id));
 
-  // 1. Use your TanStack Query mutation hook
   const { mutate: handleAddToCart, isPending } = useAddToCart();
 
-  // 2. Buy Now logic
   const handleBuyNow = () => {
     handleAddToCart({ product, quantity: 1 });
 
@@ -39,16 +38,31 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     }
   };
 
+  // 🔥 Get category name from ID
+  const getCategoryName = (categoryId: number | null): string | null => {
+    if (categoryId === null || !categories) return null;
+    const category = categories.find(cat => cat.id === categoryId);
+    return category?.title || null;
+  };
+
+  const categoryName = getCategoryName(product.category);
+
   return (
     <div className="group flex flex-col bg-white border border-[#E5E5E5] rounded-lg overflow-hidden transition-all duration-300">
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden bg-[#F9F9F9]">
-        <Link to={`/product/${product.slug}`} className="block w-full h-full">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-          />
+        <Link to={`/product/${product.id}`} className="block w-full h-full">
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={product.title}
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-neutral-400 text-xs">
+              No image
+            </div>
+          )}
         </Link>
 
         {/* Wishlist Button */}
@@ -71,15 +85,17 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       {/* Details */}
       <div className="p-4 flex flex-col flex-grow justify-between">
         <div>
-          <span className="text-[11px] font-medium tracking-widest text-neutral-400 uppercase block mb-1">
-            {product.category}
-          </span>
+          {categoryName && (
+            <span className="text-[11px] font-medium tracking-widest text-neutral-400 uppercase block mb-1">
+              {categoryName}
+            </span>
+          )}
 
           <Link
-            to={`/product/${product.slug}`}
+            to={`/product/${product.id}`}
             className="text-sm font-medium text-[#1A1A1A] hover:underline line-clamp-1 mb-2 block"
           >
-            {product.name}
+            {product.title}
           </Link>
 
           <p className="text-sm font-semibold text-[#1A1A1A]">
@@ -90,15 +106,15 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         {/* Action Buttons */}
         <div className="mt-4 grid grid-cols-2 gap-2">
           <button
-            disabled={isPending || !product.inStock}
+            disabled={isPending}
             onClick={() => handleAddToCart({ product, quantity: 1 })}
             className="w-full py-2.5 bg-neutral-100 text-[#1A1A1A] text-xs font-medium tracking-wide rounded hover:bg-neutral-200 transition-colors disabled:opacity-50"
           >
-            {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+            Add to Cart
           </button>
 
           <button
-            disabled={isPending || !product.inStock}
+            disabled={isPending}
             onClick={handleBuyNow}
             className="w-full py-2.5 bg-[#1A1A1A] text-white text-xs font-medium tracking-wide rounded hover:bg-neutral-800 transition-colors disabled:opacity-50"
           >

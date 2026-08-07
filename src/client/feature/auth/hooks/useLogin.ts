@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useAppDispatch } from '@/redux/hooks'; // Adjust path to your Redux typed hooks
+import { useAppDispatch } from '@/redux/hooks';
 import { setCredentials } from '@/redux/slices/authSlice';
 import type { LoginFormData } from '../schema/login.schema';
 import { authService } from '../services/auth.service';
@@ -10,18 +10,28 @@ export const useLogin = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
-const location = useLocation();
-const from = location.state?.from || '/account';
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || '/account';
+
   const login = async (data: LoginFormData): Promise<boolean> => {
     setIsLoading(true);
     setError(null);
 
     try {
       const response = await authService.login(data);
-     authService.setTokens(response.accessToken, response.refreshToken); // Ensure localStorage sync
-dispatch(setCredentials(response));
-  navigate(from, { replace: true });
+
+      authService.setTokens(response.access, response.refresh);
+
+      dispatch(
+        setCredentials({
+          user: response.user,
+          accessToken: response.access,
+          refreshToken: response.refresh,
+        })
+      );
+
+      navigate(from, { replace: true });
       return true;
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -36,9 +46,5 @@ dispatch(setCredentials(response));
     }
   };
 
-  return {
-    login,
-    isLoading,
-    error,
-  };
+  return { login, isLoading, error };
 };

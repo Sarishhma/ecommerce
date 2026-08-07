@@ -1,13 +1,15 @@
-import { z } from "zod"
+import { z } from 'zod'
 
 export const profileSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email("Enter a valid email"),
-  phone: z.string().min(7, "Enter a valid phone number"),
+  full_name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Enter a valid email'),
+  phone_number: z.string().min(1, 'Phone number is required'),
+  address: z.string().min(1, 'Address is required'),
 })
 
 export type ProfileFormValues = z.infer<typeof profileSchema>
+
+
 
 export const passwordSchema = z
   .object({

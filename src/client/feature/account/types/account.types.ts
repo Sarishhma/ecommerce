@@ -26,3 +26,14 @@ export type PasswordChangePayload = {
   currentPassword: string
   newPassword: string
 }
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  full_name: string;  // ← not firstName/lastName
+  phone_number: string;
+  address: string;
+  organization: number;
+  roles: string[];
+}
