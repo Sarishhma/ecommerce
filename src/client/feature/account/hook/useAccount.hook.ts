@@ -2,8 +2,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { accountService } from "../service/account.service"
 import { useAppDispatch } from "@/redux"
 import type { ProfileFormValues } from "../schema/account.schema"
-import { authService } from "../../auth/services/auth.service"
+
 import {  setUser } from "@/redux/slices/authSlice"
+import { authService } from "@/auth/services/auth.service"
 
 
 export function useAddresses() {

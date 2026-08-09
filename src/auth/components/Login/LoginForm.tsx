@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useLogin } from '@/auth/hooks/useLogin';
+import { loginSchema, type LoginFormData } from '@/auth/schema/login.schema';
 
-import { useLogin } from '../hooks/useLogin';
-import { loginSchema, type LoginFormData } from '../schema/login.schema';
 
 interface LoginFormProps {
   onSuccess?: () => void;

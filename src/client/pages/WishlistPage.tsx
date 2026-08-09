@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { useAppDispatch, useAppSelector, selectWishlistIds, toggleWishlistItem } from '@/redux';
-import { products } from '@/config/data';
+
 import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
-import { useAddToCart } from '../feature/product';
+import { useAddToCart } from '@/features/product';
+import { products } from '@/config/data';
 
 export const WishlistPage = () => {
   const dispatch = useAppDispatch();
@@ -42,8 +43,8 @@ export const WishlistPage = () => {
             <div className="relative aspect-square overflow-hidden bg-sand/30">
               <Link to={`/product/${product.id}`}>
                 <img
-                  src={product.image}
-                  alt={product.name}
+                  src={product.image ?? undefined}
+                  alt={product.title}
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </Link>
@@ -61,17 +62,17 @@ export const WishlistPage = () => {
 
             <div className="p-6 flex flex-col flex-grow">
               <Link to={`/product/${product.id}`} className="font-display text-lg font-bold text-charcoal hover:text-terracotta transition-colors mb-2">
-                {product.name}
+                {product.title}
               </Link>
 
-              <div className="flex items-center space-x-1 mb-4">
+              {/* <div className="flex items-center space-x-1 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <div key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-terracotta text-terracotta' : 'text-sand'}`}>
                     ★
                   </div>
                 ))}
                 <span className="text-xs text-stone ml-2">({product.reviewCount} reviews)</span>
-              </div>
+              </div> */}
 
               <p className="text-stone text-sm mb-4 line-clamp-2">{product.description}</p>
 

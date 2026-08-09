@@ -4,7 +4,8 @@ import { Heart, ShoppingCart, Filter } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import {  toggleWishlistItem, selectWishlistIds } from '@/redux';
 import { products } from '@/config/data';
-import { useAddToCart } from '../feature/product';
+import { useAddToCart } from '@/features/product';
+
 
 export const SalePage = () => {
   const dispatch = useAppDispatch();
@@ -91,8 +92,8 @@ export const SalePage = () => {
             >
               <div className="relative bg-ivory rounded-lg overflow-hidden mb-4 aspect-square">
                 <img
-                  src={product.image}
-                  alt={product.name}
+                  src={product.image ?? undefined}
+                  alt={product.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
 
@@ -135,16 +136,16 @@ export const SalePage = () => {
               <div className="flex items-start justify-between mb-2">
                 <div className="flex-1">
                   <h3 className="font-semibold text-charcoal mb-1 group-hover:text-terracotta transition">
-                    {product.name}
+                    {product.title}
                   </h3>
-                  <div className="flex items-center space-x-1 mb-2">
+                  {/* <div className="flex items-center space-x-1 mb-2">
                     {[...Array(5)].map((_, i) => (
-                      <div key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-terracotta text-terracotta' : 'text-sand'}`}>
+                      <div key={i} className={`w-4 h-4 ${i < Math.floor(product.) ? 'fill-terracotta text-terracotta' : 'text-sand'}`}>
                         ★
                       </div>
                     ))}
                     <span className="text-xs text-stone ml-2">({product.reviewCount})</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 

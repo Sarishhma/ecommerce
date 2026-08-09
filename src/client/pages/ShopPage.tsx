@@ -4,7 +4,6 @@ import { X } from 'lucide-react';
 import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 import { ProductCard } from '@/components/common/ProductCard';
 
-import { useCategories } from '../feature/category/hooks/useCategories';
 
 import { CategoryFilterBar } from '../feature/shop/components/CategoryFilterBar';
 import {
@@ -12,7 +11,8 @@ import {
   type SortOption,
 } from '../feature/shop/components/SortControl';
 import { EmptyState } from '../feature/shop/components/EmptyState';
-import { useGetProducts } from '../feature/product/hook/useProduct';
+import { useGetProducts } from '@/features/product/hook/useProduct';
+import { useCategories } from '@/features/category/hooks/useCategories';
 
 export const ShopPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(

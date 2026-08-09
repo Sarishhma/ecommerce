@@ -7,7 +7,7 @@ import { ProfileTab } from "../feature/account/components/ProfileTab"
 import { AddressesTab } from "../feature/account/components/AddressTab"
 import { PasswordTab } from "../feature/account/components/PasswordTab"
 import { PreferencesTab } from "../feature/account/components/PreferenceTab"
-import { useLogout } from "../feature/auth/hooks/useLogout"
+import { useLogout } from "@/auth/hooks/useLogout"
 
 type TabKey = "profile" | "addresses" | "password" | "preferences"
 

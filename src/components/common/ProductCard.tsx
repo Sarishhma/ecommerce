@@ -8,9 +8,10 @@ import {
 } from '@/redux';
 
 import { selectIsAuthenticated } from '@/redux/slices/authSlice';
-import { useAddToCart } from '@/client/feature/product';
+
 import type { Product } from '@/types';
-import type { Category } from '@/client/feature/category/types/category.types';
+import type { Category } from '@/features/category/types/category.types';
+import { useAddToCart } from '@/features/product';
 
 
 interface ProductCardProps {

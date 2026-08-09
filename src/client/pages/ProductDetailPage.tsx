@@ -8,7 +8,7 @@ import {
   ProductGallery,
   ProductInfo,
   RelatedProducts,
-} from '../feature/product'
+} from '@/features/product'
 import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal'
 import { PLACEHOLDER_IMAGE } from '@/lib/product-image'
 

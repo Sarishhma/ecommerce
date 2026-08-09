@@ -8,19 +8,26 @@ export const useAddToCart = () => {
   const idempotencyKey = useRef(crypto.randomUUID())
 
   return useMutation({
-    mutationFn: async ({ product, quantity }: { product: Product; quantity: number }) => {
+    mutationFn: async ({
+      product,
+      quantity,
+    }: {
+      product: Product
+      quantity: number
+    }) => {
       dispatch(
         addToCart({
           productId: String(product.id),
           slug: product.slug,
-          name: product.name,
-          image: product.image, 
+          name: product.title,
+          image: product.image ?? '',
           price: product.price,
-          maxQuantity: product.maxQuantity,
           quantity,
+          maxQuantity: product.opening_count,
         })
       )
     },
+
     onSettled: () => {
       idempotencyKey.current = crypto.randomUUID()
     },

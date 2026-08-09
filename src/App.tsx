@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AdminApp } from "./AdminApp";
+import { AdminApp } from "./admin/routes/AdminApp";
 import { HomePage } from "./client/pages/HomePage";
 import { ShopPage } from "./client/pages/ShopPage";
 import { ProductDetailPage } from "./client/pages/ProductDetailPage";
@@ -13,15 +13,15 @@ import { AccountPage } from "./client/pages/AccountPage";
 import { OrdersPage } from "./client/pages/OrdersPage";
 import { SearchResultsPage } from "./client/pages/SearchResultsPage";
 import { HelpPage } from "./client/pages/HelpPage";
-import { LoginPage } from "./client/pages/LoginPage";
+import { LoginPage } from "./auth/pages/LoginPage";
 import { SignupPage } from "./client/pages/SignupPage";
 import { ContactPage } from "./client/pages/ContactPage";
 import { SalePage } from "./client/pages/SalePage";
 import { TrackOrderPage } from "./client/pages/TrackOrderPage";
 import { Layout } from "./components/layout/Layout";
 import ComingSoon from "./components/common/ComingSoon";
-import { PublicRoute } from "./client/feature/routes/PublicRoute";
-import { ProtectedRoute } from "./client/feature/routes/ProtectedRoute";
+import { PublicRoute } from "./auth/components/routes/PublicRoute";
+import { ProtectedRoute } from "./auth/components/routes/ProtectedRoute";
 
 // Import Route Guards
 

@@ -1,15 +1,15 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AdminLayout } from "./admin/components/admin/AdminLayout";
-import { AdminDashboard } from "./admin/pages/AdminDashboard";
-import { AdminProducts } from "./admin/pages/AdminProducts";
-import { AdminOrders } from "./admin/pages/AdminOrders";
-import { AdminCustomers } from "./admin/pages/AdminCustomers";
-import { AdminAnalytics } from "./admin/pages/AdminAnalytics";
-import { AdminSettings } from "./admin/pages/AdminSettings";
+import { AdminLayout } from "../components/admin/AdminLayout";
+import { AdminDashboard } from "../pages/AdminDashboard";
+import { AdminProducts } from "../pages/AdminProducts";
+import { AdminOrders } from "../pages/AdminOrders";
+import { AdminCustomers } from "../pages/AdminCustomers";
+import { AdminAnalytics } from "../pages/AdminAnalytics";
+import { AdminSettings } from "../pages/AdminSettings";
 
 export function AdminApp() {
   return (
-    <Routes>
+    <Routes >
       <Route element={<AdminLayout />}>
         <Route path="/" element={<AdminDashboard />} />
         <Route path="/products" element={<AdminProducts />} />

@@ -22,6 +22,7 @@ export const useLogin = () => {
       const response = await authService.login(data);
 
       authService.setTokens(response.access, response.refresh);
+      if (response.user) authService.setUser(response.user);
 
       dispatch(
         setCredentials({

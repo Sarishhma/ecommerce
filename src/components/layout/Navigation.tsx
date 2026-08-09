@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, ChevronDown, Heart, User } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronDown, Heart, User, LayoutDashboard } from 'lucide-react';
 import { useAppSelector, selectCartItemCount } from '@/redux';
 import { CATEGORIES, PRIMARY_NAV_ITEMS } from '@/config/navigation';
 import { TopBar } from '../navigation/TopBar';
 import { SearchBar } from '../navigation/SearchBar'; // Ensure this path matches your Search component
 import { MobileMenu } from '../navigation/Mobileview';
 import { MegaMenu } from '../navigation/Megamenu';
+import { selectUser } from '@/redux/slices/authSlice';
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,6 +20,11 @@ export const Navigation = () => {
 
   const isHomePage = location.pathname === '/';
   const activeCategoryData = CATEGORIES.find((cat) => cat.name === activeCategory);
+
+  const user = useAppSelector(selectUser);
+  const canAccessAdmin =
+  Array.isArray(user?.roles) &&
+  (user.roles.includes('admin') || user.roles.includes('agent'));
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -104,6 +110,16 @@ useEffect(() => {
 
             {/* Icon Actions */}
             <div className="flex items-center space-x-3">
+{canAccessAdmin && (
+  <Link
+    to="/admin"
+    className={`p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+    aria-label="Admin Dashboard"
+    title="Admin Dashboard"
+  >
+    <LayoutDashboard className="w-5 h-5" />
+  </Link>
+)}
               <Link
                 to="/wishlist"
                 className={`p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}

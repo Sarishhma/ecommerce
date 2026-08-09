@@ -1,5 +1,6 @@
-import { authService } from '@/client/feature/auth/services/auth.service'
-import type { AuthState, User } from '@/client/feature/auth/types/auth.types'
+
+import { authService } from '@/auth/services/auth.service';
+import type { AuthState, User } from '@/auth/types/auth.types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: AuthState = {

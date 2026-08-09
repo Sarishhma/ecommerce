@@ -1,7 +1,7 @@
 // src/lib/api.ts
+import { authService } from "@/auth/services/auth.service"
 import axios from "axios"
 import type { AxiosResponse, InternalAxiosRequestConfig } from "axios"
-import { authService } from "@/client/feature/auth/services/auth.service"
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
