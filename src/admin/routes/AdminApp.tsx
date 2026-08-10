@@ -6,6 +6,7 @@ import { AdminOrders } from "../pages/AdminOrders";
 import { AdminCustomers } from "../pages/AdminCustomers";
 import { AdminAnalytics } from "../pages/AdminAnalytics";
 import { AdminSettings } from "../pages/AdminSettings";
+import { AdminCategories } from "../pages/AdminCategory";
 
 export function AdminApp() {
   return (
@@ -17,6 +18,7 @@ export function AdminApp() {
         <Route path="/customers" element={<AdminCustomers />} />
         <Route path="/analytics" element={<AdminAnalytics />} />
         <Route path="/settings" element={<AdminSettings />} />
+        <Route path="/categories" element={<AdminCategories/>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

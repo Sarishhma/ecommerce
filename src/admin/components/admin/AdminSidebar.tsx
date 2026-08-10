@@ -8,7 +8,8 @@ import {
   Home,
   Sparkles,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  FolderTree
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,7 @@ interface AdminSidebarProps {
 const menuItems = [
   { path: '/admin', icon: Home, label: 'Dashboard' },
   { path: '/admin/products', icon: Package, label: 'Products' },
+   { path: '/admin/categories', icon: FolderTree, label: 'Categories' },
   { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
   { path: '/admin/customers', icon: Users, label: 'Customers' },
   { path: '/admin/analytics', icon: BarChart3, label: 'Analytics' },

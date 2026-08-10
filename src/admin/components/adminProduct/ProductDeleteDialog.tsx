@@ -1,75 +1,80 @@
-import { AlertTriangle } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-
+import React from 'react'
+import { Loader2, AlertTriangle } from 'lucide-react'
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import type { Product } from '@/features/product'
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import type { Product } from '@/features/product/types/product.types'
 
 interface ProductDeleteDialogProps {
   product: Product | null
   open: boolean
   onOpenChange: (open: boolean) => void
+  onConfirm: (id: number) => void
+  isDeleting?: boolean
 }
 
-export const ProductDeleteDialog = ({
+export const ProductDeleteDialog: React.FC<ProductDeleteDialogProps> = ({
   product,
   open,
   onOpenChange,
-}: ProductDeleteDialogProps) => {
-  const handleDelete = () => {
-    if (!product) return
-    console.log('Delete product:', product.id)
-    onOpenChange(false)
-  }
+  onConfirm,
+  isDeleting = false,
+}) => {
+  if (!product) return null
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[400px] rounded-xl border-border/50 bg-card p-6 shadow-2xl">
-        <DialogHeader className="space-y-3 text-left">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-destructive/10 text-destructive ring-8 ring-destructive/5">
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className="max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-lg">
+        <AlertDialogHeader className="space-y-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-600 ring-1 ring-red-100">
             <AlertTriangle className="h-6 w-6" />
           </div>
+          <AlertDialogTitle className="text-xl font-bold text-slate-900">
+            Delete Product
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-sm text-slate-500">
+            Are you sure you want to delete{' '}
+            <span className="font-semibold text-slate-900">
+              "{product.title}"
+            </span>
+            ? This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
-          <div>
-            <DialogTitle className="text-lg font-bold text-foreground">
-              Delete Product?
-            </DialogTitle>
-
-            <DialogDescription className="mt-1 text-sm text-muted-foreground leading-relaxed">
-              Are you sure you want to remove{' '}
-              <span className="font-semibold text-foreground">
-                "{product?.title}"
-              </span>{' '}
-              from your catalog? This action can't be undone.
-            </DialogDescription>
-          </div>
-        </DialogHeader>
-
-        <DialogFooter className="mt-4 gap-2 sm:gap-2">
-          <Button
-            variant="outline"
+        <AlertDialogFooter className="mt-6 gap-2 sm:gap-0">
+          <AlertDialogCancel
+            disabled={isDeleting}
             onClick={() => onOpenChange(false)}
-            className="rounded-xl h-9 text-sm flex-1"
+            className="h-10 rounded-lg border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900"
           >
             Cancel
-          </Button>
-
-          <Button
-            variant="destructive"
-            onClick={handleDelete}
-            className="rounded-xl h-9 text-sm flex-1 shadow-sm"
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={(e) => {
+              e.preventDefault()
+              onConfirm(product.id)
+            }}
+            disabled={isDeleting}
+            className="h-10 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
           >
-            Delete Product
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            {isDeleting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              'Delete'
+            )}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

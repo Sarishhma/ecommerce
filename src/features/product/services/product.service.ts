@@ -1,72 +1,60 @@
-import api from '@/lib/api'
-import type { CreateProductPayload, GetProductsParams, Product, ProductListResponse } from '../types/product.types'
-import { handleApiError } from '@/lib/handleApiError'
+import api from "@/lib/api"
+import type {
+  Product,
+  CreateProductPayload,
+  ProductListResponse,
+  GetProductsParams,
+} from "../types/product.types.ts" // Adjust path if needed
+
+// Helper function declared FIRST so productService can use it safely
+export function payloadToFormData(payload: Partial<CreateProductPayload>): FormData {
+  const formData = new FormData()
+
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value === undefined || value === null) return
+
+    if (key === "image") {
+      // Only append image if it is an actual File object
+      if (value instanceof File) {
+        formData.append("image", value)
+      }
+    } else {
+      formData.append(key, String(value))
+    }
+  })
+
+  return formData
+}
 
 export const productService = {
+  // GET: Paginated list
   getProducts: async (params?: GetProductsParams): Promise<ProductListResponse> => {
-    const response = await api.get<ProductListResponse>('/product-list/', { params })
+    const response = await api.get<ProductListResponse>("/product-list/", { params })
     return response.data
   },
 
+  // GET: Single product detail
   getProductById: async (id: number): Promise<Product> => {
-    try{
-  const response = await api.get<Product>(`/product-list/${id}/`)
+    const response = await api.get<Product>(`/product-list/v2/${id}/`)
     return response.data
-    }catch(error){
-      handleApiError(error)
-      throw(error)
-    }
-  
   },
-// /api/product-create/v2
-  getRelated: async (product: Product, limit = 4): Promise<Product[]> => {
-    // Derived client-side from the full product list for now.
-    // Swap for a real endpoint once/if the backend adds one:
-    // const res = await api.get<Product[]>(`/product/${product.id}/related/`, { params: { limit } })
-    // return res.data
 
-    const { results } = await productService.getProducts()
-
-    return results
-      .filter((p) => p.category !== null && p.category === product.category && p.id !== product.id)
-      .slice(0, limit)
-  },
- 
-
-}
-export const createProduct = async (
-  payload: CreateProductPayload
-): Promise<Product> => {
-  const isMultipart = payload.image instanceof File
-
-  if (isMultipart) {
-    const formData = new FormData()
-
-    Object.entries(payload).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        if (key === 'image' && value instanceof File) {
-          formData.append('image', value)
-        } else {
-          formData.append(key, String(value))
-        }
-      }
-    })
-
-    const response = await api.post<Product>(
-      '/product-create/v2/',
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    )
+  // POST: Create product
+  createProduct: async (payload: CreateProductPayload): Promise<Product> => {
+    const formData = payloadToFormData(payload)
+    const response = await api.post<Product>("/product-create/v2/", formData)
     return response.data
-  }
+  },
 
-  const response = await api.post<Product>(
-    '/product-create/v2/',
-    payload
-  )
-  return response.data
+  // PATCH: Update product
+  updateProduct: async (id: number, payload: Partial<CreateProductPayload>): Promise<Product> => {
+    const formData = payloadToFormData(payload)
+    const response = await api.patch<Product>(`/product-update/v2/${id}/`, formData)
+    return response.data
+  },
+
+  // DELETE: Delete product
+  deleteProduct: async (id: number): Promise<void> => {
+    await api.delete(`/product-delete/v2/${id}/`)
+  },
 }

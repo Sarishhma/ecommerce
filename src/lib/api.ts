@@ -1,14 +1,16 @@
-// src/lib/api.ts
 import { authService } from "@/auth/services/auth.service"
 import axios from "axios"
 import type { AxiosResponse, InternalAxiosRequestConfig } from "axios"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL
+// In local development, use '/api' to trigger Vite's proxy.
+// In production, fallback to VITE_API_BASE_URL.
+const BASE_URL = import.meta.env.DEV 
+  ? '/api' 
+  : (import.meta.env.VITE_API_BASE_URL||'api' )
 
 const api = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
-  headers: { "Content-Type": "application/json" },
 })
 
 // ==============================
@@ -19,16 +21,17 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = authService.getAccessToken()
   if (token) config.headers.Authorization = `Bearer ${token}`
 
+  // Remove Content-Type for FormData so Axios sets the boundary automatically
+  if (config.data instanceof FormData) {
+    delete config.headers['Content-Type']
+  }
+
   if (import.meta.env.DEV) {
-    console.log("📤", config.method?.toUpperCase(), config.url)
+    console.log("📤", config.method?.toUpperCase(), `${config.baseURL}${config.url}`)
   }
 
   return config
 })
-
-// ==============================
-// Response Interceptor
-// ==============================
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {
@@ -38,9 +41,6 @@ api.interceptors.response.use(
     return response
   },
   (error) => {
-    // No refresh endpoint exists on the backend yet — on any 401,
-    // clear tokens and send the user back to login. Revisit once
-    // a real refresh endpoint is added.
     if (error.response?.status === 401) {
       authService.clearTokens()
 

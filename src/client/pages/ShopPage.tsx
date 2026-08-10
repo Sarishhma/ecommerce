@@ -12,7 +12,7 @@ import {
 } from '../feature/shop/components/SortControl';
 import { EmptyState } from '../feature/shop/components/EmptyState';
 import { useGetProducts } from '@/features/product/hook/useProduct';
-import { useCategories } from '@/features/category/hooks/useCategories';
+import { useGetCategories } from '@/features/category/hooks/useCategories';
 
 export const ShopPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(
@@ -29,7 +29,7 @@ export const ShopPage = () => {
   } = useGetProducts();
 
   // Get categories
-  const { data: categoryData } = useCategories();
+  const { data: categoryData } = useGetCategories();
 
   const products = productData?.results ?? [];
   const categories = categoryData?.results ?? [];

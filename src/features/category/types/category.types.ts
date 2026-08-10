@@ -11,5 +11,17 @@ export interface PaginatedResponse<T> {
   previous: string | null
   results: T[]
 }
+export interface GetCategoriesParams {
+  search?: string;
+  page?: number;
+}
+export interface CreateCategoryPayload {
+  title: string
+  description?: string
+}
 
+export interface UpdateCategoryPayload {
+  title?: string
+  description?: string
+}
 export type CategoryListResponse = PaginatedResponse<Category>

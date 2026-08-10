@@ -12,7 +12,7 @@ export const HomePage = () => {
     <div className="bg-background">
       <HeroSection />
       <MarqueeSection />
-      {/* <CollectionsSection /> */}
+
       <FeaturedProductsSection />
       <ScrollytellingSection />
       <EditorialSection />
