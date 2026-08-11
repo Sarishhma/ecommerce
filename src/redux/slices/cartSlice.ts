@@ -8,7 +8,19 @@ interface CartState {
 
 const cartInitial: CartState = { items: [], isCartOpen: false }
 
-type AddToCartPayload = Omit<CartItem, "id" | "quantity"> & { quantity?: number }
+export type AddToCartPayload = {
+  productId?: string | number
+  id?: string | number
+  slug?: string
+  name?: string
+  title?: string
+  image?: string | null
+  price?: number
+  quantity?: number
+  maxQuantity?: number
+  variant?: { id: string; label: string }
+  compareAtPrice?: number
+}
 
 const cartSlice = createSlice({
   name: "cart",
@@ -17,31 +29,55 @@ const cartSlice = createSlice({
     addToCart(state, action: PayloadAction<AddToCartPayload>) {
       const { quantity = 1, ...itemData } = action.payload
 
-      const existing = state.items.find(
-        (i) => i.productId === itemData.productId && i.variant?.id === itemData.variant?.id
+      const rawId = itemData.productId ?? itemData.id ?? (itemData as any).product_id
+      if (rawId === undefined || rawId === null) return
+
+      const targetProductId = String(rawId)
+
+      const existingIndex = state.items.findIndex(
+        (i) =>
+          String(i.productId || i.id) === targetProductId &&
+          (i.variant?.id ?? null) === (itemData.variant?.id ?? null)
       )
 
-      if (existing) {
-        existing.quantity = Math.min(existing.quantity + quantity, existing.maxQuantity)
+      const addQty = isNaN(quantity) || quantity <= 0 ? 1 : quantity
+      const maxQty =
+        typeof itemData.maxQuantity === "number" && !isNaN(itemData.maxQuantity) && itemData.maxQuantity > 0
+          ? itemData.maxQuantity
+          : 99
+
+      if (existingIndex >= 0) {
+        const existingItem = state.items[existingIndex]
+        const currentQty = isNaN(existingItem.quantity) ? 1 : existingItem.quantity
+        existingItem.quantity = Math.min(currentQty + addQty, existingItem.maxQuantity || maxQty)
       } else {
-        state.items.push({
-          ...itemData,
+        const newItem: CartItem = {
           id: crypto.randomUUID(),
-          quantity: Math.min(quantity, itemData.maxQuantity),
-        })
+          productId: targetProductId,
+          slug: itemData.slug || "",
+          name: itemData.name || itemData.title || "Product",
+          image: itemData.image || "",
+          price: typeof itemData.price === "number" && !isNaN(itemData.price) ? itemData.price : 0,
+          quantity: Math.min(addQty, maxQty),
+          maxQuantity: maxQty,
+          ...(itemData.variant ? { variant: itemData.variant } : {}),
+          ...(itemData.compareAtPrice ? { compareAtPrice: itemData.compareAtPrice } : {}),
+        }
+        state.items.push(newItem)
       }
     },
     removeFromCart(state, action: PayloadAction<string>) {
-      state.items = state.items.filter((i) => i.id !== action.payload)
+      state.items = state.items.filter((i) => i.id !== action.payload && String(i.productId) !== action.payload)
     },
     updateQuantity(state, action: PayloadAction<{ id: string; quantity: number }>) {
-      const item = state.items.find((i) => i.id === action.payload.id)
+      const item = state.items.find((i) => i.id === action.payload.id || String(i.productId) === action.payload.id)
       if (!item) return
 
       if (action.payload.quantity <= 0) {
-        state.items = state.items.filter((i) => i.id !== action.payload.id)
+        state.items = state.items.filter((i) => i.id !== action.payload.id && String(i.productId) !== action.payload.id)
       } else {
-        item.quantity = Math.min(action.payload.quantity, item.maxQuantity)
+        const maxQty = item.maxQuantity || 99
+        item.quantity = Math.min(action.payload.quantity, maxQty)
       }
     },
     clearCart(state) {
@@ -60,10 +96,13 @@ export const { addToCart, removeFromCart, updateQuantity, clearCart, toggleCart,
   cartSlice.actions
 
 export const selectCartItems = (state: { cart: CartState }) => state.cart.items
-export const selectCartItemCount = (state: { cart: CartState }) =>
-  state.cart.items.reduce((sum, i) => sum + i.quantity, 0)
+// Number of unique items in cart for nav badge display
+export const selectCartItemCount = (state: { cart: CartState }) => state.cart.items.length
+// Total quantity of all items in cart
+export const selectCartTotalQuantity = (state: { cart: CartState }) =>
+  state.cart.items.reduce((sum, i) => sum + (isNaN(i.quantity) ? 1 : i.quantity), 0)
 export const selectCartTotal = (state: { cart: CartState }) =>
-  state.cart.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+  state.cart.items.reduce((sum, i) => sum + (isNaN(i.price) ? 0 : i.price) * (isNaN(i.quantity) ? 1 : i.quantity), 0)
 export const selectIsCartOpen = (state: { cart: CartState }) => state.cart.isCartOpen
 
-export default cartSlice.reducer
+export default cartSlice.reducer

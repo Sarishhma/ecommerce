@@ -25,7 +25,7 @@ export const ProductCard = ({ product, categories }: ProductCardProps) => {
 
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const wishlistIds = useAppSelector(selectWishlistIds);
-  const isWishlisted = wishlistIds.includes(Number(product.id));
+  const isWishlisted = wishlistIds.some((id) => String(id) === String(product.id));
 
   const { mutate: handleAddToCart, isPending } = useAddToCart();
 

@@ -1,4 +1,3 @@
-
 import { useGetCategories } from '@/features/category/hooks/useCategories'
 import React, { useState } from 'react'
 
@@ -49,7 +48,7 @@ export const CategoryList: React.FC = () => {
         /* Categories Table */
         <div className="overflow-hidden border border-slate-200 rounded-md shadow-sm">
           <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 font-semibold">
+            <thead className="bg-slate-50 border-b border-slate-200 uppercase tracking-wider text-[11px] font-bold text-slate-500">
               <tr>
                 <th className="px-4 py-3">ID</th>
                 <th className="px-4 py-3">Title</th>
@@ -59,11 +58,28 @@ export const CategoryList: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-slate-200 bg-white">
               {data?.results.map((category) => (
-                <tr key={category.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-4 py-3 text-slate-500 font-mono text-xs">{category.id}</td>
-                  <td className="px-4 py-3 font-medium text-slate-900">{category.title}</td>
-                  <td className="px-4 py-3 text-slate-500 font-mono text-xs">{category.slug}</td>
-                  <td className="px-4 py-3 text-slate-600">{category.description || '-'}</td>
+                <tr key={category.id} className="hover:bg-slate-50/60 transition-colors">
+                  {/* ID: Muted, tabular numbers for alignment */}
+                  <td className="px-4 py-3 text-slate-400 font-mono text-xs tabular-nums select-all">
+                    #{category.id}
+                  </td>
+                  
+                  {/* Title: Emphasized, crisp dark text */}
+                  <td className="px-4 py-3 font-semibold text-slate-900 tracking-tight">
+                    {category.title}
+                  </td>
+                  
+                  {/* Slug: Rendered as a clean inline code badge */}
+                  <td className="px-4 py-3">
+                    <span className="inline-block px-2 py-0.5 font-mono text-[11px] font-medium bg-slate-100 text-slate-600 rounded border border-slate-200/60">
+                      {category.slug}
+                    </span>
+                  </td>
+                  
+                  {/* Description: Truncated to single line if too long, muted color */}
+                  <td className="px-4 py-3 text-slate-500 max-w-xs truncate text-xs leading-relaxed">
+                    {category.description || <span className="text-slate-300 italic">No description</span>}
+                  </td>
                 </tr>
               ))}
             </tbody>

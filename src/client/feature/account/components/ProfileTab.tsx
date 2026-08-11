@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Pencil, X, Check, Mail, Phone, MapPin, User as UserIcon } from "lucide-react"
 import { profileSchema, type ProfileFormValues } from "../schema/account.schema"
 import { useUpdateProfile } from "../hook/useAccount.hook"
-import type { User } from "@/client/feature/auth/types/auth.types"
+import type { User } from "@/auth/types/auth.types"
 
 export function ProfileTab({ user }: { user: User | null }) {
   const [isEditing, setIsEditing] = useState(false)

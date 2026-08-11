@@ -26,8 +26,8 @@ function saveToStorage<T>(key: string, value: T) {
 }
 
 // Rehydrate cart and wishlist from localStorage before store creation
-const preloadedCart = loadFromStorage<{ items: unknown[]; isCartOpen: boolean }>(CART_KEY)
-const preloadedWishlist = loadFromStorage<{ ids: number[] }>(WISHLIST_KEY)
+const preloadedCart = loadFromStorage<{ items: CartItem[]; isCartOpen: boolean }>(CART_KEY)
+const preloadedWishlist = loadFromStorage<{ ids: (number | string)[] }>(WISHLIST_KEY)
 
 export const store = configureStore({
   reducer: {
@@ -65,12 +65,14 @@ export {
   setCartOpen,
   selectCartItems,
   selectCartItemCount,
+  selectCartTotalQuantity,
   selectCartTotal,
   selectIsCartOpen,
 } from "./slices/cartSlice"
 
-export { toggleWishlistItem, selectWishlistIds } from "./slices/wishListSlice"
+export { toggleWishlistItem, selectWishlistIds, selectWishlistCount } from "./slices/wishListSlice"
 
 export { toggleMobileMenu, setMobileMenuOpen, selectMobileMenuOpen } from "./slices/uiSlice"
 
 export type { CartItem, Cart } from "@/types/index"
+

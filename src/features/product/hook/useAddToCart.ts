@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useAppDispatch, addToCart } from '@/redux'
-import type { Product } from '../types/product.types'
 
 export const useAddToCart = () => {
   const dispatch = useAppDispatch()
@@ -12,18 +11,18 @@ export const useAddToCart = () => {
       product,
       quantity,
     }: {
-      product: Product
+      product: any
       quantity: number
     }) => {
       dispatch(
         addToCart({
-          productId: String(product.id),
-          slug: product.slug,
-          name: product.title,
+          productId: String(product.id || product.product_id),
+          slug: product.slug || '',
+          name: product.title || product.name || 'Product',
           image: product.image ?? '',
-          price: product.price,
-          quantity,
-          maxQuantity: product.opening_count,
+          price: typeof product.price === 'number' ? product.price : 0,
+          quantity: quantity || 1,
+          maxQuantity: product.opening_count ?? product.maxQuantity ?? 99,
         })
       )
     },
@@ -32,4 +31,4 @@ export const useAddToCart = () => {
       idempotencyKey.current = crypto.randomUUID()
     },
   })
-}
+}

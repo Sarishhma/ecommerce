@@ -50,7 +50,7 @@ export const CartPage = () => {
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex flex-col flex-grow">
-                    <Link to={`/product/${item.id}`} className="font-display text-lg font-bold text-charcoal hover:text-terracotta transition-colors">
+                    <Link to={`/product/${item.productId || item.id}`} className="font-display text-lg font-bold text-charcoal hover:text-terracotta transition-colors">
                       {item.name}
                     </Link>
                     <span className="text-stone font-medium">${item.price.toFixed(2)}</span>

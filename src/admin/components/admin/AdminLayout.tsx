@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Menu, X, LogOut, User as UserIcon, Sparkles } from 'lucide-react'
+import { LogOut, User as UserIcon, Sparkles } from 'lucide-react'
 
 import { AdminSidebar } from './AdminSidebar'
 import { cn } from '@/lib/utils'

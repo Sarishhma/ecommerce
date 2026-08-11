@@ -1,28 +1,5 @@
-// 1. Base Product interface representing a fetched product object
-export interface Product {
-  id: number
-  title: string
-  slug: string
-  description: string
-  image: string | null
-  price: number
-  is_taxable: boolean
-  product_id: number | null
-  unit: string
-  category: number | null
-  barcode: string | null
-  reconcile: boolean
-  is_billing_item: boolean
-  ledger: number | null
-  ledger_name: string | null
-  opening_count: number
-  is_produced: boolean
-  cost_price: number
-  discount_exempt: boolean
-  minimum_stock: number
-  excise_duty_applicable: boolean
-  importtax_percent: string
-}
+import type { Product } from '@/types'
+export type { Product }
 
 // 2. Payload required to create or update a product (api/product-create/v2)
 export interface CreateProductPayload {

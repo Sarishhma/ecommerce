@@ -2,60 +2,61 @@ import { useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Search, Sliders } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/redux';
-import { addToCart, toggleWishlistItem, selectWishlistIds } from '@/redux';
-import { products } from '@/config/data';
+import { toggleWishlistItem, selectWishlistIds } from '@/redux';
+import { useAddToCart } from '@/features/product';
+import { useGetProducts } from '@/features/product/hook/useProduct';
 
 export const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const wishlistIds = useAppSelector(selectWishlistIds);
+  const addToCartMutation = useAddToCart();
+  const { data } = useGetProducts();
+  const products = data?.results || [];
   
   const query = searchParams.get('q') || '';
   const [sortBy, setSortBy] = useState('relevance');
   const [priceRange, setPriceRange] = useState([0, 500]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | number | null>(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Search and filter logic
   const searchResults = useMemo(() => {
-    let filtered = products.filter(product =>
-      product.name.toLowerCase().includes(query.toLowerCase()) ||
-      product.description?.toLowerCase().includes(query.toLowerCase())
-    );
+    let filtered = products.filter(product => {
+      const nameStr = product.title || product.name || '';
+      return (
+        nameStr.toLowerCase().includes(query.toLowerCase()) ||
+        product.description?.toLowerCase().includes(query.toLowerCase())
+      );
+    });
 
     // Price filter
     filtered = filtered.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
     // Category filter
-    if (selectedCategory) {
-      filtered = filtered.filter(p => p.category === selectedCategory);
+    if (selectedCategory !== null) {
+      filtered = filtered.filter(p => String(p.category) === String(selectedCategory));
     }
 
     // Sorting
     if (sortBy === 'price-low') filtered.sort((a, b) => a.price - b.price);
     else if (sortBy === 'price-high') filtered.sort((a, b) => b.price - a.price);
-    else if (sortBy === 'newest') filtered.sort((a, b) => b.id - a.id);
+    else if (sortBy === 'newest') filtered.sort((a, b) => a.id - b.id);
     else if (sortBy === 'rating') filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
 
     return filtered;
   }, [query, priceRange, selectedCategory, sortBy]);
 
-  const categories = [...new Set(products.map(p => p.category))];
+  const categories = [...new Set(products.map(p => p.category).filter(Boolean))];
 
   const handleAddToCart = (product: typeof products[0]) => {
-    dispatch(addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      quantity: 1,
-    }));
+    addToCartMutation.mutate({ product, quantity: 1 });
   };
 
-  const isWishlisted = (id: number) => (wishlistIds as number[]).includes(id);
+  const isWishlisted = (id: number | string) => wishlistIds.some(wId => String(wId) === String(id));
 
-  const handleToggleWishlist = (id: number) => {
+  const handleToggleWishlist = (id: number | string) => {
     dispatch(toggleWishlistItem(id));
   };
 
@@ -64,60 +65,49 @@ export const SearchResultsPage = () => {
       <div className="container mx-auto px-4">
         {/* Header with search results info */}
         <div className="mb-8">
-          <h1 className="text-4xl font-serif font-bold text-charcoal mb-2">
-            {query ? `Search Results for "${query}"` : 'All Products'}
+          <h1 className="font-serif text-3xl sm:text-4xl text-charcoal mb-2">
+            Search Results for "{query}"
           </h1>
-          <p className="text-stone text-lg">
-            {searchResults.length} {searchResults.length === 1 ? 'product' : 'products'} found
+          <p className="text-stone text-sm">
+            Found {searchResults.length} {searchResults.length === 1 ? 'product' : 'products'}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar - Desktop */}
-          <div className={`hidden lg:block`}>
-            <div className="sticky top-32 bg-white rounded-lg border border-sand p-6 shadow-sm">
-              <h3 className="text-lg font-serif font-bold text-charcoal mb-6 flex items-center gap-2">
-                <Sliders className="w-5 h-5" />
+          {/* Filters Sidebar */}
+          <div className="hidden lg:block space-y-6">
+            <div className="bg-white rounded-lg border border-sand p-6 space-y-6 sticky top-24">
+              <h2 className="font-serif font-bold text-lg text-charcoal border-b border-sand pb-3">
                 Filters
-              </h3>
+              </h2>
 
               {/* Price Filter */}
-              <div className="mb-8 pb-8 border-b border-sand">
-                <label className="block text-sm font-semibold text-charcoal mb-4">Price Range</label>
-                <div className="flex gap-4 mb-4">
-                  <div>
-                    <label className="block text-xs text-stone mb-1">Min</label>
-                    <input
-                      type="number"
-                      value={priceRange[0]}
-                      onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
-                      className="w-full px-3 py-2 border border-sand rounded text-sm focus:outline-none focus:ring-2 focus:ring-terracotta"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-stone mb-1">Max</label>
-                    <input
-                      type="number"
-                      value={priceRange[1]}
-                      onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 500])}
-                      className="w-full px-3 py-2 border border-sand rounded text-sm focus:outline-none focus:ring-2 focus:ring-terracotta"
-                    />
-                  </div>
+              <div>
+                <label className="block text-sm font-semibold text-charcoal mb-3">
+                  Price Range (${priceRange[0]} - ${priceRange[1]})
+                </label>
+                <div className="flex gap-3 mb-3">
+                  <input
+                    type="number"
+                    value={priceRange[0]}
+                    onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
+                    className="w-full px-3 py-2 border border-sand rounded text-sm focus:outline-none focus:ring-2 focus:ring-terracotta"
+                    placeholder="Min"
+                  />
+                  <input
+                    type="number"
+                    value={priceRange[1]}
+                    onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 500])}
+                    className="w-full px-3 py-2 border border-sand rounded text-sm focus:outline-none focus:ring-2 focus:ring-terracotta"
+                    placeholder="Max"
+                  />
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="500"
-                  value={priceRange[1]}
-                  onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                  className="w-full h-2 bg-sand rounded-lg appearance-none cursor-pointer accent-terracotta"
-                />
               </div>
 
               {/* Category Filter */}
-              <div className="mb-8">
-                <label className="block text-sm font-semibold text-charcoal mb-4">Category</label>
-                <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-semibold text-charcoal mb-3">Category</label>
+                <div className="space-y-2">
                   <button
                     onClick={() => setSelectedCategory(null)}
                     className={`w-full text-left px-3 py-2 rounded transition ${
@@ -130,7 +120,7 @@ export const SearchResultsPage = () => {
                   </button>
                   {categories.map((cat) => (
                     <button
-                      key={cat}
+                      key={String(cat)}
                       onClick={() => setSelectedCategory(cat)}
                       className={`w-full text-left px-3 py-2 rounded transition ${
                         selectedCategory === cat
@@ -138,14 +128,14 @@ export const SearchResultsPage = () => {
                           : 'hover:bg-ivory text-charcoal'
                       }`}
                     >
-                      {cat}
+                      {String(cat)}
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Clear Filters */}
-              {(selectedCategory || priceRange[0] > 0 || priceRange[1] < 500) && (
+              {(selectedCategory !== null || priceRange[0] > 0 || priceRange[1] < 500) && (
                 <button
                   onClick={() => {
                     setSelectedCategory(null);
@@ -192,7 +182,6 @@ export const SearchResultsPage = () => {
             {/* Mobile Filters Dropdown */}
             {showMobileFilters && (
               <div className="lg:hidden mb-8 bg-white rounded-lg border border-sand p-4 space-y-6">
-                {/* Price Filter Mobile */}
                 <div>
                   <label className="block text-sm font-semibold text-charcoal mb-3">Price Range</label>
                   <div className="flex gap-3 mb-3">
@@ -213,7 +202,6 @@ export const SearchResultsPage = () => {
                   </div>
                 </div>
 
-                {/* Category Filter Mobile */}
                 <div>
                   <label className="block text-sm font-semibold text-charcoal mb-3">Category</label>
                   <div className="space-y-2">
@@ -232,7 +220,7 @@ export const SearchResultsPage = () => {
                     </button>
                     {categories.map((cat) => (
                       <button
-                        key={cat}
+                        key={String(cat)}
                         onClick={() => {
                           setSelectedCategory(cat);
                           setShowMobileFilters(false);
@@ -243,7 +231,7 @@ export const SearchResultsPage = () => {
                             : 'hover:bg-ivory text-charcoal'
                         }`}
                       >
-                        {cat}
+                        {String(cat)}
                       </button>
                     ))}
                   </div>
@@ -263,8 +251,8 @@ export const SearchResultsPage = () => {
                     {/* Product Image */}
                     <div className="relative mb-4 overflow-hidden rounded-lg bg-sand h-64 sm:h-56">
                       <img
-                        src={product.image}
-                        alt={product.name}
+                        src={product.image || ''}
+                        alt={product.title || product.name || 'Product'}
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                       />
 
@@ -302,7 +290,7 @@ export const SearchResultsPage = () => {
 
                     {/* Product Info */}
                     <h3 className="font-serif font-bold text-charcoal text-lg mb-2 group-hover:text-terracotta transition">
-                      {product.name}
+                      {product.title || product.name}
                     </h3>
 
                     {/* Rating */}

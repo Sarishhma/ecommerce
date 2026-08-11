@@ -42,7 +42,7 @@ export const productService = {
   // POST: Create product
   createProduct: async (payload: CreateProductPayload): Promise<Product> => {
     const formData = payloadToFormData(payload)
-    const response = await api.post<Product>("/product-create/v2/", formData)
+    const response = await api.post<Product>("/product-create/v2", formData)
     return response.data
   },
 

@@ -5,9 +5,6 @@ import { ShopPage } from "./client/pages/ShopPage";
 import { ProductDetailPage } from "./client/pages/ProductDetailPage";
 import { CartPage } from "./client/pages/CartPage";
 import { CollectionPage } from "./client/pages/CollectionPage";
-import { StoryPage } from "./client/pages/StoryPage";
-import { WholesalePage } from "./client/pages/WholesalePage";
-import { JournalPage } from "./client/pages/JournalPage";
 import { WishlistPage } from "./client/pages/WishlistPage";
 import { AccountPage } from "./client/pages/AccountPage";
 import { OrdersPage } from "./client/pages/OrdersPage";
@@ -43,9 +40,6 @@ export default function App() {
         <Route path="/track-order" element={<TrackOrderPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/collections/:slug" element={<CollectionPage />} />
-        <Route path="/story" element={<StoryPage />} />
-        <Route path="/wholesale" element={<WholesalePage />} />
-        <Route path="/journal" element={<JournalPage />} />
         <Route path="/search" element={<SearchResultsPage />} />
         <Route path="/help" element={<HelpPage />} />
         <Route path="/contact" element={<ContactPage />} />

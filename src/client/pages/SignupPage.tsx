@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/redux';
 import { setUser } from '@/redux/slices/authSlice';
+import type { User } from '@/auth/types/auth.types';
 
 export const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -42,11 +43,15 @@ export const SignupPage = () => {
     setIsLoading(true);
     // TODO: Replace with real signup API call
     setTimeout(() => {
-      const newUser = {
-        id: Math.random().toString(),
+      const newUser: User = {
+        id: Date.now(),
+        username: formData.email,
         email: formData.email,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        full_name: `${formData.firstName} ${formData.lastName}`.trim(),
+        phone_number: '',
+        address: '',
+        organization: 1,
+        roles: ['customer'],
       };
       dispatch(setUser(newUser));
       setIsLoading(false);

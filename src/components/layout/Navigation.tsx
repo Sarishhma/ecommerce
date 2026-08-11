@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, ChevronDown, Heart, User, LayoutDashboard } from 'lucide-react';
-import { useAppSelector, selectCartItemCount } from '@/redux';
+import { useAppSelector, selectCartItemCount, selectWishlistCount } from '@/redux';
 import { CATEGORIES, PRIMARY_NAV_ITEMS } from '@/config/navigation';
 import { TopBar } from '../navigation/TopBar';
 import { SearchBar } from '../navigation/SearchBar'; // Ensure this path matches your Search component
@@ -16,6 +16,7 @@ export const Navigation = () => {
 
   const location = useLocation();
   const cartItemCount = useAppSelector(selectCartItemCount);
+  const wishlistCount = useAppSelector(selectWishlistCount);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isHomePage = location.pathname === '/';
@@ -122,10 +123,15 @@ useEffect(() => {
 )}
               <Link
                 to="/wishlist"
-                className={`p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+                className={`relative p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
                 aria-label="Wishlist"
               >
                 <Heart className="w-5 h-5" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-[#b8860b] rounded-full shadow-sm">
+                    {wishlistCount}
+                  </span>
+                )}
               </Link>
 
               <Link

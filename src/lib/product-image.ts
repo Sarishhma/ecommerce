@@ -1,4 +1,4 @@
-import type { Product } from "@/client/feature/product"
+import type { Product } from "@/types"
 
 export const PLACEHOLDER_IMAGE = '/images/placeholder-product.png'
 

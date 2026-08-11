@@ -5,15 +5,17 @@ import { useAppDispatch, useAppSelector, selectWishlistIds, toggleWishlistItem }
 
 import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 import { useAddToCart } from '@/features/product';
-import { products } from '@/config/data';
+import { useGetProducts } from '@/features/product/hook/useProduct';
 
 export const WishlistPage = () => {
   const dispatch = useAppDispatch();
   const wishlistIds = useAppSelector(selectWishlistIds);
   const addToCartMutation = useAddToCart();
   const contentReveal = useScrollReveal();
+  const { data } = useGetProducts();
+  const products = data?.results || [];
 
-  const wishlistItems = products.filter(p => wishlistIds.includes(p.id));
+  const wishlistItems = products.filter(p => wishlistIds.some(id => String(id) === String(p.id)));
 
   if (wishlistItems.length === 0) {
     return (

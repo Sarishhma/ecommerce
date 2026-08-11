@@ -1,14 +1,21 @@
-import { collections as mockCollections } from "@/config/data";
-
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { useScrollReveal } from "../hooks/use-scroll-reveal";
+import { useGetCategories } from "@/features/category/hooks/useCategories";
 
-
-
-
-export function CollectionsSection({ collections = mockCollections }: { collections?: any[] }) {
+export function CollectionsSection() {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.1 });
+  const { data } = useGetCategories();
+  const apiCategories = data?.results || [];
+  
+  // Map API categories to UI format with fallback images
+  const collections = apiCategories.map((cat, i) => ({
+    name: cat.title,
+    slug: cat.slug,
+    count: "Explore",
+    blurb: cat.description || "Discover this collection",
+    image: `https://picsum.photos/seed/${cat.slug || i}/400/500`
+  }));
 
   return (
     <section id="collections" ref={ref} className="py-20 lg:py-32 bg-background">

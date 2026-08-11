@@ -1,9 +1,10 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import { products, collections } from '@/config/data';
+import { collections } from '@/config/data';
 import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
 import { ProductCard } from '@/components/common/ProductCard';
+import { useGetProducts } from '@/features/product/hook/useProduct';
 
 export const CollectionPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -11,6 +12,9 @@ export const CollectionPage = () => {
 
   const headerReveal = useScrollReveal();
   const gridReveal = useScrollReveal();
+
+  const { data, isLoading } = useGetProducts();
+  const products = data?.results || [];
 
   if (!collection) {
     return (
@@ -26,7 +30,12 @@ export const CollectionPage = () => {
     );
   }
 
-  const collectionProducts = products.filter((p) => p.categorySlug === collection.slug);
+  const collectionProducts = products.filter(
+    (p) =>
+      p.categorySlug === collection.slug ||
+      (typeof p.category === 'string' &&
+        p.category.toLowerCase().replace(/\s+/g, '-') === collection.slug)
+  );
 
   return (
     <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">

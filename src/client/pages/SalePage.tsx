@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Filter } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/redux';
 import {  toggleWishlistItem, selectWishlistIds } from '@/redux';
-import { products } from '@/config/data';
 import { useAddToCart } from '@/features/product';
-
+import { useGetProducts } from '@/features/product/hook/useProduct';
 
 export const SalePage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const wishlistIds = useAppSelector(selectWishlistIds);
-    const addToCartMutation = useAddToCart();
+  const addToCartMutation = useAddToCart();
   const [sortBy, setSortBy] = useState('popular');
+  const { data } = useGetProducts();
+  const products = data?.results || [];
 
   // Sales products with discount
   const saleProducts = products.slice(0, 8).map((product, index) => ({
@@ -32,7 +33,7 @@ export const SalePage = () => {
    addToCartMutation.mutate({ product, quantity: 1 });
   };
 
-  const isWishlisted = (id: number) => (wishlistIds as number[]).includes(id);
+  const isWishlisted = (id: number | string) => wishlistIds.some(wId => String(wId) === String(id));
 
   const handleToggleWishlist = (id: number) => {
     dispatch(toggleWishlistItem(id));
