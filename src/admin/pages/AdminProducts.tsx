@@ -15,6 +15,7 @@ import { ProductPagination } from '../components/adminProduct/ProductPagination'
 import { useCreateProduct } from '@/features/product/hook/useCreateProduct'
 import { useUpdateProduct } from '@/features/product/hook/useUpdateProduct'
 import { useDeleteProduct } from '@/features/product/hook/useDeleteProduct'
+import { useGetCategories } from '@/features/category/hooks/useCategories'
 
 export const AdminProducts = () => {
   const [searchInput, setSearchInput] = useState('')
@@ -23,7 +24,8 @@ export const AdminProducts = () => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [deletingProduct, setDeletingProduct] = useState<Product | null>(null)
-
+const {data:categorydata}=useGetCategories({page:1})
+const categories=categorydata?.results ?? []
   // Debounce search input and reset page to 1 on new query
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -215,6 +217,7 @@ export const AdminProducts = () => {
         onClose={handleFormClose}
         onSubmit={handleFormSubmit}
         isSubmitting={isCreating || isUpdating}
+        categories={categories}
       />
 
       <ProductDeleteDialog

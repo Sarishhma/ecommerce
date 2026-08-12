@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import type { Product, CreateProductPayload } from '@/features/product/types/product.types'
+import type { Category } from '@/features/category/types/category.types'
 
 interface AdminProductFormProps {
   open: boolean
@@ -20,7 +21,8 @@ interface AdminProductFormProps {
   product: Product | null
   onClose: () => void
   onSubmit: (payload: CreateProductPayload, id?: string | number) => void
-  isSubmitting?: boolean
+  isSubmitting?: boolean,
+  categories: Category[]
 }
 
 export const AdminProductForm = ({
@@ -30,6 +32,8 @@ export const AdminProductForm = ({
   onClose,
   onSubmit,
   isSubmitting = false,
+  categories
+  
 }: AdminProductFormProps) => {
   const isEditing = !!product
 
@@ -181,18 +185,26 @@ export const AdminProductForm = ({
 
             <div className="space-y-1.5">
               <Label htmlFor="category" className="text-sm font-semibold text-slate-900">
-                Category ID
+                Categories
               </Label>
               <div className="relative">
                 <Tag className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input
+                <select
                   id="category"
-                  type="number"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  placeholder="e.g. 1"
+                  
                   className="h-10 pl-10 rounded-lg border-slate-200 bg-white text-sm focus-visible:ring-2 focus-visible:ring-blue-500"
-                />
+                >
+                  <option value="">Select Category</option>
+                  {
+                    categories.map((cat)=>(
+                      <option key={cat.id} value={cat.id}>
+                        {cat.title}
+                      </option>
+                    ))
+                  }
+                </select>
               </div>
             </div>
           </div>
