@@ -6,22 +6,23 @@ import { ProductDetailPage } from "./client/pages/ProductDetailPage";
 import { CartPage } from "./client/pages/CartPage";
 import { CollectionPage } from "./client/pages/CollectionPage";
 import { WishlistPage } from "./client/pages/WishlistPage";
-import { AccountPage } from "./client/pages/AccountPage";
-import { OrdersPage } from "./client/pages/OrdersPage";
+import { AccountPage } from "./features/account/pages/AccountPage";
 import { SearchResultsPage } from "./client/pages/SearchResultsPage";
 import { HelpPage } from "./client/pages/HelpPage";
 import { LoginPage } from "./auth/pages/LoginPage";
 import { SignupPage } from "./client/pages/SignupPage";
 import { ContactPage } from "./client/pages/ContactPage";
 import { SalePage } from "./client/pages/SalePage";
-import { TrackOrderPage } from "./client/pages/TrackOrderPage";
+import { TrackOrderPage } from "./features/orders/pages/TrackOrderPage";
 import { Layout } from "./components/layout/Layout";
 import ComingSoon from "./components/common/ComingSoon";
 import { PublicRoute } from "./auth/components/routes/PublicRoute";
 import { ProtectedRoute } from "./auth/components/routes/ProtectedRoute";
+import { CheckoutPage } from "./features/orders/pages/CheckoutPage";
+import { OrderSuccessPage } from "./features/orders/pages/orderpageSuccess";
+
 
 // Import Route Guards
-
 
 export default function App() {
   return (
@@ -53,7 +54,10 @@ export default function App() {
         {/* Protected Routes (Redirects to /login if NOT logged in) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<AccountPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/order-success" element={<OrderSuccessPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+
         </Route>
 
         {/* Category Placeholders */}
@@ -67,9 +71,6 @@ export default function App() {
         <Route path="/thangka/mandala" element={<ComingSoon />} />
         <Route path="/sound-healing/singing-bowls" element={<ComingSoon />} />
         <Route path="/sound-healing/tingsha" element={<ComingSoon />} />
-
-        {/* Fallback route */}
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );

@@ -1,72 +1,226 @@
-import { Eye, Printer } from 'lucide-react';
+import { useMemo, useState } from "react";
+import { ShoppingBag } from "lucide-react";
 
-const orders = [
-  { id: 'ORD-001', customer: 'John Doe', date: '2024-01-15', amount: '$89.99', status: 'Delivered', items: 2 },
-  { id: 'ORD-002', customer: 'Jane Smith', date: '2024-01-16', amount: '$156.50', status: 'Shipped', items: 1 },
-  { id: 'ORD-003', customer: 'Bob Johnson', date: '2024-01-17', amount: '$234.00', status: 'Processing', items: 3 },
-  { id: 'ORD-004', customer: 'Alice Williams', date: '2024-01-18', amount: '$67.25', status: 'Pending', items: 1 },
-  { id: 'ORD-005', customer: 'Charlie Brown', date: '2024-01-19', amount: '$345.75', status: 'Delivered', items: 4 },
-];
+import { useOrders } from "@/features/orders/hooks/useOrders.hook";
+
+import {
+  OrderFilters,
+  type FilterStatus,
+} from "../components/adminOrders/component/orderFilter";
+
+import { OrderStats } from "../components/adminOrders/component/orderStats";
+
+import { AdminOrderTable } from "../components/adminOrders/component/AdminOrderTable";
+
+import { AdminOrderDetailsModal } from "../components/adminOrders/component/AdminOrderDetail";
 
 export const AdminOrders = () => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Delivered':
-        return 'bg-green-100 text-green-800';
-      case 'Shipped':
-        return 'bg-blue-100 text-blue-800';
-      case 'Processing':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Pending':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
+  const {
+    data: orders = [],
+    isLoading,
+    isError,
+  } = useOrders();
+
+  const [selectedOrderId, setSelectedOrderId] =
+    useState<number | null>(null);
+
+  const [search, setSearch] = useState("");
+
+  const [statusFilter, setStatusFilter] =
+    useState<FilterStatus>("all");
+
+  /* ===============================
+     FILTER ORDERS
+  =============================== */
+
+  const filteredOrders = useMemo(() => {
+    const searchValue = search.toLowerCase().trim();
+
+    return orders.filter((order) => {
+      const matchesStatus =
+        statusFilter === "all" ||
+        order.status === statusFilter;
+
+      const matchesSearch =
+        String(order.id).includes(searchValue) ||
+        order.shipping_address
+          ?.toLowerCase()
+          .includes(searchValue) ||
+        order.phone_number
+          ?.toLowerCase()
+          .includes(searchValue);
+
+      return matchesStatus && matchesSearch;
+    });
+  }, [orders, search, statusFilter]);
+
+  /* ===============================
+     LOADING
+  =============================== */
+
+  if (isLoading) {
+    return (
+      <div className="min-h-full bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-8">
+
+          {/* Header skeleton */}
+          <div>
+            <div className="h-4 w-28 bg-gray-200 rounded animate-pulse" />
+
+            <div className="h-9 w-40 bg-gray-200 rounded mt-3 animate-pulse" />
+
+            <div className="h-4 w-64 bg-gray-100 rounded mt-3 animate-pulse" />
+          </div>
+
+          {/* Stats skeleton */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((item) => (
+              <div
+                key={item}
+                className="
+                  h-28
+                  bg-white
+                  rounded-2xl
+                  border
+                  border-gray-100
+                  animate-pulse
+                "
+              />
+            ))}
+          </div>
+
+          {/* Table skeleton */}
+          <div
+            className="
+              h-96
+              bg-white
+              rounded-2xl
+              border
+              border-gray-100
+              animate-pulse
+            "
+          />
+        </div>
+      </div>
+    );
+  }
+
+  /* ===============================
+     ERROR
+  =============================== */
+
+  if (isError) {
+    return (
+      <div className="min-h-full bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+          <div className="bg-red-50 border border-red-100 rounded-2xl p-8 text-center">
+
+            <ShoppingBag
+              className="w-10 h-10 text-red-400 mx-auto"
+            />
+
+            <h2 className="text-lg font-semibold text-red-800 mt-4">
+              Unable to load orders
+            </h2>
+
+            <p className="text-sm text-red-600 mt-1">
+              Something went wrong while loading orders.
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  /* ===============================
+     PAGE
+  =============================== */
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Orders</h1>
+    <div className="min-h-full ">
 
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-gray-200 bg-gray-50">
-              <th className="text-left py-3 px-4 text-gray-600 font-semibold">Order ID</th>
-              <th className="text-left py-3 px-4 text-gray-600 font-semibold">Customer</th>
-              <th className="text-left py-3 px-4 text-gray-600 font-semibold">Date</th>
-              <th className="text-left py-3 px-4 text-gray-600 font-semibold">Items</th>
-              <th className="text-left py-3 px-4 text-gray-600 font-semibold">Amount</th>
-              <th className="text-left py-3 px-4 text-gray-600 font-semibold">Status</th>
-              <th className="text-center py-3 px-4 text-gray-600 font-semibold">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.id} className="border-b border-gray-100 hover:bg-gray-50 transition">
-                <td className="py-4 px-4 text-gray-800 font-medium">{order.id}</td>
-                <td className="py-4 px-4 text-gray-600">{order.customer}</td>
-                <td className="py-4 px-4 text-gray-600">{order.date}</td>
-                <td className="py-4 px-4 text-gray-600">{order.items}</td>
-                <td className="py-4 px-4 text-gray-800 font-medium">{order.amount}</td>
-                <td className="py-4 px-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                    {order.status}
-                  </span>
-                </td>
-                <td className="py-4 px-4 flex items-center justify-center gap-2">
-                  <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="View">
-                    <Eye className="w-4 h-4" />
-                  </button>
-                  <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition" title="Print">
-                    <Printer className="w-4 h-4" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="max-w-7xl mx-auto ">
+
+        <div >
+
+          {/* ===============================
+              HEADER
+          =============================== */}
+
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+
+            <div>
+
+              <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-medium">
+                Administration
+              </p>
+
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-1">
+                Orders
+              </h1>
+
+              <p className="text-sm text-gray-500 mt-2">
+                Manage and monitor customer orders.
+              </p>
+
+            </div>
+
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <ShoppingBag className="w-4 h-4" />
+
+              {orders.length} total orders
+            </div>
+
+          </div>
+
+
+          {/* ===============================
+              STATS
+          =============================== */}
+
+          <OrderStats orders={orders} />
+
+
+          {/* ===============================
+              FILTERS
+          =============================== */}
+
+          <OrderFilters
+            search={search}
+            statusFilter={statusFilter}
+            onSearchChange={setSearch}
+            onStatusChange={setStatusFilter}
+          />
+
+
+          {/* ===============================
+              TABLE
+          =============================== */}
+
+          <AdminOrderTable
+            orders={filteredOrders}
+            onViewOrder={(orderId) => {
+              setSelectedOrderId(orderId);
+            }}
+          />
+
+
+          {/* ===============================
+              ORDER DETAILS MODAL
+          =============================== */}
+
+          <AdminOrderDetailsModal
+            orderId={selectedOrderId}
+            onClose={() => setSelectedOrderId(null)}
+          />
+
+        </div>
+
       </div>
+
     </div>
   );
 };

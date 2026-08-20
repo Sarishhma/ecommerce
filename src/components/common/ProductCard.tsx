@@ -29,22 +29,43 @@ export const ProductCard = ({ product, categories }: ProductCardProps) => {
 
   const { mutate: handleAddToCart, isPending } = useAddToCart();
 
-  const handleBuyNow = () => {
-    handleAddToCart({ product, quantity: 1 });
-
-    if (isAuthenticated) {
-      navigate('/checkout');
-    } else {
-      navigate('/login', { state: { from: '/checkout' } });
-    }
+const handleBuyNow = () => {
+  const checkoutState = {
+    buyNow: {
+      product,
+      quantity: 1,
+    },
   };
 
+  if (!isAuthenticated) {
+    navigate("/login", {
+      state: {
+        from: "/checkout",
+        ...checkoutState,
+      },
+    });
+
+    return;
+  }
+
+  navigate("/checkout", {
+    state: checkoutState,
+  });
+};
   // 🔥 Get category name from ID
-  const getCategoryName = (categoryId: number | null): string | null => {
-    if (categoryId === null || !categories) return null;
-    const category = categories.find(cat => cat.id === categoryId);
-    return category?.title || null;
-  };
+const getCategoryName = (
+  categoryId: number | string | null | undefined
+): string | null => {
+  if (categoryId == null || !categories) {
+    return null;
+  }
+
+  const category = categories.find(
+    (cat) => String(cat.id) === String(categoryId)
+  );
+
+  return category?.title ?? null;
+};
 
   const categoryName = getCategoryName(product.category);
 

@@ -1,3 +1,6 @@
+
+export type UserRole = "admin" | "agent" | "billing_group" | "customer"
+
 export interface LoginCredentials {
   username: string;
   password: string;
@@ -11,7 +14,7 @@ export interface User {
   phone_number: string;
   address: string;
   organization: number;
-  roles: string[];
+  roles: UserRole[];
 }
 
 export interface LoginResponse {

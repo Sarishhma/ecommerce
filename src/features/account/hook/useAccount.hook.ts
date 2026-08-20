@@ -7,12 +7,12 @@ import {  setUser } from "@/redux/slices/authSlice"
 import { authService } from "@/auth/services/auth.service"
 
 
-export function useAddresses() {
-  return useQuery({
-    queryKey: ["account", "addresses"],
-    queryFn: accountService.getAddresses,
-  })
-}
+// export function useAddresses() {
+//   return useQuery({
+//     queryKey: ["account", "addresses"],
+//     queryFn: accountService.getAddresses,
+//   })
+// }
 
 export function useAddAddress() {
   const queryClient = useQueryClient()
@@ -24,12 +24,12 @@ export function useAddAddress() {
   })
 }
 
-export function usePreferences() {
-  return useQuery({
-    queryKey: ["account", "preferences"],
-    queryFn: accountService.getPreferences,
-  })
-}
+// export function usePreferences() {
+//   return useQuery({
+//     queryKey: ["account", "preferences"],
+//     queryFn: accountService.getPreferences,
+//   })
+// }
 
 
 export const useUpdateProfile = (userId: number) => {
@@ -48,12 +48,12 @@ export function useChangePassword() {
   return useMutation({ mutationFn: accountService.changePassword })
 }
 
-export function useUpdatePreferences() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: accountService.updatePreferences,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["account", "preferences"] })
-    },
-  })
-}
+// export function useUpdatePreferences() {
+//   const queryClient = useQueryClient()
+//   return useMutation({
+//     mutationFn: accountService.updatePreferences,
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["account", "preferences"] })
+//     },
+//   })
+// }

@@ -1,3 +1,5 @@
+import type { UserRole } from "@/auth/types/auth.types"
+
 export type Address = {
   id: string
   label: string
@@ -9,11 +11,11 @@ export type Address = {
   isDefault: boolean
 }
 
-export type UserPreferences = {
-  newsletterSubscribed: boolean
-  orderNotifications: boolean
-  marketingEmails: boolean
-}
+// export type UserPreferences = {
+//   newsletterSubscribed: boolean
+//   orderNotifications: boolean
+//   marketingEmails: boolean
+// }
 
 export type ProfileUpdatePayload = {
   firstName: string
@@ -35,5 +37,5 @@ export interface User {
   phone_number: string;
   address: string;
   organization: number;
-  roles: string[];
+  roles: UserRole[];
 }

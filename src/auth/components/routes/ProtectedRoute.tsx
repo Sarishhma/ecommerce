@@ -2,15 +2,16 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAppSelector } from '@/redux';
 import { selectIsAuthenticated, selectUser } from '@/redux/slices/authSlice';
+import type { UserRole } from '@/auth/types/auth.types';
 
 interface ProtectedRouteProps {
   redirectPath?: string;
-  allowedRoles?: string[];
+  allowedRoles?: UserRole[];
   children?: React.ReactNode;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  redirectPath = '/login', // Bug fix: was '/account' — unauthenticated users must go to /login
+  redirectPath = '/login', //  unauthenticated users must go to /login
   allowedRoles,
   children,
 }) => {
@@ -28,4 +29,4 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   return children ? <>{children}</> : <Outlet />;
-};
+};

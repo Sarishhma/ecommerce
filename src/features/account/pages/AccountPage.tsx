@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom"
 import { User, MapPin, Lock, LogOut, Settings } from "lucide-react"
 import { useAppSelector } from "@/redux"
 import { selectUser,  } from "@/redux/slices/authSlice"
-import { ProfileTab } from "../feature/account/components/ProfileTab"
-import { AddressesTab } from "../feature/account/components/AddressTab"
-import { PasswordTab } from "../feature/account/components/PasswordTab"
-import { PreferencesTab } from "../feature/account/components/PreferenceTab"
+
 import { useLogout } from "@/auth/hooks/useLogout"
+import { ProfileTab } from "@/features/account/components/ProfileTab"
+import { AddressesTab } from "@/features/account/components/AddressTab"
+import { PasswordTab } from "@/features/account/components/PasswordTab"
+// import { PreferencesTab } from "@/features/account/components/PreferenceTab"
 
 type TabKey = "profile" | "addresses" | "password" | "preferences"
 
@@ -15,7 +16,7 @@ const tabs: { key: TabKey; label: string; icon: typeof User }[] = [
   { key: "profile", label: "Profile", icon: User },
   { key: "addresses", label: "Addresses", icon: MapPin },
   { key: "password", label: "Password", icon: Lock },
-  { key: "preferences", label: "Preferences", icon: Settings },
+  // { key: "preferences", label: "Preferences", icon: Settings },
 ]
 
 export const AccountPage = () => {
@@ -82,7 +83,7 @@ export const AccountPage = () => {
             {activeTab === "profile" && <ProfileTab user={user} />}
             {activeTab === "addresses" && <AddressesTab />}
             {activeTab === "password" && <PasswordTab />}
-            {activeTab === "preferences" && <PreferencesTab />}
+            {/* {activeTab === "preferences" && <PreferencesTab />} */}
           </div>
         </div>
       </div>
