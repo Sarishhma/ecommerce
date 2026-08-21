@@ -8,7 +8,7 @@ import { hydrateAuth } from "./redux/slices/authSlice";
 import { ThemeProvider } from "./components/layout/ThemeProvider";
 import App from "./App";
 import "./index.css";
-
+import { Toaster } from 'sonner';
 // Hydrate auth state from local storage before initial render
 store.dispatch(hydrateAuth());
 
@@ -28,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <BrowserRouter>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
             <App />
+                <Toaster position="top-right" />
           </ThemeProvider>
         </BrowserRouter>
       </QueryClientProvider>

@@ -23,7 +23,7 @@ export const AddressesTab = () => {
 
         <button
           type="button"
-          className="flex items-center gap-2 px-4 py-2.5 bg-terracotta text-white rounded-lg font-medium hover:bg-opacity-90 transition"
+          className="flex cursor-pointer items-center gap-2 px-4 py-2.5 bg-terracotta text-white rounded-lg font-medium hover:bg-opacity-90 transition"
         >
           <Plus className="w-5 h-5" />
           Add Address
@@ -71,7 +71,7 @@ export const AddressesTab = () => {
 
         <button
           type="button"
-          className="px-5 py-2.5 border border-terracotta text-terracotta rounded-lg font-medium hover:bg-terracotta hover:text-white transition"
+          className="px-5 py-2.5 cursor-pointer border border-terracotta text-terracotta rounded-lg font-medium hover:bg-terracotta hover:text-white transition"
         >
           Add New Address
         </button>

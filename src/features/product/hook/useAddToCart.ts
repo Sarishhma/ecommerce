@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useAppDispatch, addToCart } from '@/redux'
+import { toast } from 'sonner'
+
 
 export const useAddToCart = () => {
   const dispatch = useAppDispatch()
@@ -14,7 +16,7 @@ export const useAddToCart = () => {
       product: any
       quantity: number
     }) => {
-      dispatch(
+      dispatch( 
         addToCart({
           productId: String(product.id || product.product_id),
           slug: product.slug || '',
@@ -25,10 +27,14 @@ export const useAddToCart = () => {
           maxQuantity: product.opening_count ?? product.maxQuantity ?? 99,
         })
       )
+      return product
     },
+ onSuccess: (product) => {
+  toast.success(`${product.title || product.name} added to cart`)
+},
 
     onSettled: () => {
       idempotencyKey.current = crypto.randomUUID()
     },
   })
-}
+}

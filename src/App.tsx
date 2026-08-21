@@ -18,8 +18,9 @@ import { Layout } from "./components/layout/Layout";
 import ComingSoon from "./components/common/ComingSoon";
 import { PublicRoute } from "./auth/components/routes/PublicRoute";
 import { ProtectedRoute } from "./auth/components/routes/ProtectedRoute";
-import { CheckoutPage } from "./features/orders/pages/CheckoutPage";
+
 import { OrderSuccessPage } from "./features/orders/pages/orderpageSuccess";
+import { CheckoutPage } from "./features/checkout/pages/checkoutPage";
 
 
 // Import Route Guards
@@ -27,8 +28,11 @@ import { OrderSuccessPage } from "./features/orders/pages/orderpageSuccess";
 export default function App() {
   return (
     <Routes>
-      {/* Admin Routes */}
-      <Route path="/admin/*" element={<AdminApp />} />
+      <Route element={<ProtectedRoute/>}>
+               {/* Admin Routes */}
+         <Route path="/admin/*" element={<AdminApp />} />
+      </Route>
+     
 
       {/* Customer Routes inside main layout */}
       <Route element={<Layout />}>
@@ -53,12 +57,16 @@ export default function App() {
 
         {/* Protected Routes (Redirects to /login if NOT logged in) */}
         <Route element={<ProtectedRoute />}>
+
+
           <Route path="/account" element={<AccountPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/order-success" element={<OrderSuccessPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
 
         </Route>
+
+
 
         {/* Category Placeholders */}
         <Route path="/incense/tibetan" element={<ComingSoon />} />

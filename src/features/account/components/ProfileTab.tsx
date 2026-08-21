@@ -72,7 +72,7 @@ export function ProfileTab({ user }: { user: User | null }) {
         {!isEditing && (
           <button
             onClick={() => setIsEditing(true)}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-charcoal border border-sand rounded-lg hover:bg-sand/20 transition-colors"
+            className="flex cursor-pointer items-center gap-2 px-4 py-2 text-sm font-medium text-charcoal border border-sand rounded-lg hover:bg-sand/20 transition-colors"
           >
             <Pencil className="w-4 h-4" />
             Edit

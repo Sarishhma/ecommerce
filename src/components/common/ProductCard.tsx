@@ -30,18 +30,17 @@ export const ProductCard = ({ product, categories }: ProductCardProps) => {
   const { mutate: handleAddToCart, isPending } = useAddToCart();
 
 const handleBuyNow = () => {
-  const checkoutState = {
-    buyNow: {
-      product,
-      quantity: 1,
-    },
+  const checkoutData = {
+    type: "buyNow" as const,
+    product,
+    quantity: 1,
   };
 
   if (!isAuthenticated) {
     navigate("/login", {
       state: {
         from: "/checkout",
-        ...checkoutState,
+        checkoutData,
       },
     });
 
@@ -49,7 +48,9 @@ const handleBuyNow = () => {
   }
 
   navigate("/checkout", {
-    state: checkoutState,
+    state: {
+      checkoutData,
+    },
   });
 };
   // 🔥 Get category name from ID
@@ -128,17 +129,20 @@ const getCategoryName = (
         {/* Action Buttons */}
         <div className="mt-4 grid grid-cols-2 gap-2">
           <button
-            disabled={isPending}
-            onClick={() => handleAddToCart({ product, quantity: 1 })}
-            className="w-full py-2.5 bg-neutral-100 text-[#1A1A1A] text-xs font-medium tracking-wide rounded hover:bg-neutral-200 transition-colors disabled:opacity-50"
-          >
-            Add to Cart
-          </button>
+  disabled={isPending}
+  onClick={() => {
+    console.log("Add to cart clicked", product);
+    handleAddToCart({ product, quantity: 1 });
+  }}
+  className="w-full cursor-pointer py-2.5 bg-neutral-100 text-[#1A1A1A] text-xs font-medium tracking-wide rounded hover:bg-neutral-200 transition-colors disabled:opacity-50"
+>
+  Add to Cart
+</button>
 
           <button
             disabled={isPending}
             onClick={handleBuyNow}
-            className="w-full py-2.5 bg-[#1A1A1A] text-white text-xs font-medium tracking-wide rounded hover:bg-neutral-800 transition-colors disabled:opacity-50"
+            className="w-full py-2.5 cursor-pointer bg-[#1A1A1A] text-white text-xs font-medium tracking-wide rounded hover:bg-neutral-800 transition-colors disabled:opacity-50"
           >
             Buy Now
           </button>

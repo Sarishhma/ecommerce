@@ -14,6 +14,11 @@ import { AdminOrderTable } from "../components/adminOrders/component/AdminOrderT
 
 import { AdminOrderDetailsModal } from "../components/adminOrders/component/AdminOrderDetail";
 
+import { useDeleteOrder } from "@/features/orders/hooks/useDeleteOrder";
+import { DeleteOrderModal } from "../components/adminOrders/component/DeleteOrderModal";
+import { useUpdateOrder } from "@/features/orders/hooks/useUpdateOrder";
+import { AdminUpdateOrderModal } from "../components/adminOrders/component/AdminUpdateModal";
+
 export const AdminOrders = () => {
   const {
     data: orders = [],
@@ -21,6 +26,20 @@ export const AdminOrders = () => {
     isError,
   } = useOrders();
 
+ const [updateOrderId, setUpdateOrderId] =
+  useState<number | null>(null);
+  const {
+  mutate: updateOrder,
+  isPending: isUpdating,
+} = useUpdateOrder();
+const orderToUpdate = orders.find(
+  (order) => order.id === updateOrderId
+);
+  const [deleteOrderId, setDeleteOrderId] = useState<number | null>(null);
+   const {
+    mutate: deleteOrder,
+    isPending: isDeleting,
+  } = useDeleteOrder();
   const [selectedOrderId, setSelectedOrderId] =
     useState<number | null>(null);
 
@@ -200,13 +219,59 @@ export const AdminOrders = () => {
               TABLE
           =============================== */}
 
-          <AdminOrderTable
-            orders={filteredOrders}
-            onViewOrder={(orderId) => {
-              setSelectedOrderId(orderId);
-            }}
-          />
+        <AdminOrderTable
+  orders={filteredOrders}
+  onViewOrder={(orderId) => {
+    setSelectedOrderId(orderId);
+  }}
 
+  onEditOrder={(orderId) => {
+    setUpdateOrderId(orderId);
+  }}
+
+  onDeleteOrder={(orderId) => {
+    setDeleteOrderId(orderId);
+  }}
+/>
+           <DeleteOrderModal
+        open={deleteOrderId !== null}
+        orderId={deleteOrderId}
+        isDeleting={isDeleting}
+        onCancel={() => setDeleteOrderId(null)}
+        onConfirm={() => {
+          if (deleteOrderId === null) return;
+
+          deleteOrder(deleteOrderId, {
+            onSuccess: () => {
+              setDeleteOrderId(null);
+            },
+          });
+        }}
+      />
+<AdminUpdateOrderModal
+  open={updateOrderId !== null}
+  orderId={updateOrderId}
+  currentStatus={orderToUpdate?.status}
+  isUpdating={isUpdating}
+  onCancel={() => setUpdateOrderId(null)}
+  onConfirm={(status) => {
+    if (updateOrderId === null) return;
+
+    updateOrder(
+      {
+        orderId: updateOrderId,
+        data: {
+          status,
+        },
+      },
+      {
+        onSuccess: () => {
+          setUpdateOrderId(null);
+        },
+      }
+    );
+  }}
+/>
 
           {/* ===============================
               ORDER DETAILS MODAL

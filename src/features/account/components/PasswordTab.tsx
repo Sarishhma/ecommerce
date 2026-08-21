@@ -65,7 +65,7 @@ export function PasswordTab() {
         <button
           type="submit"
           disabled={isPending}
-          className="px-8 py-3 bg-terracotta text-white rounded-lg font-medium hover:bg-charcoal transition-colors disabled:opacity-50"
+          className="px-8 py-3 cursor-pointer bg-terracotta text-white rounded-lg font-medium hover:bg-charcoal transition-colors disabled:opacity-50"
         >
           {isPending ? "Updating..." : "Update Password"}
         </button>

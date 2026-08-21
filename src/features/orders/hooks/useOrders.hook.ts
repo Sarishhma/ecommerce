@@ -12,7 +12,7 @@ export const useOrders = () => {
 
 export const useOrder = (id: number | undefined) => {
   return useQuery({
-    queryKey: ["order", id],
+    queryKey: ["orders", id],
     queryFn: () => orderService.getOrderById(id as number),
     enabled: id !== undefined,
     staleTime: 30 * 1000,

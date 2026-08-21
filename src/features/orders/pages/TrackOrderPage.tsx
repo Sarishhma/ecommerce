@@ -15,14 +15,23 @@ import { OrderStatusBadge } from "../components/orderStatusBadge";
 import { OrderTimeline } from "../components/orderTime";
 import { OrderItem } from "../components/orderItem";
 import { OrderSummary } from "../components/OrderSummery";
+import { useDeleteOrder } from "../hooks/useDeleteOrder";
+import { CancelOrderModal } from "../components/cancleOrderModal";
 
 export const TrackOrderPage = () => {
   const {
     data: orders = [],
     isLoading: ordersLoading,
     isError: ordersError,
+      refetch: refetchOrders,
   } = useOrders();
+const [cancelOrderId, setCancelOrderId] =
+  useState<number | null>(null);
 
+const {
+  mutate: cancelOrder,
+  isPending: isCancelling,
+} = useDeleteOrder();
   const [selectedOrderId, setSelectedOrderId] =
     useState<number | undefined>();
 
@@ -267,10 +276,73 @@ export const TrackOrderPage = () => {
                   </div>
 
                   {/* Summary */}
-                  <OrderSummary
-                    order={selectedOrder}
-                  />
+ {/* Summary */}
+<OrderSummary order={selectedOrder} />
 
+{/* Cancel Order */}
+{selectedOrder.status === "pending" && (
+  <div className="bg-white border border-stone-200 rounded-2xl p-6">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      
+      <div>
+        <h3 className="font-semibold text-charcoal">
+          Need to cancel this order?
+        </h3>
+
+        <p className="text-sm text-stone-500 mt-1">
+          You can cancel this order while it is still pending.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => setCancelOrderId(selectedOrder.id)}
+        className="
+          inline-flex
+          items-center
+          justify-center
+          px-5
+          py-2.5
+          rounded-xl
+          text-sm
+          font-medium
+          text-red-600
+          bg-red-50
+          border
+          border-red-100
+          hover:bg-red-100
+          transition
+          whitespace-nowrap
+        "
+      >
+        Cancel Order
+      </button>
+
+    </div>
+  </div>
+)}
+
+{/* Cancel Confirmation Modal */}
+<CancelOrderModal
+  open={cancelOrderId !== null}
+  orderId={cancelOrderId}
+  isCancelling={isCancelling}
+  onCancel={() => setCancelOrderId(null)}
+  onConfirm={() => {
+    if (cancelOrderId === null) return;
+
+    cancelOrder(cancelOrderId, {
+      onSuccess:async () => {
+        setCancelOrderId(null);
+         await refetchOrders();
+      },
+      onError: (error) => {
+        console.error("Failed to cancel order:", error);
+        alert("Failed to cancel order. Please try again.");
+      },
+    });
+  }}
+/>
                 </div>
               )}
           </div>
