@@ -1,153 +1,264 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Heart } from 'lucide-react';
-import { 
-  useAppDispatch, 
-  useAppSelector, 
-  toggleWishlistItem, 
+import { Link, useNavigate } from 'react-router-dom'
+import { Heart } from 'lucide-react'
+
+import {
+  useAppDispatch,
+  useAppSelector,
+  toggleWishlistItem,
   selectWishlistIds,
-} from '@/redux';
+} from '@/redux'
 
-import { selectIsAuthenticated } from '@/redux/slices/authSlice';
+import { selectIsAuthenticated } from '@/redux/slices/authSlice'
 
-import type { Product } from '@/types';
-import type { Category } from '@/features/category/types/category.types';
-import { useAddToCart } from '@/features/product';
+import type { Product } from '@/types'
+import type { Category } from '@/features/category/types/category.types'
 
+import { useAddToCart } from '@/features/product'
 
 interface ProductCardProps {
-  product: Product;
-  categories?: Category[]; // Add categories prop
+  product: Product
+  categories?: Category[]
 }
 
-export const ProductCard = ({ product, categories }: ProductCardProps) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+export const ProductCard = ({
+  product,
+  categories,
+}: ProductCardProps) => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-  const isAuthenticated = useAppSelector(selectIsAuthenticated);
-  const wishlistIds = useAppSelector(selectWishlistIds);
-  const isWishlisted = wishlistIds.some((id) => String(id) === String(product.id));
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
 
-  const { mutate: handleAddToCart, isPending } = useAddToCart();
+  const wishlistIds = useAppSelector(selectWishlistIds)
 
-const handleBuyNow = () => {
-  const checkoutData = {
-    type: "buyNow" as const,
-    product,
-    quantity: 1,
-  };
+  const isWishlisted = wishlistIds.some(
+    (id) => String(id) === String(product.id)
+  )
 
-  if (!isAuthenticated) {
-    navigate("/login", {
+  const { mutate: handleAddToCart, isPending } = useAddToCart()
+
+  const getCategoryName = (
+    categoryId: number | string | null | undefined
+  ) => {
+    if (categoryId == null || !categories) return null
+
+    const category = categories.find(
+      (cat) => String(cat.id) === String(categoryId)
+    )
+
+    return category?.title ?? null
+  }
+
+  const categoryName = getCategoryName(product.category)
+
+  const handleBuyNow = () => {
+    const checkoutData = {
+      type: 'buyNow' as const,
+      product,
+      quantity: 1,
+    }
+
+    if (!isAuthenticated) {
+      navigate('/login', {
+        state: {
+          from: '/checkout',
+          checkoutData,
+        },
+      })
+
+      return
+    }
+
+    navigate('/checkout', {
       state: {
-        from: "/checkout",
         checkoutData,
       },
-    });
-
-    return;
+    })
   }
 
-  navigate("/checkout", {
-    state: {
-      checkoutData,
-    },
-  });
-};
-  // 🔥 Get category name from ID
-const getCategoryName = (
-  categoryId: number | string | null | undefined
-): string | null => {
-  if (categoryId == null || !categories) {
-    return null;
+  const handleWishlist = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    dispatch(toggleWishlistItem(Number(product.id)))
   }
-
-  const category = categories.find(
-    (cat) => String(cat.id) === String(categoryId)
-  );
-
-  return category?.title ?? null;
-};
-
-  const categoryName = getCategoryName(product.category);
 
   return (
-    <div className="group flex flex-col bg-white border border-[#E5E5E5] rounded-lg overflow-hidden transition-all duration-300">
-      {/* Image Container */}
-      <div className="relative aspect-square overflow-hidden bg-[#F9F9F9]">
-        <Link to={`/product/${product.id}`} className="block w-full h-full">
+    <article
+      className="
+        group
+        flex
+        flex-col
+        overflow-hidden
+        bg-white
+        border
+        border-neutral-200
+        rounded-2xl
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:shadow-[0_12px_35px_rgba(0,0,0,0.08)]
+      "
+    >
+      {/* IMAGE */}
+      <div className="relative aspect-square overflow-hidden bg-[#F7F5F0]">
+
+        <Link
+          to={`/product/${product.id}`}
+          className="block h-full w-full"
+        >
           {product.image ? (
             <img
               src={product.image}
               alt={product.title}
-              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+              loading="lazy"
+              className="
+                h-full
+                w-full
+                object-cover
+                object-center
+                transition-transform
+                duration-500
+                group-hover:scale-[1.04]
+              "
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-neutral-400 text-xs">
+            <div className="flex h-full items-center justify-center text-sm text-neutral-400">
               No image
             </div>
           )}
         </Link>
 
-        {/* Wishlist Button */}
+        {/* Wishlist */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(toggleWishlistItem(Number(product.id)));
-          }}
-          className="absolute top-3 right-3 p-2 rounded-full bg-white/90 text-[#1A1A1A] hover:text-[#000000] transition-colors shadow-sm"
-          aria-label="Toggle Wishlist"
+          type="button"
+          onClick={handleWishlist}
+          aria-label="Toggle wishlist"
+          className="
+            absolute
+            right-3
+            top-3
+            flex
+            h-9
+            w-9
+            items-center
+            justify-center
+            rounded-full
+            bg-white/95
+            shadow-sm
+            transition-all
+            duration-200
+            hover:scale-105
+          "
         >
           <Heart
-            className={`w-4 h-4 ${
-              isWishlisted ? 'fill-[#1A1A1A] text-[#1A1A1A]' : 'text-[#1A1A1A]/60'
+            className={`h-[17px] w-[17px] ${
+              isWishlisted
+                ? 'fill-amber-700 text-amber-700'
+                : 'text-neutral-700'
             }`}
           />
         </button>
       </div>
 
-      {/* Details */}
-      <div className="p-4 flex flex-col flex-grow justify-between">
-        <div>
-          {categoryName && (
-            <span className="text-[11px] font-medium tracking-widest text-neutral-400 uppercase block mb-1">
-              {categoryName}
-            </span>
-          )}
+      {/* CONTENT */}
+      <div className="px-4 pb-4 pt-4">
 
-          <Link
-            to={`/product/${product.id}`}
-            className="text-sm font-medium text-[#1A1A1A] hover:underline line-clamp-1 mb-2 block"
-          >
-            {product.title}
-          </Link>
-
-          <p className="text-sm font-semibold text-[#1A1A1A]">
-            ${product.price.toFixed(2)}
+        {/* Category */}
+        {categoryName && (
+          <p className="mb-1.5 text-center text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-400">
+            {categoryName}
           </p>
-        </div>
+        )}
 
-        {/* Action Buttons */}
+        {/* Product Name */}
+        <Link
+          to={`/product/${product.id}`}
+          className="
+            block
+            text-center
+            font-serif
+            text-[17px]
+            font-medium
+            leading-6
+            text-neutral-900
+            transition-colors
+            hover:text-amber-700
+          "
+        >
+          {product.title}
+        </Link>
+
+        {/* Price */}
+       <div className="mt-2 flex items-baseline justify-center gap-2">
+  <span className="text-[11px] uppercase tracking-widest text-neutral-400">
+    Price
+  </span>
+
+  <span className="font-serif text-lg font-semibold text-neutral-900">
+    Rs. {product.price.toFixed(2)}
+  </span>
+</div>
+
+
+        {/* Actions */}
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <button
-  disabled={isPending}
-  onClick={() => {
-    console.log("Add to cart clicked", product);
-    handleAddToCart({ product, quantity: 1 });
-  }}
-  className="w-full cursor-pointer py-2.5 bg-neutral-100 text-[#1A1A1A] text-xs font-medium tracking-wide rounded hover:bg-neutral-200 transition-colors disabled:opacity-50"
->
-  Add to Cart
-</button>
 
           <button
+            type="button"
+            disabled={isPending}
+            onClick={() =>
+              handleAddToCart({
+                product,
+                quantity: 1,
+              })
+            }
+            className="
+              h-10
+              rounded-lg
+              border
+              border-neutral-200
+              bg-white
+              px-2
+              text-[11px]
+              font-semibold
+              tracking-wide
+              text-neutral-800
+              transition-colors
+              hover:border-neutral-900
+              hover:bg-neutral-900
+              hover:text-white
+              disabled:opacity-50
+            "
+          >
+            {isPending ? 'Adding...' : 'Add to Cart'}
+          </button>
+
+          <button
+            type="button"
             disabled={isPending}
             onClick={handleBuyNow}
-            className="w-full py-2.5 cursor-pointer bg-[#1A1A1A] text-white text-xs font-medium tracking-wide rounded hover:bg-neutral-800 transition-colors disabled:opacity-50"
+            className="
+              h-10
+              rounded-lg
+              bg-amber-700
+              px-2
+              text-[11px]
+              font-semibold
+              tracking-wide
+              text-white
+              transition-colors
+              hover:bg-amber-800
+              disabled:opacity-50
+            "
           >
             Buy Now
           </button>
+
         </div>
       </div>
-    </div>
-  );
-};
+    </article>
+  )
+}

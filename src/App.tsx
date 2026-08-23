@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AdminApp } from "./admin/routes/AdminApp";
 import { HomePage } from "./client/pages/HomePage";
-import { ShopPage } from "./client/pages/ShopPage";
-import { ProductDetailPage } from "./client/pages/ProductDetailPage";
+import { ShopPage } from "./client/feature/shop/pages/ShopPage";
+import { ProductDetailPage } from "./features/product/pages/ProductDetailPage";
 import { CartPage } from "./client/pages/CartPage";
 import { CollectionPage } from "./client/pages/CollectionPage";
 import { WishlistPage } from "./client/pages/WishlistPage";

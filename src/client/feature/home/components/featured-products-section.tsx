@@ -1,5 +1,5 @@
 import { useScrollReveal } from "../hooks/use-scroll-reveal";
-import { ShopPage } from "@/client/pages/ShopPage";
+import { ShopPage } from "@/client/feature/shop/pages/ShopPage";
 
 export function FeaturedProductsSection() {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.1 });

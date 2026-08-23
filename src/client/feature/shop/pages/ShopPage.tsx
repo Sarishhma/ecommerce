@@ -1,16 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { X } from 'lucide-react';
 
-import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../../home/hooks/use-scroll-reveal';
 import { ProductCard } from '@/components/common/ProductCard';
 
 
-import { CategoryFilterBar } from '../feature/shop/components/CategoryFilterBar';
+import { CategoryFilterBar } from '../components/CategoryFilterBar';
 import {
   SortControl,
   type SortOption,
-} from '../feature/shop/components/SortControl';
-import { EmptyState } from '../feature/shop/components/EmptyState';
+} from '../components/SortControl';
+import { EmptyState } from '../components/EmptyState';
 import { useGetProducts } from '@/features/product/hook/useProduct';
 import { useGetCategories } from '@/features/category/hooks/useCategories';
 
@@ -62,9 +62,9 @@ export const ShopPage = () => {
   };
 
   return (
-    <div className="pt-28 pb-20 lg:pt-36 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div className="pb-20 lg:pt-12 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Filter Bar */}
-      <div className="mb-12 mt-10">
+      <div className="mb-12 ">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200/60 pb-6">
 
           {/* Category Filter */}

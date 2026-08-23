@@ -35,7 +35,7 @@ export const productService = {
 
   // GET: Single product detail
   getProductById: async (id: number): Promise<Product> => {
-    const response = await api.get<Product>(`/product-list/v2/${id}/`)
+    const response = await api.get<Product>(`/product-detail/${id}`)
     return response.data
   },
 

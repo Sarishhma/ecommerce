@@ -1,30 +1,39 @@
-import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import { Navigation } from './Navigation';
-import { FooterSection } from '@/client/feature/home/components/footer-section';
-// Assuming FooterSection exists or we will create a placeholder. 
-// For now, I'll import from a likely location or create a simple fallback.
-// Since the prompt says "The FooterSection component at bottom", I assume it exists somewhere like `@/components/layout/FooterSection` or `@/features/home/components/FooterSection`
+import { useEffect } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
+import { Navigation } from './Navigation'
+import { FooterSection } from '@/client/feature/home/components/footer-section'
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant',
+    })
+  }, [pathname])
 
-  return null;
-};
+  return null
+}
 
 export const Layout = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-ivory font-body text-charcoal">
+    <div className="flex min-h-screen flex-col bg-ivory font-body text-charcoal">
       <ScrollToTop />
+
       <Navigation />
-      <main className="flex-grow flex flex-col">
+
+      <main className="flex flex-1 flex-col pt-24 sm:pt-28">
         <Outlet />
       </main>
-      {FooterSection ? <FooterSection /> : <footer className="bg-charcoal text-white py-12 text-center">Crystal Clan Footer Placeholder</footer>}
+
+      {FooterSection ? (
+        <FooterSection />
+      ) : (
+        <footer className="bg-charcoal py-12 text-center text-white">
+          Crystal Clan Footer Placeholder
+        </footer>
+      )}
     </div>
-  );
-};
+  )
+}
