@@ -59,9 +59,9 @@ export const AdminProductForm = ({
       setCostPrice(String(product.cost_price ?? ''))
       setUnit(product.unit || 'pcs')
       setBarcode(product.barcode ?? '')
-      setCategory(product.category ? String(product.category) : '')
-      setOpeningCount(String(product.opening_count ?? 0))
-      setMinimumStock(String(product.minimum_stock ?? 10))
+      setCategory(product.category_id!==null && product.category_id !=undefined ? String(product.category_id) : '')
+      // setOpeningCount(String(product.opening_count ?? 0))
+      // setMinimumStock(String(product.minimum_stock ?? 10))
       setIsTaxable(product.is_taxable ?? true)
       setImagePreview(product.image || null)
       setImageFile(null)
@@ -73,8 +73,8 @@ export const AdminProductForm = ({
       setUnit('pcs')
       setBarcode('')
       setCategory('')
-      setOpeningCount('0')
-      setMinimumStock('10')
+      // setOpeningCount('0')
+      // setMinimumStock('10')
       setIsTaxable(true)
       if (imagePreview && imagePreview.startsWith('blob:')) {
         URL.revokeObjectURL(imagePreview)
@@ -109,8 +109,8 @@ export const AdminProductForm = ({
       unit: unit.trim() || 'pcs',
       barcode: barcode.trim() || null,
       category: category ? Number(category) : null,
-      opening_count: parseInt(openingCount, 10) || 0,
-      minimum_stock: parseInt(minimumStock, 10) || 0,
+      // opening_count: parseInt(openingCount, 10) || 0,
+      // minimum_stock: parseInt(minimumStock, 10) || 0,
       is_taxable: isTaxable,
       image: imageFile || (isEditing ? product?.image : null),
     }
@@ -299,7 +299,7 @@ export const AdminProductForm = ({
           </div>
 
           {/* Stock Counts */}
-          <div className="grid gap-4 sm:grid-cols-2">
+          {/* <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <Label htmlFor="openingCount" className="text-sm font-semibold text-slate-900">
                 Opening Stock Count
@@ -325,7 +325,7 @@ export const AdminProductForm = ({
                 className="h-10 rounded-lg border-slate-200 bg-white text-sm focus-visible:ring-2 focus-visible:ring-blue-500"
               />
             </div>
-          </div>
+          </div> */}
 
           <DialogFooter className="pt-4 border-t border-slate-200 gap-2">
             <Button

@@ -36,25 +36,25 @@ export const ShopPage = () => {
 
   const gridReveal = useScrollReveal();
 
-  const filteredProducts = useMemo(() => {
-    return products
-      .filter(
-        (product) =>
-          selectedCategory === null ||
-          product.category === selectedCategory
-      )
-      .sort((a, b) => {
-        if (sortBy === 'price-low') {
-          return a.price - b.price;
-        }
+ const filteredProducts = useMemo(() => {
+  return products
+    .filter(
+      (product) =>
+        selectedCategory === null ||
+        product.category_id === selectedCategory
+    )
+    .sort((a, b) => {
+      if (sortBy === 'price-low') {
+        return a.price - b.price;
+      }
 
-        if (sortBy === 'price-high') {
-          return b.price - a.price;
-        }
+      if (sortBy === 'price-high') {
+        return b.price - a.price;
+      }
 
-        return 0;
-      });
-  }, [products, selectedCategory, sortBy]);
+      return 0;
+    });
+}, [products, selectedCategory, sortBy]);
 
   const clearFilters = () => {
     setSelectedCategory(null);

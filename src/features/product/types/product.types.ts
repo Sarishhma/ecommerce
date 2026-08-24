@@ -21,6 +21,7 @@ export interface CreateProductPayload {
   ledger?: number | null
   excise_duty_applicable?: boolean
   importtax_percent?: number | string
+   
 }
 
 // 3. API Response for product creation/updates

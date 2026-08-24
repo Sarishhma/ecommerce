@@ -32,6 +32,7 @@ export interface Product {
   inStock?: boolean
   discount?: number
   originalPrice?: number
+   category_id: number | null
 }
 
 export interface Collection {

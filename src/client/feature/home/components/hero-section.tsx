@@ -34,7 +34,7 @@ export function HeroSection() {
   const horizontalPadding = scrollProgress * 48;
 
   return (
-    <section className="relative bg-[#1a1a1a] -mt-24 overflow-hidden min-h-screen">
+    <section className="relative bg-[#1a1a1a] -mt-24 sm:-mt-28 overflow-hidden min-h-screen">
       <div
         className="w-full bg-[#1a1a1a] transition-all duration-300"
         style={{
