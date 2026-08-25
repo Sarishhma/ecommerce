@@ -31,7 +31,7 @@ export const Layout = () => {
         <FooterSection />
       ) : (
         <footer className="bg-charcoal py-12 text-center text-white">
-          Crystal Clan Footer Placeholder
+         Bijeshwori mala Traders Footer Placeholder
         </footer>
       )}
     </div>

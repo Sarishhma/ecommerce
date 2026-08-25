@@ -32,7 +32,7 @@ export const StoryPage = () => {
       <div className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <div ref={textReveal.ref as React.RefObject<HTMLDivElement | null>} className="prose prose-lg lg:prose-xl prose-stone mx-auto">
           <p className="font-display text-2xl lg:text-3xl text-charcoal leading-relaxed text-center mb-12">
-            "Crystal Clan was born from a deep appreciation for the hands that mold the earth and the stories woven into every thread."
+            "Bijeshwori mala Traders was born from a deep appreciation for the hands that mold the earth and the stories woven into every thread."
           </p>
           <p>
             Our journey began in the vibrant markets of Southeast Asia, where centuries-old techniques are passed down through generations. We saw incredible talent, but also the struggles of rural artisans trying to reach a wider audience in a rapidly changing world.
@@ -73,7 +73,7 @@ export const StoryPage = () => {
       <div className="py-20 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="font-display text-4xl lg:text-5xl font-bold text-charcoal mb-6">The Journey of Creation</h2>
-          <p className="text-lg text-stone max-w-2xl mx-auto">Discover the meticulous process behind every Crystal Clan piece.</p>
+          <p className="text-lg text-stone max-w-2xl mx-auto">Discover the meticulous process behind every Bijeshwori mala Traders piece.</p>
         </div>
 
         <div ref={stepsReveal.ref as React.RefObject<HTMLDivElement | null>} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

@@ -46,7 +46,7 @@ export const AdminLayout = () => {
   }
 
   const displayName = user?.full_name || user?.username || 'Admin User'
-  const displayEmail = user?.email || 'admin@crystalclan.com'
+  const displayEmail = user?.email || 'admin@Bijeshwori.com'
   const displayRole = user?.roles|| 'Administrator'
 
   return (
@@ -67,7 +67,7 @@ export const AdminLayout = () => {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <h1 className="text-lg font-semibold text-slate-900 hidden sm:block">
-                  Crystal Clan Admin
+                 Bijeshwori mala Traders Admin
                 </h1>
                 <Sparkles className="h-3.5 w-3.5 text-blue-500/60 hidden sm:block" />
               </div>

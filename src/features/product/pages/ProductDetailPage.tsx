@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowLeft, PackageX } from 'lucide-react'
+import { ChevronLeft, PackageX } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import {
@@ -15,12 +15,8 @@ import {
 import { useScrollReveal } from '../../../client/feature/home/hooks/use-scroll-reveal'
 import { PLACEHOLDER_IMAGE } from '@/lib/product-image'
 
-import {
-  useAppSelector,
-
-} from '@/redux'
+import { useAppSelector } from '@/redux'
 import { selectIsAuthenticated } from '@/redux/slices/authSlice'
-
 
 export const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -31,14 +27,11 @@ export const ProductDetailPage = () => {
   const productId = id ? Number(id) : undefined
 
   const { data: product, isLoading } = useProduct(productId)
-  const { data: fetchedRelated = [] } = useRelatedProducts(product)
+  const { data: relatedProducts = [] } = useRelatedProducts(product)
 
   const addToCartMutation = useAddToCart()
 
-  const {
-    isWishlisted,
-    toggle: toggleWishlist,
-  } = useWishlist(productId ?? -1)
+  const { isWishlisted, toggle: toggleWishlist } = useWishlist(productId ?? -1)
 
   const [quantity, setQuantity] = useState(1)
 
@@ -46,63 +39,21 @@ export const ProductDetailPage = () => {
   const relatedReveal = useScrollReveal()
 
   const handleBuyNow = () => {
-  if (!product) return
+    if (!product) return
 
-  const checkoutData = {
-    type: 'buyNow' as const,
-    product,
-    quantity,
+    const checkoutData = {
+      type: 'buyNow' as const,
+      product,
+      quantity,
+    }
+
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: '/checkout', checkoutData } })
+      return
+    }
+
+    navigate('/checkout', { state: { checkoutData } })
   }
-
-  if (!isAuthenticated) {
-    navigate('/login', {
-      state: {
-        from: '/checkout',
-        checkoutData,
-      },
-    })
-
-    return
-  }
-
-  navigate('/checkout', {
-    state: {
-      checkoutData,
-    },
-  })
-}
-
-
-
-  const relatedProducts =
-    fetchedRelated.length > 0
-      ? fetchedRelated
-      : [
-          {
-            id: '101',
-            title: 'Handcrafted Ceramic Bowl',
-            price: 24.0,
-            image: PLACEHOLDER_IMAGE,
-          },
-          {
-            id: '102',
-            title: 'Clay Incense Burner',
-            price: 18.5,
-            image: PLACEHOLDER_IMAGE,
-          },
-          {
-            id: '103',
-            title: 'Artisan Brass Bell',
-            price: 32.0,
-            image: PLACEHOLDER_IMAGE,
-          },
-          {
-            id: '104',
-            title: 'Traditional Prayer Flags',
-            price: 15.0,
-            image: PLACEHOLDER_IMAGE,
-          },
-        ]
 
   /* -------------------------------------------
      Loading
@@ -112,14 +63,11 @@ export const ProductDetailPage = () => {
     return (
       <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="animate-pulse">
-          {/* Breadcrumb skeleton */}
           <div className="mb-10 h-4 w-56 rounded bg-neutral-200" />
 
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
-            {/* Gallery */}
             <div>
               <div className="aspect-[4/5] w-full rounded-3xl bg-neutral-200" />
-
               <div className="mt-4 flex gap-3">
                 <div className="h-[76px] w-[76px] rounded-xl bg-neutral-200" />
                 <div className="h-[76px] w-[76px] rounded-xl bg-neutral-200" />
@@ -127,19 +75,15 @@ export const ProductDetailPage = () => {
               </div>
             </div>
 
-            {/* Details */}
             <div className="space-y-6 pt-2 lg:pt-8">
               <div className="h-4 w-32 rounded bg-neutral-200" />
               <div className="h-14 w-4/5 rounded-lg bg-neutral-200" />
               <div className="h-9 w-32 rounded bg-neutral-200" />
-
               <div className="h-px w-full bg-neutral-200" />
-
               <div className="space-y-3">
                 <div className="h-4 w-24 rounded bg-neutral-200" />
                 <div className="h-20 w-full rounded bg-neutral-200" />
               </div>
-
               <div className="h-12 w-32 rounded-xl bg-neutral-200" />
               <div className="h-14 w-full rounded-xl bg-neutral-200" />
             </div>
@@ -174,7 +118,7 @@ export const ProductDetailPage = () => {
             to="/shop"
             className="inline-flex h-12 items-center gap-2 rounded-xl bg-neutral-900 px-8 font-medium text-white shadow-sm transition-all hover:bg-neutral-800 active:scale-95"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" />
             Return to Shop
           </Link>
         </div>
@@ -187,73 +131,54 @@ export const ProductDetailPage = () => {
   ------------------------------------------- */
 
   return (
-    <div className="w-full">
-      {/* Main product section */}
+    <div className="w-full bg-white">
       <section className="mx-auto w-full max-w-7xl px-4 pb-20 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28 lg:pt-12">
-
-        {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-stone sm:mb-10">
+        {/* Breadcrumb — lightweight, not a CTA button */}
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-8 flex items-center gap-1.5 text-sm text-stone sm:mb-10"
+        >
           <Link
             to="/shop"
-            className="inline-flex h-12 items-center gap-2 rounded-xl bg-neutral-900 px-8 font-medium text-white shadow-sm transition-all hover:bg-neutral-800 active:scale-95"
+            className="inline-flex items-center gap-1 text-neutral-500 transition-colors hover:text-neutral-900"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Return to Shop
+            <ChevronLeft className="h-3.5 w-3.5" />
+            Shop
           </Link>
 
-          {/* <span className="text-neutral-300">/</span>
+          <span className="text-neutral-300">/</span>
 
-          <span className="max-w-[220px] truncate text-charcoal">
+          <span className="max-w-[220px] truncate text-neutral-800">
             {product.title}
-          </span> */}
+          </span>
         </nav>
 
-        {/* Product grid */}
         <div
           ref={contentReveal.ref as React.RefObject<HTMLDivElement | null>}
           className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20"
         >
-          {/* --------------------------------
-              Gallery
-          -------------------------------- */}
           <div className="min-w-0">
             <ProductGallery
-              images={
-                product.image
-                  ? [product.image]
-                  : [PLACEHOLDER_IMAGE]
-              }
+              images={product.image ? [product.image] : [PLACEHOLDER_IMAGE]}
               name={product.title}
             />
           </div>
 
-          {/* --------------------------------
-              Product information
-          -------------------------------- */}
           <div className="min-w-0 lg:sticky lg:top-28">
-           <ProductInfo
-  product={product}
-  quantity={quantity}
-  onQuantityChange={setQuantity}
-  onAddToCart={() =>
-    addToCartMutation.mutate({
-      product,
-      quantity,
-    })
-  }
-  onBuyNow={handleBuyNow}
-  isAddingToCart={addToCartMutation.isPending}
-  isWishlisted={isWishlisted}
-  onToggleWishlist={toggleWishlist}
-/>
-
+            <ProductInfo
+              product={product}
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+              onAddToCart={() => addToCartMutation.mutate({ product, quantity })}
+              onBuyNow={handleBuyNow}
+              isAddingToCart={addToCartMutation.isPending}
+              isWishlisted={isWishlisted}
+              onToggleWishlist={toggleWishlist}
+            />
           </div>
         </div>
       </section>
 
-      {/* --------------------------------
-          Related products
-      -------------------------------- */}
       <section
         ref={relatedReveal.ref as React.RefObject<HTMLElement | null>}
         className="border-t border-neutral-200/80 bg-white"

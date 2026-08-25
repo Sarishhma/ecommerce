@@ -1,4 +1,4 @@
-import { Heart, ShoppingBag, Zap, ShieldCheck, RefreshCw, Award } from 'lucide-react'
+import { Heart, ShoppingBag, Zap, ShieldCheck, RefreshCw, Award, Loader2 } from 'lucide-react'
 import type { Product } from '../types/product.types'
 import { QuantitySelector } from './QuantitySelector'
 
@@ -28,21 +28,19 @@ export const ProductInfo = ({
       {/* Category & Title */}
       <div className="space-y-1.5">
         <span className="text-xs font-bold tracking-widest uppercase text-amber-700/90">
-          Exclusive Collection
+          {product.category || 'Exclusive Collection'}
         </span>
         <h1 className="text-3xl sm:text-4xl font-serif tracking-tight text-neutral-900 leading-tight">
           {product.title}
         </h1>
       </div>
 
-      {/* Price & Stock Badge */}
+      {/* Price & Stock Status */}
       <div className="flex items-baseline gap-3">
         <span className="text-3xl font-semibold tracking-tight text-neutral-900">
           ${product.price.toFixed(2)}
         </span>
-        <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-          In Stock
-        </span>
+       
       </div>
 
       <div className="h-px w-full bg-neutral-200/60" />
@@ -59,56 +57,58 @@ export const ProductInfo = ({
         </div>
       )}
 
-      {/* Quantity Selector */}
-      <div className="space-y-2 pt-1">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
-          Select Quantity
-        </h2>
-        <QuantitySelector quantity={quantity} onChange={onQuantityChange} />
-      </div>
+<div className="flex items-end justify-between gap-4">
+  {/* Quantity Selector */}
+  <div className="space-y-2">
+    <h2 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+      Select Quantity
+    </h2>
+    <QuantitySelector quantity={quantity} onChange={onQuantityChange} />
+  </div>
+
+  {/* Wishlist Button */}
+  <button
+    type="button"
+    onClick={onToggleWishlist}
+    aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+    className="h-10 w-10 rounded-xl border border-neutral-200 hover:bg-neutral-50 
+      active:scale-[0.97] transition-all duration-200 flex items-center justify-center shrink-0"
+  >
+    <Heart
+      className={`w-5 h-5 transition-colors ${
+        isWishlisted ? 'fill-amber-700 text-amber-700' : 'text-neutral-700'
+      }`}
+    />
+  </button>
+</div>
+ 
 
       {/* Actions */}
-      <div className="flex flex-col gap-3 pt-2">
-   
-
-        <div className="flex items-center gap-3">
-               <button
+      <div className="flex items-center gap-3 pt-2">
+        <button
+          type="button"
           onClick={onBuyNow}
-          className="w-full h-13 bg-amber-700 text-white rounded-xl font-medium tracking-wide
+          className="flex-1 h-12 bg-amber-700 text-white rounded-xl font-medium tracking-wide
             hover:bg-amber-800 active:scale-[0.99] transition-all duration-200
             flex items-center justify-center gap-2.5 shadow-md shadow-amber-700/15"
         >
           <Zap className="w-4 h-4 fill-current" />
           <span>Buy Now</span>
         </button>
-          <button
-            onClick={onAddToCart}
-            disabled={isAddingToCart}
-            className="flex-1 h-13 px-6 bg-neutral-900 text-white rounded-xl font-medium tracking-wide
-              hover:bg-neutral-800 active:scale-[0.99] transition-all duration-200
-              flex items-center justify-center gap-2.5 shadow-md shadow-neutral-900/10
-              disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <ShoppingBag className="w-4 h-4 stroke-[2]" />
-            <span>{isAddingToCart ? 'Adding…' : ''}</span>
-          </button>
 
-          <button
-            onClick={onToggleWishlist}
-            aria-label="Add to wishlist"
-            className={`h-13 w-13 flex items-center justify-center rounded-xl border transition-all duration-200 active:scale-[0.97] ${
-              isWishlisted
-                ? 'border-rose-200 bg-rose-50 text-rose-500 shadow-sm'
-                : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300 hover:bg-neutral-50'
-            }`}
-          >
-            <Heart
-              className={`w-5 h-5 transition-colors ${
-                isWishlisted ? 'fill-rose-500 stroke-rose-500' : 'stroke-[1.75]'
-              }`}
-            />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={onAddToCart}
+          disabled={isAddingToCart}
+          aria-label="Add to cart"
+           className="p-3 bg-terracotta text-white rounded-full hover:bg-charcoal transition-colors shadow-sm flex items-center justify-center disabled:opacity-60"
+        >
+          {isAddingToCart ? (
+            <Loader2 className="w-5 h-5 animate-spin text-white" />
+          ) : (
+            <ShoppingBag className="w-5 h-5" />
+          )}
+        </button>   
       </div>
 
       {/* Trust Badges */}

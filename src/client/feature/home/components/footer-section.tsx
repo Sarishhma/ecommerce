@@ -16,7 +16,7 @@ export function FooterSection({ footerColumns = mockColumns }: { footerColumns?:
             }`}
           >
             <Link to="/" className="font-display text-3xl text-[#b8860b]  block mb-6">
-              Crystal Clan
+             Bijeshwori mala Traders
             </Link>
             <p className="text-[#b8860b]  leading-relaxed mb-6 max-w-sm text-sm">
               Authentic Nepalese craftsmanship, handmade by skilled artisans and
@@ -70,7 +70,7 @@ export function FooterSection({ footerColumns = mockColumns }: { footerColumns?:
       <div className="border-t border-stone/20">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-walnut/50">
-            © {new Date().getFullYear()} Crystal Clan. Handmade in Nepal. All
+            © {new Date().getFullYear()} Bijeshwori mala Traders. Handmade in Nepal. All
             rights reserved.
           </p>
           <div className="flex items-center gap-6">

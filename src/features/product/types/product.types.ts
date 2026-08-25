@@ -38,6 +38,7 @@ export interface PaginatedResponse<T> {
 export type ProductListResponse = PaginatedResponse<Product>
 
 export interface GetProductsParams {
+    category?: number | string
   page?: number
   search?: string
 }

@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 export const AdminSettings = () => {
   const [settings, setSettings] = useState({
-    storeName: 'Crystal Clan',
-    email: 'admin@crystalclan.com',
-    phone: '+1-800-CRYSTAL',
+    storeName: 'Bijeshwori mala Traders',
+    email: 'admin@Bijeshwori.com',
+    phone: '+1-800-Bijeshwori',
     address: '123 Artisan Street, Craftville, CA 90210',
     taxRate: 8.5,
     shippingCost: 9.99,

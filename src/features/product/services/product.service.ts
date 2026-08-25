@@ -57,4 +57,14 @@ export const productService = {
   deleteProduct: async (id: number): Promise<void> => {
     await api.delete(`/product-delete/v2/${id}/`)
   },
+
+getRelated: async (product: Product, limit = 4): Promise<Product[]> => {
+  const { data } = await api.get<ProductListResponse>("/product-list/", {
+    params: { category: product.category_id },
+  })
+
+  return data.results
+    .filter((p) => p.id !== product.id)
+    .slice(0, limit)
+}
 }

@@ -5,7 +5,7 @@ import type { Product } from '../types/product.types'
 export const useRelatedProducts = (product: Product | null | undefined) => {
   return useQuery({
     queryKey: ['product', product?.id, 'related'],
-    queryFn: () => productService.getRelated(product as Product),
+    queryFn: () => productService.getRelated(product!),
     enabled: !!product,
   })
 }

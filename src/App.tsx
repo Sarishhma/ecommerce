@@ -7,7 +7,7 @@ import { CartPage } from "./client/pages/CartPage";
 import { CollectionPage } from "./client/pages/CollectionPage";
 import { WishlistPage } from "./client/pages/WishlistPage";
 import { AccountPage } from "./features/account/pages/AccountPage";
-import { SearchResultsPage } from "./client/pages/SearchResultsPage";
+// import { SearchResultsPage } from "./client/pages/SearchResultsPage";
 import { HelpPage } from "./client/pages/HelpPage";
 import { LoginPage } from "./auth/pages/LoginPage";
 import { SignupPage } from "./client/pages/SignupPage";
@@ -21,6 +21,7 @@ import { ProtectedRoute } from "./auth/components/routes/ProtectedRoute";
 
 import { OrderSuccessPage } from "./features/orders/pages/orderpageSuccess";
 import { CheckoutPage } from "./features/checkout/pages/checkoutPage";
+import { SearchResultsPage } from "./client/pages/SearchResultsPage";
 
 
 // Import Route Guards
