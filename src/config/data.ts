@@ -75,7 +75,7 @@ export const testimonials = [
   {
     id: 2,
     quote:
-      "I stock Bijeshwori mala Traders pieces in my boutique and customers adore them. Knowing the artisans are paid fairly makes every sale feel meaningful.",
+      "I stock Bijeshwori Mala Traders pieces in my boutique and customers adore them. Knowing the artisans are paid fairly makes every sale feel meaningful.",
     author: "Daniel Okafor",
     location: "Melbourne, Australia",
     rating: 5,

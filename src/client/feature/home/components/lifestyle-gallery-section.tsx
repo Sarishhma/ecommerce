@@ -19,7 +19,7 @@ export function LifestyleGallerySection({ images = mockImages }: { images?: any[
             }`}
           >
             <p className="text-ivory/70 text-xs uppercase tracking-[0.25em] mb-6">
-              #Bijeshwori mala Traders
+              #Bijeshwori Mala Traders
             </p>
             <h2 className="font-display text-4xl lg:text-5xl leading-tight text-balance">
               Craft that lives with you

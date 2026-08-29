@@ -1,6 +1,6 @@
-# Bijeshwori mala Traders
+# Bijeshwori Mala Traders
 
-Bijeshwori mala Traders is an e-commerce website built for a Nepal-based family
+Bijeshwori Mala Traders is an e-commerce website built for a Nepal-based family
 business that sells handcrafted goods — home décor, singing bowls,
 jewelry, wooden crafts, felt products, and traditional clothing — from
 their stores in Thamel and Boudha, Kathmandu.

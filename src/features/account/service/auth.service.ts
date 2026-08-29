@@ -1,6 +1,9 @@
+// src/auth/services/auth.service.ts
 import { jwtDecode } from 'jwt-decode'
 import api, { publicApi } from '@/lib/api'
-import type { LoginCredentials, LoginResponse, User } from '../types/auth.types'
+import type { LoginCredentials, LoginResponse } from '@/auth/types/auth.types'
+import type { SignupPayload } from '../types/auth.types'
+import type { User } from '../types/account.types'
 
 const STORAGE_KEYS = {
   ACCESS_TOKEN: 'accessToken',
@@ -15,6 +18,11 @@ interface JwtPayload {
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
     const { data } = await publicApi.post<LoginResponse>('/login/', credentials)
+    return data
+  },
+
+  createUser: async (payload: SignupPayload): Promise<User> => {
+    const { data } = await publicApi.post<User>('/users/', payload)
     return data
   },
 
@@ -52,11 +60,9 @@ export const authService = {
     try {
       const payload = jwtDecode<JwtPayload>(token)
       const currentTime = Math.floor(Date.now() / 1000)
-
       return payload.exp ? payload.exp > currentTime : true
     } catch {
       return false
     }
   },
-
 }

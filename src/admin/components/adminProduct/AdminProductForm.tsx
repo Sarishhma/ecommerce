@@ -44,8 +44,8 @@ export const AdminProductForm = ({
   const [unit, setUnit] = useState('pcs')
   const [barcode, setBarcode] = useState('')
   const [category, setCategory] = useState<string>('')
-  const [openingCount, setOpeningCount] = useState('0')
-  const [minimumStock, setMinimumStock] = useState('10')
+  // const [openingCount, setOpeningCount] = useState('0')
+  // const [minimumStock, setMinimumStock] = useState('10')
   const [isTaxable, setIsTaxable] = useState(true)
 
   const [imageFile, setImageFile] = useState<File | null>(null)

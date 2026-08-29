@@ -58,7 +58,7 @@
         },
         {
           question: 'Do you have information about the artisans?',
-          answer: 'Yes! We celebrate our artisan partners. Many product pages include stories about the creators. Visit our Story page to learn more about Bijeshwori mala Traders&apos;s mission to support Himalayan communities.'
+          answer: 'Yes! We celebrate our artisan partners. Many product pages include stories about the creators. Visit our Story page to learn more about Bijeshwori Mala Traders mission to support Himalayan communities.'
         },
         {
           question: 'Are your products sustainable?',
@@ -111,12 +111,12 @@
 
         {/* Contact Options */}
         <div ref={contentReveal.ref as React.RefObject<HTMLDivElement | null>} className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
-          <a href="mailto:support@Bijeshwori mala Traders.com" className="p-6 bg-white rounded-2xl border border-sand/50 shadow-sm hover:shadow-md transition-shadow text-center hover:border-terracotta/50">
+          <a href="mailto:support@Bijeshwori Mala Traders.com" className="p-6 bg-white rounded-2xl border border-sand/50 shadow-sm hover:shadow-md transition-shadow text-center hover:border-terracotta/50">
             <div className="w-12 h-12 bg-terracotta/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Mail className="w-6 h-6 text-terracotta" />
             </div>
             <h3 className="font-medium text-charcoal mb-2">Email Us</h3>
-            <p className="text-sm text-stone mb-3">support@Bijeshwori mala Traders.com</p>
+            <p className="text-sm text-stone mb-3">support@Bijeshwori Mala Traders.com</p>
             <p className="text-xs text-stone">Response time: Usually within 24 hours</p>
           </a>
 

@@ -10,7 +10,7 @@ import { AccountPage } from "./features/account/pages/AccountPage";
 // import { SearchResultsPage } from "./client/pages/SearchResultsPage";
 import { HelpPage } from "./client/pages/HelpPage";
 import { LoginPage } from "./auth/pages/LoginPage";
-import { SignupPage } from "./client/pages/SignupPage";
+import { SignupPage } from "./features/account/pages/SignupPage";
 import { ContactPage } from "./client/pages/ContactPage";
 import { SalePage } from "./client/pages/SalePage";
 import { TrackOrderPage } from "./features/orders/pages/TrackOrderPage";
@@ -29,7 +29,7 @@ import { SearchResultsPage } from "./client/pages/SearchResultsPage";
 export default function App() {
   return (
     <Routes>
-      <Route element={<ProtectedRoute/>}>
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
                {/* Admin Routes */}
          <Route path="/admin/*" element={<AdminApp />} />
       </Route>

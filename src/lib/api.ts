@@ -17,9 +17,16 @@ const api = axios.create({
 // Request Interceptor
 // ==============================
 
+// Endpoints that should never send an Authorization header
+const PUBLIC_ENDPOINTS = ['/login/', '/users/']
+
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const isPublic = PUBLIC_ENDPOINTS.some((ep) => config.url?.includes(ep))
   const token = authService.getAccessToken()
-  if (token) config.headers.Authorization = `Bearer ${token}`
+
+  if (token && !isPublic) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
 
   // Remove Content-Type for FormData so Axios sets the boundary automatically
   if (config.data instanceof FormData) {
@@ -41,16 +48,35 @@ api.interceptors.response.use(
     return response
   },
   (error) => {
-    if (error.response?.status === 401) {
+    const url = error.config?.url ?? ''
+    const isPublic = PUBLIC_ENDPOINTS.some((ep) => url.includes(ep))
+
+    if (error.response?.status === 401 && !isPublic) {
       authService.clearTokens()
 
-      if (window.location.pathname !== "/login") {
-        window.location.href = "/login"
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
       }
     }
 
     return Promise.reject(error)
   }
 )
+
+// ==============================
+// Public API (no auth headers)
+// Used for registration and login — never sends a Bearer token.
+// ==============================
+export const publicApi = axios.create({
+  baseURL: BASE_URL,
+  timeout: 10000,
+})
+
+if (import.meta.env.DEV) {
+  publicApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    console.log("📤 [public]", config.method?.toUpperCase(), `${config.baseURL}${config.url}`)
+    return config
+  })
+}
 
 export default api

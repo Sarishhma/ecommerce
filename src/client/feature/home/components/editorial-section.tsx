@@ -81,7 +81,7 @@ export function EditorialSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
-              Bijeshwori mala Traders began with a simple promise—to carry the work of
+              Bijeshwori Mala Traders began with a simple promise—to carry the work of
               Nepalese makers to the world without losing what makes it special.
               We partner with family workshops and cooperatives, honoring
               time-worn techniques while helping artisans build sustainable

@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 export const AdminSettings = () => {
   const [settings, setSettings] = useState({
-    storeName: 'Bijeshwori mala Traders',
+    storeName: 'Bijeshwori Mala Traders',
     email: 'admin@Bijeshwori.com',
     phone: '+1-800-Bijeshwori',
     address: '123 Artisan Street, Craftville, CA 90210',

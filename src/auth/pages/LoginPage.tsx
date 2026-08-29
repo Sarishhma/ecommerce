@@ -23,7 +23,7 @@ export const LoginPage: React.FC = () => {
               Sign In
             </h1>
             <p className="text-sm text-stone">
-              Access your Bijeshwori mala Traders account
+              Access your Bijeshwori Mala Traders account
             </p>
           </div>
 

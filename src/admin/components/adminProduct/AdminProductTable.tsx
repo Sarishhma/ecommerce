@@ -29,22 +29,21 @@ interface AdminProductTableProps {
   onDelete: (product: Product) => void;
 }
 
-const formatCurrency = (value: number | undefined) =>
-  new Intl.NumberFormat(undefined, {
+const formatCurrency = (value: number | undefined) => {
+  if (value === undefined || value === null) return "—";
+  return new Intl.NumberFormat(undefined, {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
-  }).format(value ?? 0);
+  }).format(value);
+};
 
-export const AdminProductTable: React.FC<
-  AdminProductTableProps
-> = ({
+export const AdminProductTable: React.FC<AdminProductTableProps> = ({
   products,
   isLoading,
   onEdit,
   onDelete,
 }) => {
-
   if (isLoading) {
     return (
       <div className="space-y-2 p-5">
@@ -72,7 +71,6 @@ export const AdminProductTable: React.FC<
   if (products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100">
           <PackageOpen className="h-6 w-6 text-gray-400" />
         </div>
@@ -84,7 +82,6 @@ export const AdminProductTable: React.FC<
         <p className="mt-1 max-w-xs text-sm text-gray-400">
           Try changing your search or add a new product.
         </p>
-
       </div>
     );
   }
@@ -92,10 +89,8 @@ export const AdminProductTable: React.FC<
   return (
     <div className="overflow-x-auto">
       <Table className="w-full">
-
         <TableHeader>
           <TableRow className="border-b border-gray-100 bg-gray-50/70">
-
             <TableHead className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
               Product
             </TableHead>
@@ -117,54 +112,33 @@ export const AdminProductTable: React.FC<
             </TableHead>
 
             <TableHead className="py-4 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
-              Stock
-            </TableHead>
-
-            <TableHead className="py-4 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
-              Min
-            </TableHead>
-
-            <TableHead className="py-4 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
               Unit
             </TableHead>
 
             <TableHead className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wide text-gray-500">
               Actions
             </TableHead>
-
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {products.map((product) => {
-
-            // FIX: optional values
-            const openingStock =
-              product.opening_count ?? 0;
-
-            const minimumStock =
-              product.minimum_stock ?? 0;
-
-            const lowStock =
-              openingStock <= minimumStock;
+            const title = product.title?.trim() || "Untitled product";
+            const unit = product.unit?.trim();
 
             return (
               <TableRow
                 key={product.id}
                 className="group border-b border-gray-50 transition hover:bg-gray-50/70"
               >
-
                 {/* Product */}
                 <TableCell className="px-6 py-4">
-
                   <div className="flex items-center gap-3">
-
                     <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
-
                       {product.image ? (
                         <img
                           src={product.image}
-                          alt={product.title}
+                          alt={title}
                           className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
                         />
                       ) : (
@@ -172,26 +146,22 @@ export const AdminProductTable: React.FC<
                           <ImageIcon className="h-4 w-4 text-gray-400" />
                         </div>
                       )}
-
                     </div>
 
                     <div className="min-w-0">
                       <p className="max-w-[200px] truncate font-medium text-gray-900">
-                        {product.title}
+                        {title}
                       </p>
 
                       <p className="mt-0.5 text-xs text-gray-400">
                         #{product.id}
                       </p>
                     </div>
-
                   </div>
-
                 </TableCell>
 
                 {/* Category */}
                 <TableCell>
-
                   {product.category ? (
                     <Badge
                       variant="outline"
@@ -200,32 +170,22 @@ export const AdminProductTable: React.FC<
                       {product.category}
                     </Badge>
                   ) : (
-                    <span className="text-xs text-gray-400">
-                      —
-                    </span>
+                    <span className="text-xs text-gray-400">—</span>
                   )}
-
                 </TableCell>
 
                 {/* SKU */}
                 <TableCell>
-
                   {product.barcode ? (
                     <div className="flex items-center gap-1.5 font-mono text-xs text-gray-500">
-
                       <Barcode className="h-3.5 w-3.5 text-gray-400" />
-
                       <span className="max-w-[120px] truncate">
                         {product.barcode}
                       </span>
-
                     </div>
                   ) : (
-                    <span className="text-xs text-gray-400">
-                      —
-                    </span>
+                    <span className="text-xs text-gray-400">—</span>
                   )}
-
                 </TableCell>
 
                 {/* Cost */}
@@ -238,43 +198,23 @@ export const AdminProductTable: React.FC<
                   {formatCurrency(product.price)}
                 </TableCell>
 
-                {/* Opening stock */}
-                <TableCell className="text-center">
-
-                  <span
-                    className={`font-mono text-xs font-semibold ${
-                      lowStock
-                        ? "text-amber-600"
-                        : "text-gray-800"
-                    }`}
-                  >
-                    {openingStock}
-                  </span>
-
-                </TableCell>
-
-                {/* Minimum stock */}
-                <TableCell className="text-center font-mono text-xs text-gray-500">
-                  {minimumStock}
-                </TableCell>
-
                 {/* Unit */}
                 <TableCell className="text-center">
-
-                  <Badge
-                    variant="outline"
-                    className="rounded-md border-gray-200 bg-gray-50 font-mono text-[11px] font-normal uppercase text-gray-600"
-                  >
-                    {product.unit}
-                  </Badge>
-
+                  {unit ? (
+                    <Badge
+                      variant="outline"
+                      className="rounded-md border-gray-200 bg-gray-50 font-mono text-[11px] font-normal uppercase text-gray-600"
+                    >
+                      {unit}
+                    </Badge>
+                  ) : (
+                    <span className="text-xs text-gray-400">—</span>
+                  )}
                 </TableCell>
 
                 {/* Actions */}
                 <TableCell className="px-6 text-right">
-
                   <div className="flex items-center justify-end gap-1">
-
                     <Button
                       variant="ghost"
                       size="icon"
@@ -292,16 +232,12 @@ export const AdminProductTable: React.FC<
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
-
                   </div>
-
                 </TableCell>
-
               </TableRow>
             );
           })}
         </TableBody>
-
       </Table>
     </div>
   );

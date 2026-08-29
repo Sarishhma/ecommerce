@@ -70,7 +70,7 @@ export const AdminSidebar = ({ isOpen, setIsOpen }: AdminSidebarProps) => {
           </div>
           {isOpen && (
             <span className="font-bold text-lg text-foreground">
-              Bijeshwori mala Traders
+              Bijeshwori Mala Traders
               <span className="ml-1 text-xs text-muted-foreground font-normal">Admin</span>
             </span>
           )}
@@ -127,7 +127,7 @@ export const AdminSidebar = ({ isOpen, setIsOpen }: AdminSidebarProps) => {
         {isOpen ? (
           <div className="flex items-center justify-between">
             <p className="text-xs text-muted-foreground">
-              © 2025 Bijeshwori mala Traders
+              © 2025 Bijeshwori Mala Traders
             </p>
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
           </div>

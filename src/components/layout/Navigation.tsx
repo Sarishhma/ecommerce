@@ -25,7 +25,7 @@ export const Navigation = () => {
   const user = useAppSelector(selectUser);
   const canAccessAdmin =
   Array.isArray(user?.roles) &&
-  (user.roles.includes('admin') || user.roles.includes('agent'));
+  (user.roles.includes('admin'));
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -101,7 +101,7 @@ useEffect(() => {
               to="/"
               className={`font-serif font-light text-xl tracking-[0.15em] transition-colors whitespace-nowrap ${logoColor}`}
             >
-              CRYSTAL CLAN
+             Bijeshwori Mala Traders
             </Link>
 
             {/* Central Search Bar */}
