@@ -1,0 +1,8 @@
+export{ useWishlist } from './hook/useWishList'
+export { RelatedProducts } from './component/RelatedProduct'
+export { useProduct } from './hook/useProduct'
+export { useAddToCart } from './hook/useAddToCart'
+export { ProductGallery } from './component/ProductGallery'
+export { ProductInfo } from './component/ProductInfo'
+export {useRelatedProducts} from './hook/useRelatedProduct'
+export type { Product } from './types/product.types'
