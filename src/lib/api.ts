@@ -18,7 +18,7 @@ const api = axios.create({
 // ==============================
 
 // Endpoints that should never send an Authorization header
-const PUBLIC_ENDPOINTS = ['/login/', '/users/']
+const PUBLIC_ENDPOINTS = ['/login/', '/users/register/'] // whatever the real public route actually is
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const isPublic = PUBLIC_ENDPOINTS.some((ep) => config.url?.includes(ep))

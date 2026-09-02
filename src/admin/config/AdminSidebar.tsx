@@ -24,6 +24,7 @@ const menuItems = [
   { path: '/admin/products', icon: Package, label: 'Products' },
    { path: '/admin/categories', icon: FolderTree, label: 'Categories' },
   { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
+   { path: '/admin/users', icon: Users, label: 'staff' },
   { path: '/admin/customers', icon: Users, label: 'Customers' },
   { path: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
   { path: '/admin/settings', icon: Settings, label: 'Settings' },

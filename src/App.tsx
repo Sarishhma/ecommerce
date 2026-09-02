@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { AdminApp } from "./admin/routes/AdminApp";
 import { HomePage } from "./client/pages/HomePage";
 import { ShopPage } from "./client/feature/shop/pages/ShopPage";
