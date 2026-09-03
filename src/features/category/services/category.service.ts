@@ -3,7 +3,7 @@ import type { Category, CategoryListResponse, CreateCategoryPayload, GetCategori
 
 export const categoryService = {
   getCategories: async (params?: GetCategoriesParams): Promise<CategoryListResponse> => {
-  const response = await api.get<CategoryListResponse>('/categories/', { params })
+  const response = await api.get<CategoryListResponse>('/categories', { params })
   return response.data
 },
 

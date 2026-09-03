@@ -5,18 +5,21 @@ import { CustomerAddForm } from "../components/customers/components/customerAddF
 export default function AdminCustomers() {
   const [addOpen, setAddOpen] = useState(false);
   return (
-    <div>
-  <div className="flex items-center justify-between mb-4">
-  <h1 className="text-lg font-medium text-slate-900">Customers</h1>
-  <button
-    onClick={() => setAddOpen(true)}
-    className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700 transition-colors"
-  >
-    Add customer
-  </button>
-</div>
-<CustomerList />
-<CustomerAddForm open={addOpen} onClose={() => setAddOpen(false)} />
-  </div>
-  )
+    <div className="animate-fade-in pb-10">
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-stone font-semibold mb-1">Management</p>
+          <h1 className="text-3xl font-display text-charcoal">Customers</h1>
+        </div>
+        <button
+          onClick={() => setAddOpen(true)}
+          className="rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-ivory hover:bg-copper transition-colors shadow-sm"
+        >
+          Add Customer
+        </button>
+      </div>
+      <CustomerList />
+      <CustomerAddForm open={addOpen} onClose={() => setAddOpen(false)} />
+    </div>
+  );
 }

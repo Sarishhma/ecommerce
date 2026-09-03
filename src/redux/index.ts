@@ -1,8 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import authReducer from "./slices/authSlice"
 import uiReducer from "./slices/uiSlice"
 import wishlistReducer from "./slices/wishListSlice"
 import cartReducer from "./slices/cartSlice"
+import type { CartItem } from "@/types/index"
 
 // ── localStorage persistence helpers ────────────────────────────────────────
 const CART_KEY = "cc_cart"
@@ -25,22 +26,31 @@ function saveToStorage<T>(key: string, value: T) {
   }
 }
 
+const rootReducer = combineReducers({
+  cart: cartReducer,
+  wishlist: wishlistReducer,
+  ui: uiReducer,
+  auth: authReducer,
+})
+
+export type RootState = ReturnType<typeof rootReducer>
+
 // Rehydrate cart and wishlist from localStorage before store creation
 const preloadedCart = loadFromStorage<{ items: CartItem[]; isCartOpen: boolean }>(CART_KEY)
 const preloadedWishlist = loadFromStorage<{ ids: (number | string)[] }>(WISHLIST_KEY)
 
+const preloadedState: Partial<RootState> = {}
+
+if (preloadedCart) {
+  preloadedState.cart = { ...preloadedCart, isCartOpen: false }
+}
+if (preloadedWishlist) {
+  preloadedState.wishlist = preloadedWishlist
+}
+
 export const store = configureStore({
-  reducer: {
-    cart: cartReducer,
-    wishlist: wishlistReducer,
-    ui: uiReducer,
-    auth: authReducer,
-  },
-  preloadedState: {
-    // Always start with cart drawer closed, but keep saved items
-    ...(preloadedCart ? { cart: { ...preloadedCart, isCartOpen: false } } : {}),
-    ...(preloadedWishlist ? { wishlist: preloadedWishlist } : {}),
-  },
+  reducer: rootReducer,
+  preloadedState,
 })
 
 // Subscribe to store changes and persist cart + wishlist on every update
@@ -51,7 +61,7 @@ store.subscribe(() => {
 })
 
 
-export type RootState = ReturnType<typeof store.getState>
+
 export type AppDispatch = typeof store.dispatch
 
 export { useAppDispatch, useAppSelector } from "./hooks"

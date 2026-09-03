@@ -10,9 +10,20 @@ import { useGetCategories } from '@/features/category/hooks/useCategories';
 interface SearchBarProps {
   isHomePage?: boolean;
   isScrolled?: boolean;
+  className?: string;
+  inputClassName?: string;
+  autoFocus?: boolean;
+  onClose?: () => void;
 }
 
-export const SearchBar = ({ isHomePage = false, isScrolled = false }: SearchBarProps) => {
+export const SearchBar = ({
+  isHomePage = false,
+  isScrolled = false,
+  className = '',
+  inputClassName = '',
+  autoFocus = false,
+  onClose,
+}: SearchBarProps) => {
   const isTransparent = isHomePage && !isScrolled;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -34,14 +45,14 @@ export const SearchBar = ({ isHomePage = false, isScrolled = false }: SearchBarP
   );
 
   // 2. Check if the query matches a category name
-const { data: categoriesResponse } = useGetCategories();
-const categories = categoriesResponse?.results ?? [];
+  const { data: categoriesResponse } = useGetCategories();
+  const categories = categoriesResponse?.results ?? [];
 
-const matchedCategory = debouncedQuery
-  ? categories.find((c) =>
-      c.title.toLowerCase().includes(debouncedQuery.toLowerCase())
-    )
-  : undefined;
+  const matchedCategory = debouncedQuery
+    ? categories.find((c) =>
+        c.title.toLowerCase().includes(debouncedQuery.toLowerCase())
+      )
+    : undefined;
 
   // 3. If it matched a category, pull products from that category too
   const { data: categoryResults, isFetching: isFetchingCategory } = useGetProducts(
@@ -81,6 +92,7 @@ const matchedCategory = debouncedQuery
     const trimmed = query.trim();
     if (trimmed) {
       setIsOpen(false);
+      onClose?.();
       navigate(`/search?search=${encodeURIComponent(trimmed)}`);
     }
   };
@@ -91,9 +103,10 @@ const matchedCategory = debouncedQuery
   };
 
   return (
-    <div ref={containerRef} className="relative w-full">
+    <div ref={containerRef} className={`relative w-full ${className}`}>
       <form onSubmit={handleSubmit} className="relative w-full">
         <input
+          autoFocus={autoFocus}
           type="text"
           value={query}
           onChange={(e) => {
@@ -106,7 +119,7 @@ const matchedCategory = debouncedQuery
             isTransparent
               ? 'bg-white/10 text-white placeholder-white/70 border border-white/20 focus:bg-white/20 focus:border-white/40'
               : 'bg-white text-[#1a1a1a] placeholder-[#1a1a1a]/50 border border-black/10 focus:border-[#b8860b]'
-          }`}
+          } ${inputClassName}`}
         />
         <button
           type="submit"
@@ -145,6 +158,7 @@ const matchedCategory = debouncedQuery
                       onClick={() => {
                         setIsOpen(false);
                         setQuery(product.title);
+                        onClose?.();
                         navigate(`/product/${product.id}`);
                       }}
                       className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-50 transition-colors text-left"

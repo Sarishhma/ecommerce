@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, ChevronDown, Heart, User, LayoutDashboard } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronDown, Heart, User, LayoutDashboard, Search } from 'lucide-react';
 import { useAppSelector, selectCartItemCount, selectWishlistCount } from '@/redux';
 import { CATEGORIES, PRIMARY_NAV_ITEMS } from '@/config/navigation';
 import { TopBar } from '../navigation/TopBar';
@@ -12,6 +12,7 @@ import { selectUser } from '@/redux/slices/authSlice';
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const location = useLocation();
@@ -24,8 +25,8 @@ export const Navigation = () => {
 
   const user = useAppSelector(selectUser);
   const canAccessAdmin =
-  Array.isArray(user?.roles) &&
-  (user.roles.includes('admin'));
+    Array.isArray(user?.roles) &&
+    user.roles.includes('admin');
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -35,23 +36,24 @@ export const Navigation = () => {
 
   const headerRef = useRef<HTMLElement>(null);
 
-useEffect(() => {
-  const updateNavHeight = () => {
-    const height = headerRef.current?.getBoundingClientRect().bottom ?? 0;
-    document.documentElement.style.setProperty('--nav-height', `${height}px`);
-  };
+  useEffect(() => {
+    const updateNavHeight = () => {
+      const height = headerRef.current?.getBoundingClientRect().bottom ?? 0;
+      document.documentElement.style.setProperty('--nav-height', `${height}px`);
+    };
 
-  updateNavHeight();
-  window.addEventListener('scroll', updateNavHeight);
-  window.addEventListener('resize', updateNavHeight);
-  return () => {
-    window.removeEventListener('scroll', updateNavHeight);
-    window.removeEventListener('resize', updateNavHeight);
-  };
-});
+    updateNavHeight();
+    window.addEventListener('scroll', updateNavHeight);
+    window.addEventListener('resize', updateNavHeight);
+    return () => {
+      window.removeEventListener('scroll', updateNavHeight);
+      window.removeEventListener('resize', updateNavHeight);
+    };
+  });
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsMobileSearchOpen(false);
   }, [location.pathname]);
 
   const handleCategoryEnter = (categoryName: string) => {
@@ -94,70 +96,94 @@ useEffect(() => {
 
       <header ref={headerRef} className={`${navClasses} ${isHomePage && !isScrolled ? 'top-0' : 'top-8'}`}>
         {/* Tier 2: Main Header (Logo | Search Bar | Icons) */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 border-b border-black/5">
-          <div className="flex justify-between items-center gap-4">
+        <div className="container mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 border-b border-black/5">
+          <div className="flex justify-between items-center gap-2 sm:gap-4">
             {/* Logo */}
-            <Link
-              to="/"
-              className={`font-serif font-light text-xl tracking-[0.15em] transition-colors whitespace-nowrap ${logoColor}`}
-            >
-             Bijeshwori Mala Traders
-            </Link>
+            <div className="min-w-0 flex-1 sm:flex-initial">
+              <Link
+                to="/"
+                className={`font-serif font-light text-sm sm:text-base md:text-xl tracking-[0.06em] sm:tracking-[0.12em] md:tracking-[0.15em] uppercase truncate block transition-colors ${logoColor}`}
+              >
+                Bijeshwori Mala Traders
+              </Link>
+            </div>
 
-            {/* Central Search Bar */}
-            <div className="hidden md:flex flex-1 max-w-md mx-8">
-              <SearchBar />
+            {/* Central Search Bar (Desktop) */}
+            <div className="hidden md:flex flex-1 max-w-md mx-6 lg:mx-8">
+              <SearchBar isHomePage={isHomePage} isScrolled={isScrolled} />
             </div>
 
             {/* Icon Actions */}
-            <div className="flex items-center space-x-3">
-{canAccessAdmin && (
-  <Link
-    to="/admin"
-    className={`p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
-    aria-label="Admin Dashboard"
-    title="Admin Dashboard"
-  >
-    <LayoutDashboard className="w-5 h-5" />
-  </Link>
-)}
+            <div className="flex items-center space-x-1 sm:space-x-2.5 flex-shrink-0">
+              {/* Search Toggle Button for Mobile */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileSearchOpen((prev) => !prev);
+                  if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+                }}
+                className={`md:hidden p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+                aria-label="Toggle search bar"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+
+              {/* Admin Dashboard */}
+              {canAccessAdmin && (
+                <Link
+                  to="/admin"
+                  className={`hidden sm:inline-flex p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+                  aria-label="Admin Dashboard"
+                  title="Admin Dashboard"
+                >
+                  <LayoutDashboard className="w-5 h-5" />
+                </Link>
+              )}
+
+              {/* Wishlist */}
               <Link
                 to="/wishlist"
-                className={`relative p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+                className={`relative p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
                 aria-label="Wishlist"
               >
                 <Heart className="w-5 h-5" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-[#b8860b] rounded-full shadow-sm">
+                  <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center min-w-[17px] h-[17px] sm:min-w-[18px] sm:h-[18px] px-1 text-[10px] sm:text-xs font-medium text-white bg-[#b8860b] rounded-full shadow-sm">
                     {wishlistCount}
                   </span>
                 )}
               </Link>
 
+              {/* Account (Tablet / Desktop) */}
               <Link
                 to="/account"
-                className={`hidden sm:block p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+                className={`hidden sm:inline-flex p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
                 aria-label="Account"
               >
                 <User className="w-5 h-5" />
               </Link>
 
+              {/* Shopping Cart */}
               <Link
                 to="/cart"
-                className={`relative p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+                className={`relative p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
                 aria-label="Shopping Cart"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-[#b8860b] rounded-full shadow-sm">
+                  <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center min-w-[17px] h-[17px] sm:min-w-[18px] sm:h-[18px] px-1 text-[10px] sm:text-xs font-medium text-white bg-[#b8860b] rounded-full shadow-sm">
                     {cartItemCount}
                   </span>
                 )}
               </Link>
 
+              {/* Mobile Hamburger Button */}
               <button
-                className={`lg:hidden p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className={`lg:hidden p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
+                onClick={() => {
+                  setIsMobileMenuOpen((prev) => !prev);
+                  if (isMobileSearchOpen) setIsMobileSearchOpen(false);
+                }}
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -165,10 +191,17 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* Mobile Search Input (Visible only on small screens) */}
-          <div className="mt-2 md:hidden">
-            <SearchBar />
-          </div>
+          {/* Expandable Mobile Search Bar */}
+          {isMobileSearchOpen && (
+            <div className="mt-2.5 pb-1 md:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+              <SearchBar
+                isHomePage={false}
+                isScrolled={true}
+                autoFocus={true}
+                onClose={() => setIsMobileSearchOpen(false)}
+              />
+            </div>
+          )}
         </div>
 
         {/* Tier 3: Category Links Navigation */}

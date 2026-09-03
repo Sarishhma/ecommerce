@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { X, Loader2 } from "lucide-react";
+﻿import { useEffect, useState } from "react";
+import { X, Loader2, ShoppingCart } from "lucide-react";
 
 import type { OrderStatus } from "@/features/orders/types/order.types";
 
@@ -44,56 +44,39 @@ export const AdminUpdateOrderModal = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/40 backdrop-blur-sm px-4">
+      <div className="w-full max-w-md rounded-2xl bg-ivory border border-border shadow-xl">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              Update Order
-            </h2>
-
-            <p className="text-sm text-gray-400 mt-1">
-              Order #{orderId}
-            </p>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-sand">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-terracotta/10 flex items-center justify-center">
+              <ShoppingCart className="w-4 h-4 text-terracotta" />
+            </div>
+            <div>
+              <h2 className="font-display text-xl text-charcoal">Update Order</h2>
+              <p className="text-xs text-stone mt-0.5">Order #{orderId}</p>
+            </div>
           </div>
-
           <button
             onClick={onCancel}
             disabled={isUpdating}
-            className="p-2 rounded-lg hover:bg-gray-100 transition"
+            className="p-1.5 rounded-lg text-stone hover:bg-sand/60 hover:text-charcoal transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="px-6 py-6">
-
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="px-6 py-5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-stone mb-2">
             Order Status
           </label>
-
           <select
             value={status}
-            onChange={(e) =>
-              setStatus(e.target.value as OrderStatus)
-            }
+            onChange={(e) => setStatus(e.target.value as OrderStatus)}
             disabled={isUpdating}
-            className="
-              w-full
-              px-4
-              py-3
-              rounded-xl
-              border
-              border-gray-200
-              bg-white
-              text-sm
-              text-gray-800
-              outline-none
-              focus:border-gray-400
-            "
+            className="w-full px-4 py-3 rounded-xl border border-border bg-white/60 text-sm text-charcoal outline-none focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 transition-all"
           >
             {statuses.map((item) => (
               <option key={item} value={item}>
@@ -104,51 +87,22 @@ export const AdminUpdateOrderModal = ({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 px-6 py-5 border-t border-gray-100">
-
+        <div className="flex justify-end gap-3 px-6 py-5 border-t border-sand">
           <button
             onClick={onCancel}
             disabled={isUpdating}
-            className="
-              px-4
-              py-2.5
-              rounded-lg
-              text-sm
-              font-medium
-              text-gray-600
-              hover:bg-gray-100
-              transition
-            "
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-charcoal border border-border hover:bg-sand/60 transition-colors"
           >
             Cancel
           </button>
-
           <button
             onClick={() => onConfirm(status)}
             disabled={isUpdating}
-            className="
-              px-5
-              py-2.5
-              rounded-lg
-              bg-gray-900
-              text-white
-              text-sm
-              font-medium
-              hover:bg-gray-800
-              transition
-              disabled:opacity-50
-              flex
-              items-center
-              gap-2
-            "
+            className="px-5 py-2.5 rounded-xl bg-terracotta text-ivory text-sm font-semibold hover:bg-copper transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2"
           >
-            {isUpdating && (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            )}
-
+            {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
             {isUpdating ? "Updating..." : "Update Order"}
           </button>
-
         </div>
       </div>
     </div>

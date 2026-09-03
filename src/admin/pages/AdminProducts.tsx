@@ -288,28 +288,19 @@ export const AdminProducts = () => {
   =============================== */
 
   return (
-    <div className="
-      min-h-full
-      bg-white
-      
-      space-y-8
-    ">
+    <div className="min-h-full animate-fade-in space-y-6 lg:space-y-8">
 
       {/* Header */}
-
-      <AdminProductHeader
-        onAddProduct={handleAddProduct}
-      />
-
+      <AdminProductHeader onAddProduct={handleAddProduct} />
 
       {/* Main Card */}
-
       <div className="
         overflow-hidden
         rounded-2xl
         border
-        border-slate-200
-        bg-white
+        border-border/60
+        bg-ivory/80
+        backdrop-blur-md
         shadow-sm
       ">
 

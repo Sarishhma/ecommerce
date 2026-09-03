@@ -1,4 +1,5 @@
-import { TrendingUp, Package, ShoppingCart, Users, DollarSign } from 'lucide-react';
+import { TrendingUp, ArrowUpRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export const AdminDashboard = () => {
   const stats = [
@@ -6,29 +7,21 @@ export const AdminDashboard = () => {
       label: 'Total Revenue',
       value: '$24,567',
       change: '+12.5%',
-      icon: DollarSign,
-      color: 'bg-green-100 text-green-600',
     },
     {
       label: 'Total Orders',
       value: '1,234',
       change: '+8.2%',
-      icon: ShoppingCart,
-      color: 'bg-blue-100 text-blue-600',
     },
     {
       label: 'Products',
       value: '156',
       change: '+2',
-      icon: Package,
-      color: 'bg-purple-100 text-purple-600',
     },
     {
       label: 'Customers',
       value: '3,456',
       change: '+15.3%',
-      icon: Users,
-      color: 'bg-orange-100 text-orange-600',
     },
   ];
 
@@ -47,60 +40,68 @@ export const AdminDashboard = () => {
   ];
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
+    <div className="animate-fade-in pb-10">
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-stone font-semibold mb-1">Overview</p>
+          <h1 className="text-3xl font-display text-charcoal">Dashboard</h1>
+        </div>
+      </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <div key={stat.label} className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-gray-600 text-sm font-medium">{stat.label}</h3>
-                <div className={`p-3 rounded-lg ${stat.color}`}>
-                  <Icon className="w-5 h-5" />
-                </div>
-              </div>
-              <p className="text-3xl font-bold text-gray-800 mb-2">{stat.value}</p>
-              <p className="text-sm text-green-600">{stat.change} from last month</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+        {stats.map((stat) => (
+          <div key={stat.label} className="bg-ivory/80 backdrop-blur-md rounded-2xl border border-border shadow-sm p-6 relative overflow-hidden group hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xs uppercase tracking-wider font-semibold text-stone">{stat.label}</h3>
             </div>
-          );
-        })}
+            <p className="text-3xl font-display text-charcoal mb-2">{stat.value}</p>
+            <div className="flex items-center gap-1 text-emerald-600 text-xs font-medium">
+              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>{stat.change} from last month</span>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Recent Orders */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Recent Orders</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+        <div className="lg:col-span-2 bg-ivory/80 backdrop-blur-md rounded-2xl border border-border shadow-sm p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-display text-charcoal">Recent Orders</h2>
+            <button className="text-xs font-medium text-terracotta hover:text-copper transition-colors tracking-wide">
+              View All
+            </button>
+          </div>
+          <div className="overflow-x-auto custom-scrollbar -mx-6 px-6">
+            <table className="w-full text-sm min-w-[500px]">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-2 px-3 text-gray-600">Order ID</th>
-                  <th className="text-left py-2 px-3 text-gray-600">Customer</th>
-                  <th className="text-left py-2 px-3 text-gray-600">Amount</th>
-                  <th className="text-left py-2 px-3 text-gray-600">Status</th>
+                <tr className="border-b border-border/50">
+                  <th className="text-left py-3 text-[10px] uppercase tracking-wider text-stone font-semibold">Order ID</th>
+                  <th className="text-left py-3 text-[10px] uppercase tracking-wider text-stone font-semibold">Customer</th>
+                  <th className="text-left py-3 text-[10px] uppercase tracking-wider text-stone font-semibold">Amount</th>
+                  <th className="text-left py-3 text-[10px] uppercase tracking-wider text-stone font-semibold">Status</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-border/30">
                 {recentOrders.map((order) => (
-                  <tr key={order.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-3 text-gray-800 font-medium">{order.id}</td>
-                    <td className="py-3 px-3 text-gray-600">{order.customer}</td>
-                    <td className="py-3 px-3 text-gray-800 font-medium">{order.amount}</td>
-                    <td className="py-3 px-3">
+                  <tr key={order.id} className="hover:bg-sand/20 transition-colors group">
+                    <td className="py-4 text-charcoal font-medium text-sm group-hover:text-terracotta transition-colors">{order.id}</td>
+                    <td className="py-4 text-charcoal/80">{order.customer}</td>
+                    <td className="py-4 text-charcoal font-medium">{order.amount}</td>
+                    <td className="py-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        className={cn(
+                          "px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider border",
                           order.status === 'Delivered'
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                             : order.status === 'Shipped'
-                            ? 'bg-blue-100 text-blue-800'
+                            ? 'bg-blue-50 text-blue-700 border-blue-200'
                             : order.status === 'Processing'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-gray-100 text-gray-800'
-                        }`}
+                            ? 'bg-amber-50 text-amber-700 border-amber-200'
+                            : 'bg-stone-50 text-stone-700 border-stone-200'
+                        )}
                       >
                         {order.status}
                       </span>
@@ -113,16 +114,16 @@ export const AdminDashboard = () => {
         </div>
 
         {/* Top Products */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Top Products</h2>
+        <div className="bg-ivory/80 backdrop-blur-md rounded-2xl border border-border shadow-sm p-6">
+          <h2 className="text-xl font-display text-charcoal mb-6">Top Products</h2>
           <div className="space-y-4">
             {topProducts.map((product, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-800">{product.name}</p>
-                  <p className="text-xs text-gray-500">{product.sales} sales</p>
+              <div key={index} className="flex items-center justify-between p-3.5 bg-sand/30 hover:bg-sand/50 rounded-xl transition-colors border border-transparent hover:border-border/50">
+                <div className="flex-1 min-w-0 pr-4">
+                  <p className="text-sm font-medium text-charcoal truncate">{product.name}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-stone mt-1">{product.sales} sales</p>
                 </div>
-                <p className="text-sm font-bold text-gray-800">{product.revenue}</p>
+                <p className="text-sm font-semibold text-charcoal shrink-0">{product.revenue}</p>
               </div>
             ))}
           </div>
@@ -130,12 +131,12 @@ export const AdminDashboard = () => {
       </div>
 
       {/* Activity Chart Placeholder */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Sales Activity</h2>
-        <div className="h-64 bg-gradient-to-b from-gray-100 to-gray-50 rounded-lg flex items-center justify-center">
+      <div className="bg-ivory/80 backdrop-blur-md rounded-2xl border border-border shadow-sm p-6">
+        <h2 className="text-xl font-display text-charcoal mb-6">Sales Activity</h2>
+        <div className="h-72 bg-gradient-to-br from-sand/30 to-sand/10 border border-dashed border-border rounded-xl flex items-center justify-center">
           <div className="text-center">
-            <TrendingUp className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-            <p className="text-gray-500">Sales chart placeholder</p>
+            <TrendingUp className="w-10 h-10 text-stone mx-auto mb-3 opacity-50" />
+            <p className="text-sm font-medium text-stone uppercase tracking-widest">Sales chart integration pending</p>
           </div>
         </div>
       </div>

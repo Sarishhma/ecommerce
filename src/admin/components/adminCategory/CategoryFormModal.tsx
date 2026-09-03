@@ -41,25 +41,30 @@ export const CategoryFormModal: React.FC<CategoryFormModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-slate-200 dark:bg-slate-900 dark:border-slate-800">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-bold">
-            <FolderTree className="h-5 w-5 text-blue-600" />
-            <h2>{editingCategory ? 'Edit Category' : 'Add Category'}</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/40 backdrop-blur-sm p-4">
+      <div className="w-full max-w-md rounded-2xl bg-ivory border border-border shadow-xl p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-sand pb-4 mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-terracotta/10 flex items-center justify-center">
+              <FolderTree className="h-4 w-4 text-terracotta" />
+            </div>
+            <h2 className="font-display text-xl text-charcoal">
+              {editingCategory ? 'Edit Category' : 'Add Category'}
+            </h2>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800"
+            className="rounded-lg p-1.5 text-stone hover:bg-sand/60 hover:text-charcoal transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-              Title <span className="text-red-500">*</span>
+            <label className="block text-xs font-bold uppercase tracking-wider text-stone mb-1.5">
+              Title <span className="text-destructive">*</span>
             </label>
             <input
               type="text"
@@ -67,12 +72,12 @@ export const CategoryFormModal: React.FC<CategoryFormModalProps> = ({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Clothes"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+              className="w-full rounded-xl border border-border bg-white/60 px-4 py-2.5 text-sm text-charcoal outline-none focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-stone mb-1.5">
               Description
             </label>
             <textarea
@@ -80,22 +85,22 @@ export const CategoryFormModal: React.FC<CategoryFormModalProps> = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Optional description..."
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100"
+              className="w-full rounded-xl border border-border bg-white/60 px-4 py-2.5 text-sm text-charcoal outline-none focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 transition-all resize-none"
             />
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+              className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-charcoal hover:bg-sand/60 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              className="rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-ivory hover:bg-copper transition-colors shadow-sm disabled:opacity-50"
             >
               {isSubmitting ? 'Saving...' : editingCategory ? 'Update' : 'Create'}
             </button>
@@ -104,4 +109,4 @@ export const CategoryFormModal: React.FC<CategoryFormModalProps> = ({
       </div>
     </div>
   )
-}
+}

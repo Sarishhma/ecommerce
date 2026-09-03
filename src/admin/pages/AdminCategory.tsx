@@ -183,14 +183,7 @@ export const AdminCategories: React.FC = () => {
 
 
         {/* TABLE CARD */}
-
-        <div className="
-          bg-white
-          border
-          border-gray-100
-          rounded-2xl
-          overflow-hidden
-        ">
+        <div className="bg-white/60 backdrop-blur-sm rounded-2xl border border-border shadow-sm overflow-hidden">
 
           <AdminCategoryToolbar
             total={categories.length}

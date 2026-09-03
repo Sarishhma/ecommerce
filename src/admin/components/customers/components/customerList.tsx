@@ -13,12 +13,12 @@ export const CustomerList = () => {
 
   if (isLoading) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white">
-        <div className="divide-y divide-slate-100">
+      <div className="rounded-2xl border border-border bg-white/60 backdrop-blur-sm p-6">
+        <div className="divide-y divide-border/40">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-4 px-6 py-4 animate-pulse">
-              <div className="h-3 w-32 rounded bg-slate-100" />
-              <div className="h-3 w-48 rounded bg-slate-100" />
+            <div key={i} className="flex items-center gap-4 py-4 animate-pulse">
+              <div className="h-3 w-32 rounded bg-sand/50" />
+              <div className="h-3 w-48 rounded bg-sand/30" />
             </div>
           ))}
         </div>
@@ -28,67 +28,69 @@ export const CustomerList = () => {
 
   if (isError || !data) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center">
-        <p className="text-sm font-medium text-slate-800">Couldn't load customers</p>
-        <p className="mt-1 text-sm text-slate-500">Check your connection and try again.</p>
+      <div className="rounded-2xl border border-border bg-white/60 backdrop-blur-sm px-6 py-16 text-center">
+        <p className="text-base font-display text-charcoal">Couldn't load customers</p>
+        <p className="mt-1 text-sm text-stone">Check your connection and try again.</p>
       </div>
     );
   }
 
   if (data.length === 0) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center">
-        <p className="text-sm font-medium text-slate-800">No customers yet</p>
-        <p className="mt-1 text-sm text-slate-500">New customers will appear here once added.</p>
+      <div className="rounded-2xl border border-border bg-white/60 backdrop-blur-sm px-6 py-16 text-center">
+        <p className="text-base font-display text-charcoal">No customers yet</p>
+        <p className="mt-1 text-sm text-stone">New customers will appear here once registered.</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <Table>
-        <TableHeader>
-          <TableRow className="border-slate-200 hover:bg-transparent">
-            <TableHead className="uppercase tracking-wide text-[11px] font-medium text-slate-400 py-3">
-              Name
-            </TableHead>
-            <TableHead className="uppercase tracking-wide text-[11px] font-medium text-slate-400">
-              Contact
-            </TableHead>
-            <TableHead className="uppercase tracking-wide text-[11px] font-medium text-slate-400">
-              Address
-            </TableHead>
-            <TableHead className="uppercase tracking-wide text-[11px] font-medium text-slate-400">
-              Branch
-            </TableHead>
-            <TableHead className="uppercase tracking-wide text-[11px] font-medium text-slate-400 text-right">
-              Loyalty points
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((customer) => (
-            <TableRow key={customer.id} className="border-slate-100 hover:bg-slate-50/70 transition-colors">
-              <TableCell className="py-3.5 font-medium text-slate-900 text-sm">
-                {customer.name}
-              </TableCell>
-              <TableCell>
-                <div className="text-sm text-slate-700">{customer.email}</div>
-                <div className="text-xs text-slate-400 tabular-nums">{customer.contact_number}</div>
-              </TableCell>
-              <TableCell className="text-sm text-slate-500">
-                {customer.address ?? <span className="text-slate-300">Not provided</span>}
-              </TableCell>
-              <TableCell className="text-sm text-slate-500">
-                {customer.branch ?? <span className="text-slate-300">—</span>}
-              </TableCell>
-              <TableCell className="text-right text-sm tabular-nums text-slate-700">
-                {customer.loyalty_points}
-              </TableCell>
+    <div className="rounded-2xl border border-border bg-white/60 backdrop-blur-sm overflow-hidden shadow-sm">
+      <div className="overflow-x-auto custom-scrollbar">
+        <Table className="min-w-[650px]">
+          <TableHeader>
+            <TableRow className="border-b border-border/60 bg-sand/30 hover:bg-transparent">
+              <TableHead className="uppercase tracking-wider text-[10px] font-semibold text-stone py-3.5 pl-6">
+                Customer Name
+              </TableHead>
+              <TableHead className="uppercase tracking-wider text-[10px] font-semibold text-stone">
+                Contact
+              </TableHead>
+              <TableHead className="uppercase tracking-wider text-[10px] font-semibold text-stone">
+                Address
+              </TableHead>
+              <TableHead className="uppercase tracking-wider text-[10px] font-semibold text-stone">
+                Branch
+              </TableHead>
+              <TableHead className="uppercase tracking-wider text-[10px] font-semibold text-stone text-right pr-6">
+                Loyalty Points
+              </TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody className="divide-y divide-border/40">
+            {data.map((customer) => (
+              <TableRow key={customer.id} className="hover:bg-sand/20 transition-colors group">
+                <TableCell className="py-3.5 pl-6 font-medium text-charcoal text-sm group-hover:text-terracotta transition-colors">
+                  {customer.name}
+                </TableCell>
+                <TableCell>
+                  <div className="text-sm text-charcoal font-medium">{customer.email}</div>
+                  <div className="text-xs text-stone tabular-nums">{customer.contact_number}</div>
+                </TableCell>
+                <TableCell className="text-sm text-charcoal/80">
+                  {customer.address ?? <span className="text-stone/60 italic text-xs">Not provided</span>}
+                </TableCell>
+                <TableCell className="text-sm text-charcoal/80">
+                  {customer.branch ?? <span className="text-stone/50">—</span>}
+                </TableCell>
+                <TableCell className="text-right pr-6 text-base font-display font-semibold tabular-nums text-charcoal">
+                  {customer.loyalty_points}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

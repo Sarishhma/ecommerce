@@ -1,6 +1,6 @@
 // src/auth/services/auth.service.ts
 import { jwtDecode } from 'jwt-decode'
-import api, { publicApi } from '@/lib/api'
+import { publicApi } from '@/lib/api'
 import type { LoginCredentials, LoginResponse } from '@/auth/types/auth.types'
 import type { SignupPayload } from '../types/auth.types'
 import type { User } from '../types/account.types'

@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import api, { publicApi } from '@/lib/api'
+import { publicApi } from '@/lib/api'
 import type { LoginCredentials, LoginResponse, User } from '../types/auth.types'
 
 const STORAGE_KEYS = {

@@ -120,26 +120,33 @@ export const AdminProductForm = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[650px] rounded-xl border border-slate-200 bg-white p-0 shadow-lg">
-        <DialogHeader className="p-6 pb-4 border-b border-slate-200 bg-slate-50/50 rounded-t-xl">
-          <DialogTitle className="text-xl font-bold text-slate-900">
-            {isEditing ? 'Edit Product' : 'Create New Product'}
-          </DialogTitle>
-          <DialogDescription className="text-sm text-slate-500 mt-1">
-            {isEditing
-              ? 'Update the details of your inventory item'
-              : 'Add a new product to your system catalog'}
-          </DialogDescription>
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[650px] rounded-2xl border border-border bg-ivory p-0 shadow-xl">
+        <DialogHeader className="p-6 pb-4 border-b border-sand bg-sand/20 rounded-t-2xl">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-terracotta/10 flex items-center justify-center">
+              <span className="text-terracotta text-base font-bold">P</span>
+            </div>
+            <div>
+              <DialogTitle className="font-display text-xl text-charcoal">
+                {isEditing ? 'Edit Product' : 'Create New Product'}
+              </DialogTitle>
+              <DialogDescription className="text-xs text-stone mt-0.5">
+                {isEditing
+                  ? 'Update the details of your inventory item'
+                  : 'Add a new product to your system catalog'}
+              </DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-5 text-slate-900">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5 text-charcoal">
           {/* Image Upload */}
           <div className="space-y-2">
-            <Label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <Label className="text-xs font-semibold uppercase tracking-wider text-stone">
               Product Image
             </Label>
-            <div className="flex items-center gap-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-3">
-              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <div className="flex items-center gap-4 rounded-xl border border-dashed border-border bg-sand/20 p-3.5">
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-border bg-white/80">
                 {imagePreview ? (
                   <img
                     src={imagePreview}
@@ -147,8 +154,8 @@ export const AdminProductForm = ({
                     className="h-full w-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-slate-100">
-                    <ImagePlus className="h-6 w-6 text-slate-400" />
+                  <div className="flex h-full w-full items-center justify-center bg-sand/30">
+                    <ImagePlus className="h-6 w-6 text-stone" />
                   </div>
                 )}
               </div>
@@ -158,9 +165,9 @@ export const AdminProductForm = ({
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="h-9 rounded-lg border-slate-200 bg-white text-xs text-slate-900 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 cursor-pointer"
+                  className="h-9 rounded-xl border-border bg-white/70 text-xs text-charcoal file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-sand file:text-charcoal hover:file:bg-sand/80 cursor-pointer"
                 />
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-stone">
                   Upload a PNG, JPG or WEBP image file.
                 </p>
               </div>
@@ -170,31 +177,30 @@ export const AdminProductForm = ({
           {/* Title & Category */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label htmlFor="title" className="text-sm font-semibold text-slate-900">
-                Product Name <span className="text-red-500">*</span>
+              <Label htmlFor="title" className="text-xs font-semibold uppercase tracking-wider text-stone">
+                Product Name <span className="text-terracotta">*</span>
               </Label>
               <Input
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Product title"
-                className="h-10 rounded-lg border-slate-200 bg-white text-sm focus-visible:ring-2 focus-visible:ring-blue-500"
+                className="h-10 rounded-xl border-border bg-white/70 text-sm text-charcoal placeholder:text-stone focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta"
                 required
               />
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="category" className="text-sm font-semibold text-slate-900">
+              <Label htmlFor="category" className="text-xs font-semibold uppercase tracking-wider text-stone">
                 Categories
               </Label>
               <div className="relative">
-                <Tag className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Tag className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone" />
                 <select
                   id="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  
-                  className="h-10 pl-10 rounded-lg border-slate-200 bg-white text-sm focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="w-full h-10 pl-10 pr-4 rounded-xl border border-border bg-white/70 text-sm text-charcoal focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta outline-none transition-all"
                 >
                   <option value="">Select Category</option>
                   {
@@ -211,7 +217,7 @@ export const AdminProductForm = ({
 
           {/* Description */}
           <div className="space-y-1.5">
-            <Label htmlFor="description" className="text-sm font-semibold text-slate-900">
+            <Label htmlFor="description" className="text-xs font-semibold uppercase tracking-wider text-stone">
               Description
             </Label>
             <textarea
@@ -220,18 +226,18 @@ export const AdminProductForm = ({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Product description..."
               rows={3}
-              className="flex w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-blue-500 transition-all resize-none"
+              className="flex w-full rounded-xl border border-border bg-white/70 px-3.5 py-2.5 text-sm text-charcoal outline-none placeholder:text-stone focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta transition-all resize-none"
             />
           </div>
 
           {/* Pricing */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label htmlFor="price" className="text-sm font-semibold text-slate-900">
-                Selling Price <span className="text-red-500">*</span>
+              <Label htmlFor="price" className="text-xs font-semibold uppercase tracking-wider text-stone">
+                Selling Price <span className="text-terracotta">*</span>
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone" />
                 <Input
                   id="price"
                   type="number"
@@ -240,18 +246,18 @@ export const AdminProductForm = ({
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="0.00"
-                  className="h-10 pl-10 rounded-lg border-slate-200 bg-white text-sm tabular-nums focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="h-10 pl-10 rounded-xl border-border bg-white/70 text-sm tabular-nums text-charcoal focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta"
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="costPrice" className="text-sm font-semibold text-slate-900">
+              <Label htmlFor="costPrice" className="text-xs font-semibold uppercase tracking-wider text-stone">
                 Cost Price
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone" />
                 <Input
                   id="costPrice"
                   type="number"
@@ -260,7 +266,7 @@ export const AdminProductForm = ({
                   value={costPrice}
                   onChange={(e) => setCostPrice(e.target.value)}
                   placeholder="0.00"
-                  className="h-10 pl-10 rounded-lg border-slate-200 bg-white text-sm tabular-nums focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="h-10 pl-10 rounded-xl border-border bg-white/70 text-sm tabular-nums text-charcoal focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta"
                 />
               </div>
             </div>
@@ -269,7 +275,7 @@ export const AdminProductForm = ({
           {/* Units & Barcode */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label htmlFor="unit" className="text-sm font-semibold text-slate-900">
+              <Label htmlFor="unit" className="text-xs font-semibold uppercase tracking-wider text-stone">
                 Unit
               </Label>
               <Input
@@ -277,70 +283,41 @@ export const AdminProductForm = ({
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
                 placeholder="pcs, kg, box"
-                className="h-10 rounded-lg border-slate-200 bg-white text-sm focus-visible:ring-2 focus-visible:ring-blue-500"
+                className="h-10 rounded-xl border-border bg-white/70 text-sm text-charcoal focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta"
               />
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="barcode" className="text-sm font-semibold text-slate-900">
+              <Label htmlFor="barcode" className="text-xs font-semibold uppercase tracking-wider text-stone">
                 Barcode
               </Label>
               <div className="relative">
-                <BarcodeIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <BarcodeIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone" />
                 <Input
                   id="barcode"
                   value={barcode}
                   onChange={(e) => setBarcode(e.target.value)}
                   placeholder="8901234567890"
-                  className="h-10 pl-10 rounded-lg border-slate-200 bg-white text-sm font-mono focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="h-10 pl-10 rounded-xl border-border bg-white/70 text-sm font-mono text-charcoal focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta"
                 />
               </div>
             </div>
           </div>
 
-          {/* Stock Counts */}
-          {/* <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label htmlFor="openingCount" className="text-sm font-semibold text-slate-900">
-                Opening Stock Count
-              </Label>
-              <Input
-                id="openingCount"
-                type="number"
-                value={openingCount}
-                onChange={(e) => setOpeningCount(e.target.value)}
-                className="h-10 rounded-lg border-slate-200 bg-white text-sm focus-visible:ring-2 focus-visible:ring-blue-500"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <Label htmlFor="minimumStock" className="text-sm font-semibold text-slate-900">
-                Minimum Stock Level
-              </Label>
-              <Input
-                id="minimumStock"
-                type="number"
-                value={minimumStock}
-                onChange={(e) => setMinimumStock(e.target.value)}
-                className="h-10 rounded-lg border-slate-200 bg-white text-sm focus-visible:ring-2 focus-visible:ring-blue-500"
-              />
-            </div>
-          </div> */}
-
-          <DialogFooter className="pt-4 border-t border-slate-200 gap-2">
+          <DialogFooter className="pt-4 border-t border-sand/60 gap-2">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
               disabled={isSubmitting}
-              className="rounded-lg h-10 border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+              className="rounded-xl h-10 border-border bg-white text-charcoal hover:bg-sand/40"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-lg h-10 bg-blue-600 px-6 text-white hover:bg-blue-700 transition-colors"
+              className="rounded-xl h-10 bg-terracotta px-6 text-ivory hover:bg-copper transition-colors shadow-sm"
             >
               {isSubmitting ? (
                 <>

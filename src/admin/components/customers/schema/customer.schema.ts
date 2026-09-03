@@ -2,13 +2,13 @@ import { z } from 'zod';
 
 export const customerSchema = z.object({
   id: z.number(),
-  loyalty_points: z.number(),
-  name: z.string(),
-  tax_number: z.string().nullable(),
-  address: z.string().nullable(),
-  contact_number: z.string(),
-  email: z.string().email(),
-  branch: z.string().nullable(),
+  loyalty_points: z.number().nullish().transform(val => val ?? 0),
+  name: z.string().nullish().transform(val => val ?? 'Unknown Customer'),
+  tax_number: z.string().nullish(),
+  address: z.string().nullish(),
+  contact_number: z.string().nullish().transform(val => val ?? ''),
+  email: z.string().nullish().transform(val => val ?? ''),
+  branch: z.string().nullish(),
 });
 
 export const customerListSchema = z.array(customerSchema);

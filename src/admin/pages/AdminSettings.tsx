@@ -1,126 +1,179 @@
-import { Save } from 'lucide-react';
-import { useState } from 'react';
+
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@/redux";
+import { selectUser } from "@/redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import { useLogout } from "@/auth/hooks/useLogout";
+import { useUpdateUser } from "../components/users/hooks/userUpdatehook";
+import { AdminSettingsHeader } from "../components/adminSettings/components/Header";
+import { AccountInformation } from "../components/adminSettings/components/AccountInfo";
+import { EditProfileForm } from "../components/adminSettings/components/EditProfileForm";
+import { SettingsToast } from "../components/adminSettings/ToastNotification/SettingToast";
 
 export const AdminSettings = () => {
+  const user = useAppSelector(selectUser);
+  const navigate = useNavigate();
+  const handleLogout = useLogout();
+
+  const { mutateAsync: updateUser, isPending: isSaving } = useUpdateUser();
+
+  const [isEditing, setIsEditing] = useState(false);
+
   const [settings, setSettings] = useState({
-    storeName: 'Bijeshwori Mala Traders',
-    email: 'admin@Bijeshwori.com',
-    phone: '+1-800-Bijeshwori',
-    address: '123 Artisan Street, Craftville, CA 90210',
-    taxRate: 8.5,
-    shippingCost: 9.99,
-    freeShippingThreshold: 50,
+    full_name: "",
+    email: "",
+    phone_number: "",
+    address: "",
+    password: "",
   });
 
-  const [isSaving, setIsSaving] = useState(false);
+  const [toast, setToast] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
-  const handleChange = (field: string, value: any) => {
-    setSettings({ ...settings, [field]: value });
+  /*
+   * Load user information into the form
+   */
+  useEffect(() => {
+    if (user) {
+      setSettings({
+        full_name: user.full_name || "",
+        email: user.email || "",
+        phone_number: user.phone_number || "",
+        address: user.address || "",
+        password: "",
+      });
+    }
+  }, [user]);
+
+  /*
+   * Automatically remove toast after 4 seconds
+   */
+  useEffect(() => {
+    if (!toast) return;
+
+    const timer = setTimeout(() => {
+      setToast(null);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  const handleChange = (
+    field: keyof typeof settings,
+    value: string
+  ) => {
+    setSettings((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
-  const handleSave = () => {
-    setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      alert('Settings saved successfully!');
-    }, 1000);
+  const handleEdit = () => {
+    setSettings({
+      full_name: user?.full_name || "",
+      email: user?.email || "",
+      phone_number: user?.phone_number || "",
+      address: user?.address || "",
+      password: "",
+    });
+
+    setIsEditing(true);
   };
+
+  const handleCancel = () => {
+    setSettings({
+      full_name: user?.full_name || "",
+      email: user?.email || "",
+      phone_number: user?.phone_number || "",
+      address: user?.address || "",
+      password: "",
+    });
+
+    setIsEditing(false);
+  };
+
+  const handleSave = async () => {
+    if (!user?.id) return;
+
+    try {
+      const payload = {
+        full_name: settings.full_name,
+        email: settings.email,
+        phone_number: settings.phone_number,
+        address: settings.address,
+
+        ...(settings.password
+          ? { password: settings.password }
+          : {}),
+      };
+
+      await updateUser({
+        id: user.id,
+        payload,
+        idempotencyKey: crypto.randomUUID(),
+      });
+
+      setIsEditing(false);
+
+      setToast({
+        type: "success",
+        message: "Your account information has been updated successfully.",
+      });
+    } catch (error) {
+      console.error("Failed to update settings:", error);
+
+      setToast({
+        type: "error",
+        message: "We couldn't update your information. Please try again.",
+      });
+    }
+  };
+
+  const firstName =
+    user?.full_name?.split(" ")[0] || "Admin";
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Settings</h1>
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8 animate-fade-in">
 
-      {/* Store Information */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Store Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Store Name</label>
-            <input
-              type="text"
-              value={settings.storeName}
-              onChange={(e) => handleChange('storeName', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-            <input
-              type="email"
-              value={settings.email}
-              onChange={(e) => handleChange('email', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-            <input
-              type="tel"
-              value={settings.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
-            <input
-              type="text"
-              value={settings.address}
-              onChange={(e) => handleChange('address', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-        </div>
-      </div>
+      {/* Header */}
+      <AdminSettingsHeader
+        firstName={firstName}
+        onStorefront={() => navigate("/")}
+        onLogout={handleLogout}
+      />
 
-      {/* Pricing Settings */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Pricing & Shipping</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Tax Rate (%)</label>
-            <input
-              type="number"
-              value={settings.taxRate}
-              onChange={(e) => handleChange('taxRate', parseFloat(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              step="0.1"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Shipping Cost ($)</label>
-            <input
-              type="number"
-              value={settings.shippingCost}
-              onChange={(e) => handleChange('shippingCost', parseFloat(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              step="0.01"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Free Shipping Threshold ($)</label>
-            <input
-              type="number"
-              value={settings.freeShippingThreshold}
-              onChange={(e) => handleChange('freeShippingThreshold', parseFloat(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              step="0.01"
-            />
-          </div>
-        </div>
-      </div>
+      {/* Account Information */}
+      <section className="bg-white/60 backdrop-blur-sm rounded-2xl border border-border shadow-sm p-5 sm:p-6 lg:p-8">
 
-      {/* Save Button */}
-      <div className="flex gap-2">
-        <button
-          onClick={handleSave}
-          disabled={isSaving}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition disabled:opacity-50"
-        >
-          <Save className="w-5 h-5" />
-          {isSaving ? 'Saving...' : 'Save Changes'}
-        </button>
-      </div>
+        {!isEditing ? (
+          <AccountInformation
+            user={user}
+            onEdit={handleEdit}
+          />
+        ) : (
+          <EditProfileForm
+            settings={settings}
+            isSaving={isSaving}
+            onChange={handleChange}
+            onCancel={handleCancel}
+            onSave={handleSave}
+          />
+        )}
+
+      </section>
+
+      {/* Notification */}
+      {toast && (
+        <SettingsToast
+          type={toast.type}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
+
     </div>
   );
 };
+

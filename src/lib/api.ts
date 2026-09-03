@@ -18,7 +18,15 @@ const api = axios.create({
 // ==============================
 
 // Endpoints that should never send an Authorization header
-const PUBLIC_ENDPOINTS = ['/login/', '/users/register/'] // whatever the real public route actually is
+// and should not trigger a 401 redirect to /login
+const PUBLIC_ENDPOINTS = [
+  '/login/', 
+  '/users/register/',
+  '/product-list/',
+  '/product-detail/',
+  '/category/',
+  '/categories/',
+]
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const isPublic = PUBLIC_ENDPOINTS.some((ep) => config.url?.includes(ep))

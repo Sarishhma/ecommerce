@@ -69,45 +69,51 @@ export const UserEditForm = ({ user, onClose }: UserEditFormProps) => {
 
   return (
     <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Edit user</DialogTitle>
+      <DialogContent className="sm:max-w-md bg-ivory border border-border shadow-xl rounded-2xl">
+        <DialogHeader className="border-b border-sand pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-terracotta/10 flex items-center justify-center">
+              <span className="text-terracotta text-sm font-bold">U</span>
+            </div>
+            <DialogTitle className="font-display text-xl text-charcoal">Edit Staff User</DialogTitle>
+          </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-2">
           <div className="space-y-1.5">
-            <Label htmlFor="full_name">Full name</Label>
-            <Input id="full_name" {...register('full_name')} />
+            <Label htmlFor="full_name" className="text-xs font-bold uppercase tracking-wider text-stone">Full name</Label>
+            <Input id="full_name" {...register('full_name')} className="rounded-xl border-border bg-white/60 focus:border-terracotta focus:ring-terracotta/20" />
             {errors.full_name && (
-              <p className="text-xs text-red-500">{errors.full_name.message}</p>
+              <p className="text-xs text-destructive">{errors.full_name.message}</p>
             )}
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" {...register('email')} />
-            {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+            <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-stone">Email</Label>
+            <Input id="email" type="email" {...register('email')} className="rounded-xl border-border bg-white/60 focus:border-terracotta focus:ring-terracotta/20" />
+            {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="phone_number">Phone number</Label>
-            <Input id="phone_number" {...register('phone_number')} />
+            <Label htmlFor="phone_number" className="text-xs font-bold uppercase tracking-wider text-stone">Phone number</Label>
+            <Input id="phone_number" {...register('phone_number')} className="rounded-xl border-border bg-white/60 focus:border-terracotta focus:ring-terracotta/20" />
             {errors.phone_number && (
-              <p className="text-xs text-red-500">{errors.phone_number.message}</p>
+              <p className="text-xs text-destructive">{errors.phone_number.message}</p>
             )}
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="address">Address</Label>
+            <Label htmlFor="address" className="text-xs font-bold uppercase tracking-wider text-stone">Address</Label>
             <Input
               id="address"
               {...register('address')}
               onChange={(e) => setValue('address', e.target.value || null, { shouldDirty: true })}
+              className="rounded-xl border-border bg-white/60 focus:border-terracotta focus:ring-terracotta/20"
             />
           </div>
 
-          <div className="flex items-center justify-between pt-1">
-            <Label htmlFor="is_active">Active</Label>
+          <div className="flex items-center justify-between pt-1 px-1">
+            <Label htmlFor="is_active" className="text-xs font-bold uppercase tracking-wider text-stone">Active</Label>
             <Switch
               id="is_active"
               checked={watch('is_active')}
@@ -115,18 +121,18 @@ export const UserEditForm = ({ user, onClose }: UserEditFormProps) => {
             />
           </div>
 
-          <DialogFooter className="pt-2">
+          <DialogFooter className="pt-2 border-t border-sand">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 transition-colors"
+              className="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-charcoal hover:bg-sand/60 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!isDirty || isPending}
-              className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700 disabled:opacity-50 transition-colors"
+              className="rounded-xl bg-terracotta px-5 py-2.5 text-sm font-semibold text-ivory hover:bg-copper transition-colors shadow-sm disabled:opacity-50"
             >
               {isPending ? 'Saving…' : 'Save changes'}
             </button>

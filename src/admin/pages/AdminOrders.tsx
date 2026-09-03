@@ -79,46 +79,26 @@ const orderToUpdate = orders.find(
 
   if (isLoading) {
     return (
-      <div className="min-h-full bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-8">
-
+      <div className="min-h-full pb-10 space-y-8 animate-fade-in">
+        <div className="max-w-7xl mx-auto space-y-8">
           {/* Header skeleton */}
           <div>
-            <div className="h-4 w-28 bg-gray-200 rounded animate-pulse" />
-
-            <div className="h-9 w-40 bg-gray-200 rounded mt-3 animate-pulse" />
-
-            <div className="h-4 w-64 bg-gray-100 rounded mt-3 animate-pulse" />
+            <div className="h-3 w-24 bg-sand/60 rounded animate-pulse" />
+            <div className="h-8 w-36 bg-sand/60 rounded mt-2 animate-pulse" />
           </div>
 
           {/* Stats skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((item) => (
               <div
                 key={item}
-                className="
-                  h-28
-                  bg-white
-                  rounded-2xl
-                  border
-                  border-gray-100
-                  animate-pulse
-                "
+                className="h-28 bg-white/60 rounded-2xl border border-border animate-pulse"
               />
             ))}
           </div>
 
           {/* Table skeleton */}
-          <div
-            className="
-              h-96
-              bg-white
-              rounded-2xl
-              border
-              border-gray-100
-              animate-pulse
-            "
-          />
+          <div className="h-96 bg-white/60 rounded-2xl border border-border animate-pulse" />
         </div>
       </div>
     );
@@ -130,25 +110,17 @@ const orderToUpdate = orders.find(
 
   if (isError) {
     return (
-      <div className="min-h-full bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-          <div className="bg-red-50 border border-red-100 rounded-2xl p-8 text-center">
-
-            <ShoppingBag
-              className="w-10 h-10 text-red-400 mx-auto"
-            />
-
-            <h2 className="text-lg font-semibold text-red-800 mt-4">
+      <div className="min-h-full pb-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-ivory/80 backdrop-blur-md border border-border rounded-2xl p-8 text-center shadow-sm">
+            <ShoppingBag className="w-10 h-10 text-stone/40 mx-auto" />
+            <h2 className="text-lg font-display text-charcoal mt-4">
               Unable to load orders
             </h2>
-
-            <p className="text-sm text-red-600 mt-1">
-              Something went wrong while loading orders.
+            <p className="text-sm text-stone mt-1">
+              Something went wrong while loading orders. Please check your connection.
             </p>
-
           </div>
-
         </div>
       </div>
     );
@@ -169,39 +141,18 @@ const orderToUpdate = orders.find(
               HEADER
           =============================== */}
 
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-
+          <div className="mb-8 flex items-center justify-between">
             <div>
-
-              <p className="text-xs uppercase tracking-[0.2em] text-gray-400 font-medium">
-                Administration
-              </p>
-
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-1">
-                Orders
-              </h1>
-
-              <p className="text-sm text-gray-500 mt-2">
-                Manage and monitor customer orders.
-              </p>
-
+              <p className="text-[10px] uppercase tracking-widest text-stone font-semibold mb-1">Management</p>
+              <h1 className="text-3xl font-display text-charcoal">Orders</h1>
             </div>
-
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <ShoppingBag className="w-4 h-4" />
-
-              {orders.length} total orders
-            </div>
-
           </div>
-
 
           {/* ===============================
               STATS
           =============================== */}
 
           <OrderStats orders={orders} />
-
 
           {/* ===============================
               FILTERS
@@ -213,7 +164,6 @@ const orderToUpdate = orders.find(
             onSearchChange={setSearch}
             onStatusChange={setStatusFilter}
           />
-
 
           {/* ===============================
               TABLE

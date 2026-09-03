@@ -13,7 +13,7 @@ export const CollectionPage = () => {
   const headerReveal = useScrollReveal();
   const gridReveal = useScrollReveal();
 
-  const { data, isLoading } = useGetProducts();
+  const { data } = useGetProducts();
   const products = data?.results || [];
 
   if (!collection) {

@@ -2,14 +2,14 @@ import { z } from 'zod';
 
 export const userSchema = z.object({
   id: z.number(),
-  full_name: z.string(),
-  email: z.string().email(),
-  image: z.string().nullable(),
-  phone_number: z.string(),
-  address: z.string().nullable(),
-  organization: z.number(),
-  is_active: z.boolean(),
- role: z.string().nullable().optional(),
+  full_name: z.string().nullish().transform(val => val ?? 'Unknown User'),
+  email: z.string().nullish().transform(val => val ?? ''),
+  image: z.string().nullish(),
+  phone_number: z.string().nullish().transform(val => val ?? ''),
+  address: z.string().nullish(),
+  organization: z.number().nullish(),
+  is_active: z.boolean().nullish().transform(val => val ?? false),
+  role: z.string().nullish(),
 });
 
 export const userListResponseSchema = z.object({
@@ -40,7 +40,7 @@ export const createUserResponseSchema = z.object({
 });
 
 export type CreateUserResponse = z.infer<typeof createUserResponseSchema>;
-import type { UserRole } from '@/auth/types/auth.types';
+
 export const userCreateFormSchema = z.object({
   username: z.string().min(1, 'Username is required'),
   full_name: z.string().min(1, 'Full name is required'),
