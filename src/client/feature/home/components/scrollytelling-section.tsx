@@ -104,7 +104,7 @@ export function ScrollytellingSection() {
                 onClick={() => addToCartMutation.mutate({ product: mainProduct, quantity: 1 })}
                 className="flex-1 min-w-[10rem] bg-charcoal text-ivory py-4 rounded-full text-sm font-medium hover:bg-terracotta transition-colors disabled:opacity-60"
               >
-                Add to Cart — ${mainProduct.price}
+                Add to Cart — Rs{mainProduct.price}
               </button>
               <button
                 type="button"

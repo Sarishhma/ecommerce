@@ -2,12 +2,12 @@ import { TrendingUp, Calendar, ArrowUpRight } from 'lucide-react';
 
 export const AdminAnalytics = () => {
   const analyticsData = [
-    { month: 'January', revenue: '$12,500', orders: 145, customers: 245, growth: '+5.2%' },
-    { month: 'February', revenue: '$14,300', orders: 167, customers: 287, growth: '+6.8%' },
-    { month: 'March', revenue: '$15,800', orders: 189, customers: 312, growth: '+7.4%' },
-    { month: 'April', revenue: '$18,200', orders: 203, customers: 345, growth: '+8.1%' },
-    { month: 'May', revenue: '$20,500', orders: 228, customers: 378, growth: '+9.3%' },
-    { month: 'June', revenue: '$24,567', orders: 267, customers: 412, growth: '+12.5%' },
+    { month: 'January', revenue: 'Rs12,500', orders: 145, customers: 245, growth: '+5.2%' },
+    { month: 'February', revenue: 'Rs14,300', orders: 167, customers: 287, growth: '+6.8%' },
+    { month: 'March', revenue: 'Rs15,800', orders: 189, customers: 312, growth: '+7.4%' },
+    { month: 'April', revenue: 'Rs18,200', orders: 203, customers: 345, growth: '+8.1%' },
+    { month: 'May', revenue: 'Rs20,500', orders: 228, customers: 378, growth: '+9.3%' },
+    { month: 'June', revenue: 'Rs24,567', orders: 267, customers: 412, growth: '+12.5%' },
   ];
 
   return (
@@ -30,7 +30,7 @@ export const AdminAnalytics = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <div className="bg-ivory/80 backdrop-blur-md rounded-2xl border border-border shadow-sm p-5 sm:p-6">
           <p className="text-[10px] uppercase tracking-wider font-semibold text-stone mb-2">Total Period Revenue</p>
-          <p className="text-2xl sm:text-3xl font-display text-charcoal mb-1">$105,867</p>
+          <p className="text-2xl sm:text-3xl font-display text-charcoal mb-1">Rs105,867</p>
           <div className="flex items-center gap-1 text-emerald-600 text-xs font-medium">
             <ArrowUpRight className="w-3.5 h-3.5" />
             <span>+18.4% vs previous 6 months</span>

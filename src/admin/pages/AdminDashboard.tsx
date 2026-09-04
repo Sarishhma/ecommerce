@@ -5,7 +5,7 @@ export const AdminDashboard = () => {
   const stats = [
     {
       label: 'Total Revenue',
-      value: '$24,567',
+      value: 'Rs24,567',
       change: '+12.5%',
     },
     {
@@ -26,17 +26,17 @@ export const AdminDashboard = () => {
   ];
 
   const recentOrders = [
-    { id: 'ORD-001', customer: 'John Doe', amount: '$89.99', status: 'Delivered' },
-    { id: 'ORD-002', customer: 'Jane Smith', amount: '$156.50', status: 'Processing' },
-    { id: 'ORD-003', customer: 'Bob Johnson', amount: '$234.00', status: 'Shipped' },
-    { id: 'ORD-004', customer: 'Alice Williams', amount: '$67.25', status: 'Pending' },
+    { id: 'ORD-001', customer: 'John Doe', amount: 'Rs89.99', status: 'Delivered' },
+    { id: 'ORD-002', customer: 'Jane Smith', amount: 'Rs156.50', status: 'Processing' },
+    { id: 'ORD-003', customer: 'Bob Johnson', amount: 'Rs234.00', status: 'Shipped' },
+    { id: 'ORD-004', customer: 'Alice Williams', amount: 'Rs67.25', status: 'Pending' },
   ];
 
   const topProducts = [
-    { name: 'Handcrafted Ceramic Bowl', sales: 234, revenue: '$2,106' },
-    { name: 'Artisan Textiles Set', sales: 189, revenue: '$1,701' },
-    { name: 'Premium Collection Box', sales: 145, revenue: '$2,320' },
-    { name: 'Seasonal Limited Edition', sales: 98, revenue: '$1,568' },
+    { name: 'Handcrafted Ceramic Bowl', sales: 234, revenue: 'Rs2,106' },
+    { name: 'Artisan Textiles Set', sales: 189, revenue: 'Rs1,701' },
+    { name: 'Premium Collection Box', sales: 145, revenue: 'Rs2,320' },
+    { name: 'Seasonal Limited Edition', sales: 98, revenue: 'Rs1,568' },
   ];
 
   return (

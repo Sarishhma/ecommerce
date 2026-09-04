@@ -144,7 +144,7 @@ export const AdminOrderTable = ({
                     {/* Total */}
                     <td className="px-6 py-4">
                       <p className="font-semibold text-charcoal font-display text-base">
-                        ${Number(order.total_amount).toFixed(2)}
+                        Rs{Number(order.total_amount).toFixed(2)}
                       </p>
                     </td>
 

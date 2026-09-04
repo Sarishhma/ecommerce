@@ -25,7 +25,7 @@ const PUBLIC_ENDPOINTS = [
   '/product-list/',
   '/product-detail/',
   '/category/',
-  '/categories/',
+
 ]
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {

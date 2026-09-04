@@ -173,7 +173,7 @@ export const CartPage = () => {
                     </Link>
 
                     <span className="text-stone font-medium">
-                      ${item.price.toFixed(2)}
+                      Rs{item.price.toFixed(2)}
                     </span>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ export const CartPage = () => {
                 <div className="col-span-3 flex items-center justify-between sm:justify-end w-full sm:w-auto mt-2 sm:mt-0 space-x-4">
 
                   <span className="font-body font-bold text-charcoal sm:mr-4">
-                    $
+                    Rs
                     {(
                       item.price *
                       item.quantity
@@ -300,7 +300,7 @@ export const CartPage = () => {
               </span>
 
               <span className="font-medium text-charcoal">
-                ${cartTotal.toFixed(2)}
+                Rs{cartTotal.toFixed(2)}
               </span>
             </div>
 
@@ -320,7 +320,7 @@ export const CartPage = () => {
               </span>
 
               <span className="font-display font-bold text-2xl text-charcoal">
-                ${cartTotal.toFixed(2)}
+                Rs{cartTotal.toFixed(2)}
               </span>
             </div>
 

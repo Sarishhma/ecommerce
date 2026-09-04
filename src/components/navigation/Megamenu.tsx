@@ -1,12 +1,10 @@
+import { Link } from "react-router-dom";
+import { X, ArrowRight } from "lucide-react";
+import type { Category } from "@/features/category/types/category.types";
 
-import type { Category } from '@/config/navigation';
-import type { RefObject } from 'react';
-import { Link } from 'react-router-dom';
-
-
-export interface MegaMenuProps {
+interface MegaMenuProps {
   activeCategoryData: Category;
-  dropdownTimeout: RefObject<ReturnType<typeof setTimeout> | null>;
+  dropdownTimeout: React.MutableRefObject<ReturnType<typeof setTimeout> | null>;
   onClose: () => void;
   onLeave: () => void;
 }
@@ -17,49 +15,59 @@ export const MegaMenu = ({
   onClose,
   onLeave,
 }: MegaMenuProps) => {
+  const category = activeCategoryData;
+
   return (
     <div
-      className="absolute left-0 top-full w-full bg-white shadow-xl border-t border-[#f0ebe5] animate-slide-down z-50"
+      className="absolute left-0 right-0 top-full z-50 bg-white border-t border-gray-100 shadow-xl"
       onMouseEnter={() => {
         if (dropdownTimeout.current) {
           clearTimeout(dropdownTimeout.current);
-          dropdownTimeout.current = null;
         }
       }}
       onMouseLeave={onLeave}
     >
-      <div className="container mx-auto px-8 py-8">
-        <div className="grid grid-cols-4 gap-8">
-          <div className="col-span-1 border-r border-[#f0ebe5] pr-6">
-            <h3 className="text-xl font-serif text-[#1a1a1a] mb-2">
-              {activeCategoryData.name}
-            </h3>
-            <p className="text-xs text-[#1a1a1a]/60 mb-4">
-              Explore our handcrafted collection of authentic {activeCategoryData.name.toLowerCase()}.
-            </p>
-            <Link
-              to={activeCategoryData.href}
-              className="inline-flex items-center text-xs font-medium text-[#b8860b] hover:underline uppercase tracking-wider"
-              onClick={onClose}
-            >
-              View All {activeCategoryData.name} →
-            </Link>
+      <div className="mx-auto max-w-7xl px-6 py-8">
+
+        {/* Header */}
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h2 className="text-xl font-semibold text-[#1a1a1a]">
+              {category.title}
+            </h2>
+
+            {category.description && (
+              <p className="mt-2 max-w-2xl text-sm text-gray-500">
+                {category.description}
+              </p>
+            )}
           </div>
 
-          <div className="col-span-3 grid grid-cols-3 gap-3">
-            {activeCategoryData.subcategories?.map((sub) => (
-              <Link
-                key={sub.name}
-                to={sub.href}
-                className="px-4 py-3 text-sm text-[#1a1a1a] hover:bg-[#f8f6f4] hover:text-[#b8860b] rounded-md transition-colors duration-150 flex items-center justify-between group"
-                onClick={onClose}
-              >
-                <span>{sub.name}</span>
-                <span className="text-[#b8860b] opacity-0 group-hover:opacity-100 transition-opacity text-xs">→</span>
-              </Link>
-            ))}
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
+
+        {/* Category content */}
+        <div className="border-t border-gray-100 pt-6">
+          <Link
+            to={`/shop?category=${category.id}`}
+            onClick={onClose}
+            className="group inline-flex items-center gap-2 text-sm font-medium text-[#1a1a1a] transition hover:text-[#8b6f47]"
+          >
+            View all {category.title}
+
+            <ArrowRight
+              className="h-4 w-4 transition-transform group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
+
       </div>
     </div>
   );

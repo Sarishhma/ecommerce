@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { ChevronLeft, PackageX } from 'lucide-react'
+import { ChevronLeft, PackageX, ShoppingCart } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import {
   useProduct,
@@ -17,12 +18,14 @@ import { PLACEHOLDER_IMAGE } from '@/lib/product-image'
 
 import { useAppSelector } from '@/redux'
 import { selectIsAuthenticated } from '@/redux/slices/authSlice'
+import { selectCartItems } from '@/redux/slices/cartSlice'
 
 export const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
   const isAuthenticated = useAppSelector(selectIsAuthenticated)
+  const cartItems = useAppSelector(selectCartItems)
 
   const productId = id ? Number(id) : undefined
 
@@ -31,12 +34,43 @@ export const ProductDetailPage = () => {
 
   const addToCartMutation = useAddToCart()
 
-  const { isWishlisted, toggle: toggleWishlist } = useWishlist(productId ?? -1)
+  const { isWishlisted, toggle: toggleWishlist } = useWishlist(
+    productId ?? -1
+  )
 
   const [quantity, setQuantity] = useState(1)
 
   const contentReveal = useScrollReveal()
   const relatedReveal = useScrollReveal()
+
+  /*
+   * Check the real Redux cart state.
+   * This remains true when navigating away and coming back.
+   */
+  const isAddedToCart = cartItems.some(
+    (item) => String(item.productId) === String(productId)
+  )
+
+  const handleAddToCart = () => {
+    if (!product) return
+
+    addToCartMutation.mutate(
+      {
+        product,
+        quantity,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Added to cart', {
+            description: `${product.title} × ${quantity}`,
+            icon: <ShoppingCart className="h-4 w-4" />,
+            duration: 2500,
+            position: 'top-center',
+          })
+        },
+      }
+    )
+  }
 
   const handleBuyNow = () => {
     if (!product) return
@@ -48,11 +82,20 @@ export const ProductDetailPage = () => {
     }
 
     if (!isAuthenticated) {
-      navigate('/login', { state: { from: '/checkout', checkoutData } })
+      navigate('/login', {
+        state: {
+          from: '/checkout',
+          checkoutData,
+        },
+      })
       return
     }
 
-    navigate('/checkout', { state: { checkoutData } })
+    navigate('/checkout', {
+      state: {
+        checkoutData,
+      },
+    })
   }
 
   /* -------------------------------------------
@@ -68,6 +111,7 @@ export const ProductDetailPage = () => {
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
             <div>
               <div className="aspect-[4/5] w-full rounded-3xl bg-neutral-200" />
+
               <div className="mt-4 flex gap-3">
                 <div className="h-[76px] w-[76px] rounded-xl bg-neutral-200" />
                 <div className="h-[76px] w-[76px] rounded-xl bg-neutral-200" />
@@ -80,10 +124,12 @@ export const ProductDetailPage = () => {
               <div className="h-14 w-4/5 rounded-lg bg-neutral-200" />
               <div className="h-9 w-32 rounded bg-neutral-200" />
               <div className="h-px w-full bg-neutral-200" />
+
               <div className="space-y-3">
                 <div className="h-4 w-24 rounded bg-neutral-200" />
                 <div className="h-20 w-full rounded bg-neutral-200" />
               </div>
+
               <div className="h-12 w-32 rounded-xl bg-neutral-200" />
               <div className="h-14 w-full rounded-xl bg-neutral-200" />
             </div>
@@ -133,7 +179,8 @@ export const ProductDetailPage = () => {
   return (
     <div className="w-full bg-white">
       <section className="mx-auto w-full max-w-7xl px-4 pb-20 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28 lg:pt-12">
-        {/* Breadcrumb — lightweight, not a CTA button */}
+
+        {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
           className="mb-8 flex items-center gap-1.5 text-sm text-stone sm:mb-10"
@@ -157,21 +204,28 @@ export const ProductDetailPage = () => {
           ref={contentReveal.ref as React.RefObject<HTMLDivElement | null>}
           className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20"
         >
+          {/* Product Image */}
           <div className="min-w-0">
             <ProductGallery
-              images={product.image ? [product.image] : [PLACEHOLDER_IMAGE]}
+              images={
+                product.image
+                  ? [product.image]
+                  : [PLACEHOLDER_IMAGE]
+              }
               name={product.title}
             />
           </div>
 
+          {/* Product Information */}
           <div className="min-w-0 lg:sticky lg:top-28">
             <ProductInfo
               product={product}
               quantity={quantity}
               onQuantityChange={setQuantity}
-              onAddToCart={() => addToCartMutation.mutate({ product, quantity })}
+              onAddToCart={handleAddToCart}
               onBuyNow={handleBuyNow}
               isAddingToCart={addToCartMutation.isPending}
+              isAddedToCart={isAddedToCart}
               isWishlisted={isWishlisted}
               onToggleWishlist={toggleWishlist}
             />
@@ -179,6 +233,7 @@ export const ProductDetailPage = () => {
         </div>
       </section>
 
+      {/* Related Products */}
       <section
         ref={relatedReveal.ref as React.RefObject<HTMLElement | null>}
         className="border-t border-neutral-200/80 bg-white"

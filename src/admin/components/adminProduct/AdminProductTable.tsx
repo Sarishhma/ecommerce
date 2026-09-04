@@ -31,11 +31,11 @@ interface AdminProductTableProps {
 
 const formatCurrency = (value: number | undefined) => {
   if (value === undefined || value === null) return "—";
-  return new Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
+
+  return `Rs. ${value.toLocaleString("en-NP", {
     minimumFractionDigits: 2,
-  }).format(value);
+    maximumFractionDigits: 2,
+  })}`;
 };
 
 export const AdminProductTable: React.FC<AdminProductTableProps> = ({

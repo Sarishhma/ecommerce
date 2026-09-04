@@ -84,7 +84,7 @@ export const SearchResultsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-ivory pt-32 pb-20">
+    <div className="min-h-screen bg-ivory p-10 pb-20">
       <div className="container mx-auto px-4">
         <div className="mb-8">
           <h1 className="font-serif text-3xl sm:text-4xl text-charcoal mb-2">
@@ -109,7 +109,7 @@ export const SearchResultsPage = () => {
 
               <div>
                 <label className="block text-sm font-semibold text-charcoal mb-3">
-                  Price Range (${priceRange[0]} - ${priceRange[1]})
+                  Price Range (Rs {priceRange[0]} - Rs {priceRange[1]})
                 </label>
                 <div className="flex gap-3 mb-3">
                   <input

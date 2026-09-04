@@ -12,7 +12,7 @@
         },
         {
           question: 'Do you offer free shipping?',
-          answer: 'Yes! We offer free shipping on orders over $150 within the US. For orders under $150, shipping costs vary based on location and carrier selection at checkout.'
+          answer: 'Yes! We offer free shipping on orders over Rs150 within the US. For orders under Rs150, shipping costs vary based on location and carrier selection at checkout.'
         },
         {
           question: 'Can I track my order?',

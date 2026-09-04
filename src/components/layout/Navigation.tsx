@@ -1,13 +1,38 @@
+
+
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, ChevronDown, Heart, User, LayoutDashboard, Search } from 'lucide-react';
-import { useAppSelector, selectCartItemCount, selectWishlistCount } from '@/redux';
-import { CATEGORIES, PRIMARY_NAV_ITEMS } from '@/config/navigation';
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  ChevronDown,
+  Heart,
+  User,
+  LayoutDashboard,
+  Search,
+} from 'lucide-react';
+
+import {
+  useAppSelector,
+  selectCartItemCount,
+  selectWishlistCount,
+} from '@/redux';
+
+import { selectUser } from '@/redux/slices/authSlice';
+
+
+
 import { TopBar } from '../navigation/TopBar';
-import { SearchBar } from '../navigation/SearchBar'; // Ensure this path matches your Search component
+import { SearchBar } from '../navigation/SearchBar';
 import { MobileMenu } from '../navigation/Mobileview';
 import { MegaMenu } from '../navigation/Megamenu';
-import { selectUser } from '@/redux/slices/authSlice';
+import { useGetCategories } from '@/features/category/hooks/useCategories';
+
+export const PRIMARY_NAV_ITEMS = [
+  { name: 'home', href: '/' },
+  { name: 'shop', href: '/shop' },
+];
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,52 +41,96 @@ export const Navigation = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const location = useLocation();
+
   const cartItemCount = useAppSelector(selectCartItemCount);
   const wishlistCount = useAppSelector(selectWishlistCount);
+  const user = useAppSelector(selectUser);
+
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+
+ 
+  const {
+    data: categoryData,
+    isLoading: categoriesLoading,
+    isError: categoriesError,
+  } = useGetCategories();
+
+  const categories = categoryData?.results ?? [];
 
   const isHomePage = location.pathname === '/';
-  const activeCategoryData = CATEGORIES.find((cat) => cat.name === activeCategory);
 
-  const user = useAppSelector(selectUser);
+  const activeCategoryData = categories.find(
+    (category) => category.slug === activeCategory
+  );
+
   const canAccessAdmin =
     Array.isArray(user?.roles) &&
     user.roles.includes('admin');
 
+  // --------------------------------
+  // Scroll handling
+  // --------------------------------
+
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  const headerRef = useRef<HTMLElement>(null);
+  // --------------------------------
+  // Navigation height
+  // --------------------------------
 
   useEffect(() => {
     const updateNavHeight = () => {
-      const height = headerRef.current?.getBoundingClientRect().bottom ?? 0;
-      document.documentElement.style.setProperty('--nav-height', `${height}px`);
+      const height =
+        headerRef.current?.getBoundingClientRect().bottom ?? 0;
+
+      document.documentElement.style.setProperty(
+        '--nav-height',
+        `${height}px`
+      );
     };
 
     updateNavHeight();
+
     window.addEventListener('scroll', updateNavHeight);
     window.addEventListener('resize', updateNavHeight);
+
     return () => {
       window.removeEventListener('scroll', updateNavHeight);
       window.removeEventListener('resize', updateNavHeight);
     };
-  });
+  }, []);
+
+  // --------------------------------
+  // Close mobile menus on navigation
+  // --------------------------------
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsMobileSearchOpen(false);
+    setActiveCategory(null);
   }, [location.pathname]);
 
-  const handleCategoryEnter = (categoryName: string) => {
+  // --------------------------------
+  // Category hover
+  // --------------------------------
+
+  const handleCategoryEnter = (categorySlug: string) => {
     if (dropdownTimeout.current) {
       clearTimeout(dropdownTimeout.current);
       dropdownTimeout.current = null;
     }
-    setActiveCategory(categoryName);
+
+    setActiveCategory(categorySlug);
   };
 
   const handleCategoryLeave = () => {
@@ -71,6 +140,10 @@ export const Navigation = () => {
     }, 200);
   };
 
+  // --------------------------------
+  // Styles
+  // --------------------------------
+
   const navClasses = `fixed w-full z-50 transition-all duration-300 ${
     isHomePage
       ? isScrolled
@@ -79,10 +152,26 @@ export const Navigation = () => {
       : 'bg-white shadow-sm'
   }`;
 
-  const textColor = isHomePage && !isScrolled ? 'text-white' : 'text-[#1a1a1a]';
-  const logoColor = isHomePage && !isScrolled ? 'text-white' : 'text-[#1a1a1a]';
+  const textColor =
+    isHomePage && !isScrolled
+      ? 'text-white'
+      : 'text-[#1a1a1a]';
+
+  const logoColor =
+    isHomePage && !isScrolled
+      ? 'text-white'
+      : 'text-[#1a1a1a]';
+
   const hoverColor = 'hover:text-[#b8860b]';
-  const borderColor = isHomePage && !isScrolled ? 'border-white/10' : 'border-[#f0ebe5]';
+
+  const borderColor =
+    isHomePage && !isScrolled
+      ? 'border-white/10'
+      : 'border-[#f0ebe5]';
+
+  // --------------------------------
+  // Render
+  // --------------------------------
 
   return (
     <>
@@ -94,10 +183,19 @@ export const Navigation = () => {
         hoverColor={hoverColor}
       />
 
-      <header ref={headerRef} className={`${navClasses} ${isHomePage && !isScrolled ? 'top-0' : 'top-8'}`}>
-        {/* Tier 2: Main Header (Logo | Search Bar | Icons) */}
+      <header
+        ref={headerRef}
+        className={`${navClasses} ${
+          isHomePage && !isScrolled ? 'top-0' : 'top-8'
+        }`}
+      >
+        {/* =========================================
+            Tier 2: Main Header
+        ========================================= */}
+
         <div className="container mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 border-b border-black/5">
           <div className="flex justify-between items-center gap-2 sm:gap-4">
+
             {/* Logo */}
             <div className="min-w-0 flex-1 sm:flex-initial">
               <Link
@@ -108,19 +206,29 @@ export const Navigation = () => {
               </Link>
             </div>
 
-            {/* Central Search Bar (Desktop) */}
+            {/* Desktop Search */}
             <div className="hidden md:flex flex-1 max-w-md mx-6 lg:mx-8">
-              <SearchBar isHomePage={isHomePage} isScrolled={isScrolled} />
+              <SearchBar
+                isHomePage={isHomePage}
+                isScrolled={isScrolled}
+              />
             </div>
 
-            {/* Icon Actions */}
+            {/* =========================================
+                Icon Actions
+            ========================================= */}
+
             <div className="flex items-center space-x-1 sm:space-x-2.5 flex-shrink-0">
-              {/* Search Toggle Button for Mobile */}
+
+              {/* Mobile Search */}
               <button
                 type="button"
                 onClick={() => {
                   setIsMobileSearchOpen((prev) => !prev);
-                  if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+
+                  if (isMobileMenuOpen) {
+                    setIsMobileMenuOpen(false);
+                  }
                 }}
                 className={`md:hidden p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
                 aria-label="Toggle search bar"
@@ -147,6 +255,7 @@ export const Navigation = () => {
                 aria-label="Wishlist"
               >
                 <Heart className="w-5 h-5" />
+
                 {wishlistCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center min-w-[17px] h-[17px] sm:min-w-[18px] sm:h-[18px] px-1 text-[10px] sm:text-xs font-medium text-white bg-[#b8860b] rounded-full shadow-sm">
                     {wishlistCount}
@@ -154,7 +263,7 @@ export const Navigation = () => {
                 )}
               </Link>
 
-              {/* Account (Tablet / Desktop) */}
+              {/* Account */}
               <Link
                 to="/account"
                 className={`hidden sm:inline-flex p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
@@ -163,13 +272,14 @@ export const Navigation = () => {
                 <User className="w-5 h-5" />
               </Link>
 
-              {/* Shopping Cart */}
+              {/* Cart */}
               <Link
                 to="/cart"
                 className={`relative p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
                 aria-label="Shopping Cart"
               >
                 <ShoppingCart className="w-5 h-5" />
+
                 {cartItemCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center min-w-[17px] h-[17px] sm:min-w-[18px] sm:h-[18px] px-1 text-[10px] sm:text-xs font-medium text-white bg-[#b8860b] rounded-full shadow-sm">
                     {cartItemCount}
@@ -177,21 +287,28 @@ export const Navigation = () => {
                 )}
               </Link>
 
-              {/* Mobile Hamburger Button */}
+              {/* Mobile Menu */}
               <button
                 className={`lg:hidden p-1.5 sm:p-2 rounded-full transition-all duration-200 ${hoverColor} ${textColor} hover:bg-black/5`}
                 onClick={() => {
                   setIsMobileMenuOpen((prev) => !prev);
-                  if (isMobileSearchOpen) setIsMobileSearchOpen(false);
+
+                  if (isMobileSearchOpen) {
+                    setIsMobileSearchOpen(false);
+                  }
                 }}
                 aria-label="Toggle mobile menu"
               >
-                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isMobileMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
 
-          {/* Expandable Mobile Search Bar */}
+          {/* Mobile Search */}
           {isMobileSearchOpen && (
             <div className="mt-2.5 pb-1 md:hidden animate-in fade-in slide-in-from-top-2 duration-200">
               <SearchBar
@@ -204,10 +321,14 @@ export const Navigation = () => {
           )}
         </div>
 
-        {/* Tier 3: Category Links Navigation */}
+        {/* =========================================
+            Tier 3: Category Navigation
+        ========================================= */}
+
         <nav className="hidden lg:block relative border-b border-black/5">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center space-x-8 py-2">
+
               {/* Primary Links */}
               {PRIMARY_NAV_ITEMS.map((item) => (
                 <Link
@@ -221,31 +342,67 @@ export const Navigation = () => {
 
               <div className="w-px h-4 bg-[#1a1a1a]/10" />
 
-              {/* Primary Categories */}
-              {CATEGORIES.slice(0, 5).map((category) => (
-                <div
-                  key={category.name}
-                  className="static"
-                  onMouseEnter={() => handleCategoryEnter(category.name)}
-                  onMouseLeave={handleCategoryLeave}
+              {/* =====================================
+                  Loading Categories
+              ===================================== */}
+
+              {categoriesLoading && (
+                <span
+                  className={`text-xs uppercase tracking-[0.12em] ${textColor}`}
                 >
-                  <button
-                    className={`flex items-center px-2 py-1 text-xs font-medium uppercase tracking-[0.12em] ${hoverColor} transition-colors duration-200 ${textColor}`}
+                  Loading...
+                </span>
+              )}
+
+              {/* =====================================
+                  Category Error
+              ===================================== */}
+
+              {categoriesError && (
+                <span className="text-xs uppercase tracking-[0.12em] text-red-500">
+                  Categories unavailable
+                </span>
+              )}
+
+              {/* =====================================
+                  REAL Categories
+              ===================================== */}
+
+              {!categoriesLoading &&
+                !categoriesError &&
+                categories.slice(0, 5).map((category) => (
+                  <div
+                    key={category.id}
+                    className="static"
+                    onMouseEnter={() =>
+                      handleCategoryEnter(category.slug)
+                    }
+                    onMouseLeave={handleCategoryLeave}
                   >
-                    {category.name}
-                    <ChevronDown
-                      className={`ml-1 w-3 h-3 transition-transform duration-200 ${
-                        activeCategory === category.name ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                </div>
-              ))}
+                    <Link
+                      to={`/shop?category=${category.id}`}
+                      className={`flex items-center px-2 py-1 text-xs font-medium uppercase tracking-[0.12em] ${hoverColor} transition-colors duration-200 ${textColor}`}
+                    >
+                      {category.title}
+
+                      <ChevronDown
+                        className={`ml-1 w-3 h-3 transition-transform duration-200 ${
+                          activeCategory === category.slug
+                            ? 'rotate-180'
+                            : ''
+                        }`}
+                      />
+                    </Link>
+                  </div>
+                ))}
             </div>
           </div>
 
-          {/* Mega Menu Dropdown */}
-          {activeCategory && activeCategory !== 'more' && activeCategoryData && (
+          {/* =========================================
+              Mega Menu
+          ========================================= */}
+
+          {activeCategory && activeCategoryData && (
             <MegaMenu
               activeCategoryData={activeCategoryData}
               dropdownTimeout={dropdownTimeout}
@@ -255,11 +412,14 @@ export const Navigation = () => {
           )}
         </nav>
 
-        {/* Mobile Menu Overlay */}
+        {/* =========================================
+            Mobile Menu
+        ========================================= */}
+
         {isMobileMenuOpen && (
           <MobileMenu
             primaryItems={PRIMARY_NAV_ITEMS}
-            categories={CATEGORIES}
+            categories={categories}
             onClose={() => setIsMobileMenuOpen(false)}
           />
         )}

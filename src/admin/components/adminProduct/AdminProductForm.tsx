@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ImagePlus, DollarSign, Tag, Barcode as BarcodeIcon, Loader2 } from 'lucide-react'
+import { ImagePlus,  Tag, Barcode as BarcodeIcon, Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -231,46 +231,68 @@ export const AdminProductForm = ({
           </div>
 
           {/* Pricing */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label htmlFor="price" className="text-xs font-semibold uppercase tracking-wider text-stone">
-                Selling Price <span className="text-terracotta">*</span>
-              </Label>
-              <div className="relative">
-                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone" />
-                <Input
-                  id="price"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="0.00"
-                  className="h-10 pl-10 rounded-xl border-border bg-white/70 text-sm tabular-nums text-charcoal focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta"
-                  required
-                />
-              </div>
-            </div>
+<div className="grid gap-4 sm:grid-cols-2">
+  {/* Selling Price */}
+ 
 
-            <div className="space-y-1.5">
-              <Label htmlFor="costPrice" className="text-xs font-semibold uppercase tracking-wider text-stone">
-                Cost Price
-              </Label>
-              <div className="relative">
-                <DollarSign className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone" />
-                <Input
-                  id="costPrice"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={costPrice}
-                  onChange={(e) => setCostPrice(e.target.value)}
-                  placeholder="0.00"
-                  className="h-10 pl-10 rounded-xl border-border bg-white/70 text-sm tabular-nums text-charcoal focus-visible:ring-2 focus-visible:ring-terracotta/20 focus-visible:border-terracotta"
-                />
-              </div>
-            </div>
-          </div>
+  {/* Cost Price */}
+  <div className="space-y-1.5">
+    <Label
+      htmlFor="costPrice"
+      className="text-xs font-semibold uppercase tracking-wider text-stone"
+    >
+      Cost Price
+    </Label>
+
+    <div className="relative">
+      <div className="pointer-events-none absolute left-0 top-0 flex h-10 items-center">
+        <span className="flex h-full items-center border-r border-border px-3 text-xs font-semibold text-stone">
+          Rs.
+        </span>
+      </div>
+
+      <Input
+        id="costPrice"
+        type="number"
+        min="0"
+        step="0.01"
+        value={costPrice}
+        onChange={(e) => setCostPrice(e.target.value)}
+        placeholder="0.00"
+        className="h-10 rounded-xl border-border bg-white/70 pl-[4.5rem] text-sm tabular-nums text-charcoal placeholder:text-stone/50 focus-visible:border-terracotta focus-visible:ring-2 focus-visible:ring-terracotta/20"
+      />
+    </div>
+  </div>
+   <div className="space-y-1.5">
+    <Label
+      htmlFor="price"
+      className="text-xs font-semibold uppercase tracking-wider text-stone"
+    >
+      Selling Price <span className="text-terracotta">*</span>
+    </Label>
+
+    <div className="relative">
+      <div className="pointer-events-none absolute left-0 top-0 flex h-10 items-center">
+        <span className="flex h-full items-center border-r border-border px-3 text-xs font-semibold text-stone">
+          Rs.
+        </span>
+      </div>
+
+      <Input
+        id="price"
+        type="number"
+        min="0"
+        step="0.01"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        placeholder="0.00"
+        className="h-10 rounded-xl border-border bg-white/70 pl-[4.5rem] text-sm tabular-nums text-charcoal placeholder:text-stone/50 focus-visible:border-terracotta focus-visible:ring-2 focus-visible:ring-terracotta/20"
+        required
+      />
+    </div>
+  </div>
+</div>
+
 
           {/* Units & Barcode */}
           <div className="grid gap-4 sm:grid-cols-2">
