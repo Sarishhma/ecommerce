@@ -73,10 +73,7 @@ export function HeroSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
               }`}
             >
-              <span className="h-px w-8 bg-white/30" />
-              <p className="text-white/40 text-[10px] uppercase tracking-[0.25em] font-light">
-                Handcrafted in Nepal
-              </p>
+           
             </div>
 
             {/* Bottom content */}

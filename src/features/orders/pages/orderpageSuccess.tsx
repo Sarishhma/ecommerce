@@ -8,7 +8,7 @@ export const OrderSuccessPage = () => {
   const order = location.state?.order;
 
   return (
-    <div className="min-h-screen pt-[calc(var(--nav-height)+2rem)] pb-20 px-4 flex items-center justify-center">
+    <div className="min-h-screen pt-10  pb-20 px-4 flex items-center justify-center">
       <div className="w-full max-w-2xl">
         <div className="bg-white rounded-3xl border border-sand/50 shadow-sm p-8 sm:p-12 text-center">
 

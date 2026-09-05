@@ -384,7 +384,7 @@ export const MobileMenu = ({
 
                   <Link
                     key={category.id}
-                    to={`/category/${category.slug}`}
+                    to={`/shop?category=${category.id}`}
                     onClick={onClose}
                     className="flex items-center justify-between py-2.5 px-2.5 rounded-lg text-xs font-medium text-[#1a1a1a] hover:bg-[#b8860b]/5 hover:text-[#b8860b] transition-colors"
                   >

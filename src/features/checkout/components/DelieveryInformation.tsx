@@ -1,6 +1,5 @@
 import type { User } from "@/auth/types/auth.types";
 
-
 interface DeliveryInformationProps {
   user: User | null;
   shippingAddress: string;
@@ -17,64 +16,52 @@ export const DeliveryInformation = ({
   onPhoneNumberChange,
 }: DeliveryInformationProps) => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-sand/50 p-6 lg:p-8">
-
-      <h2 className="text-xl font-semibold text-charcoal mb-6">
+    <div className="bg-white rounded-2xl shadow-sm border border-sand/50 p-6">
+      <h2 className="font-display text-xl font-semibold text-charcoal mb-6 pb-4 border-b border-sand/50">
         Delivery Information
       </h2>
 
-      <div className="space-y-6">
-
-        {/* ADDRESS */}
+      <div className="space-y-5">
+        {/* Address */}
         <div>
-          <label
-            htmlFor="shippingAddress"
-            className="block text-sm font-medium text-charcoal mb-2"
-          >
-            Shipping Address
+          <label className="block text-sm font-medium text-charcoal mb-2">
+            Shipping Address <span className="text-terracotta">*</span>
           </label>
-
           <textarea
-            id="shippingAddress"
             value={shippingAddress}
-            onChange={(e) =>
-              onShippingAddressChange(e.target.value)
-            }
-            rows={4}
+            onChange={(e) => onShippingAddressChange(e.target.value)}
+            rows={3}
             placeholder="Enter your shipping address"
-            className="w-full border border-sand rounded-lg px-4 py-3 text-sm outline-none focus:border-terracotta resize-none transition-colors"
+            className="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 transition-all resize-none bg-ivory/30"
           />
+          {user?.address && (
+            <p className="text-xs text-stone mt-2 flex items-center gap-1.5">
+              <span className="text-terracotta">✓</span>
+              Using your saved profile address
+            </p>
+          )}
         </div>
 
-        {/* PHONE */}
+        {/* Phone */}
         <div>
-          <label
-            htmlFor="phoneNumber"
-            className="block text-sm font-medium text-charcoal mb-2"
-          >
-            Phone Number
+          <label className="block text-sm font-medium text-charcoal mb-2">
+            Phone Number <span className="text-terracotta">*</span>
           </label>
-
           <input
-            id="phoneNumber"
             type="tel"
             value={phoneNumber}
-            onChange={(e) =>
-              onPhoneNumberChange(e.target.value)
-            }
+            onChange={(e) => onPhoneNumberChange(e.target.value)}
             placeholder="Enter your phone number"
-            className="w-full border border-sand rounded-lg px-4 py-3 text-sm outline-none focus:border-terracotta transition-colors"
+            className="w-full border border-sand rounded-xl px-4 py-3 text-sm outline-none focus:border-terracotta focus:ring-2 focus:ring-terracotta/20 transition-all bg-ivory/30"
           />
+          {user?.phone_number && (
+            <p className="text-xs text-stone mt-2 flex items-center gap-1.5">
+              <span className="text-terracotta">✓</span>
+              Using your saved phone number
+            </p>
+          )}
         </div>
 
-        {/* SAVED INFO */}
-        {user?.address && (
-          <p className="text-xs text-stone">
-            Your saved profile address has been added
-            automatically. You can change it for this
-            order.
-          </p>
-        )}
 
       </div>
     </div>
