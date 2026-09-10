@@ -32,14 +32,44 @@ export const authService = {
   getAccessToken: (): string | null => localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN),
 
   setUser: (user: User) => {
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user))
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN)
+    let decodedId: number | undefined
+    if (token) {
+      try {
+        const payload = jwtDecode<any>(token)
+        const jwtId = payload.user_id ?? payload.user ?? payload.sub ?? payload.id ?? payload.pk
+        if (jwtId && !isNaN(Number(jwtId))) decodedId = Number(jwtId)
+      } catch {}
+    }
+    const normalizedId = user?.id || (user as any)?.user_id || (user as any)?.pk || decodedId;
+    const normalizedUser = { ...user, id: normalizedId! };
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(normalizedUser))
   },
 
   getUser: (): User | null => {
     const raw = localStorage.getItem(STORAGE_KEYS.USER)
-    if (!raw) return null
+    const token = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN)
+
+    let decodedId: number | undefined
+    if (token) {
+      try {
+        const payload = jwtDecode<any>(token)
+        const jwtId = payload.user_id ?? payload.user ?? payload.sub ?? payload.id ?? payload.pk
+        if (jwtId && !isNaN(Number(jwtId))) decodedId = Number(jwtId)
+      } catch {}
+    }
+
+    if (!raw) {
+      return decodedId ? ({ id: decodedId } as User) : null
+    }
+
     try {
-      return JSON.parse(raw) as User
+      const parsed = JSON.parse(raw) as User & { user_id?: number; pk?: number }
+      const finalId = parsed?.id || parsed?.user_id || parsed?.pk || decodedId
+      return {
+        ...parsed,
+        id: finalId || 0,
+      }
     } catch {
       return null
     }
@@ -58,5 +88,22 @@ export const authService = {
       return false
     }
   },
-
 }
+
+export const getUserId = (user: User | null): number => {
+  if (user?.id && user.id > 0) return user.id;
+  if ((user as any)?.user_id && Number((user as any).user_id) > 0) return Number((user as any).user_id);
+  if ((user as any)?.pk && Number((user as any).pk) > 0) return Number((user as any).pk);
+
+  const token = authService.getAccessToken();
+  if (token) {
+    try {
+      const payload = jwtDecode<any>(token);
+      const jwtId = payload.user_id ?? payload.user ?? payload.sub ?? payload.id ?? payload.pk;
+      if (jwtId && !isNaN(Number(jwtId)) && Number(jwtId) > 0) {
+        return Number(jwtId);
+      }
+    } catch {}
+  }
+  return 0;
+};

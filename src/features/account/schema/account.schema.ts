@@ -5,10 +5,11 @@ export const profileSchema = z.object({
   email: z.string().email('Enter a valid email'),
   phone_number: z.string().min(1, 'Phone number is required'),
   address: z.string().min(1, 'Address is required'),
+  password: z.string().optional()
 })
 
 export type ProfileFormValues = z.infer<typeof profileSchema>
-
+export type UpdateProfileData = Partial<ProfileFormValues>
 
 
 export const passwordSchema = z

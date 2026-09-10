@@ -18,12 +18,25 @@ export const authSlice = createSlice({
       state,
       action: PayloadAction<{ user: User | null; accessToken: string; refreshToken: string }>
     ) => {
-      state.user = action.payload.user
+      const u = action.payload.user
+      if (u) {
+        const normalizedId = u.id ?? (u as any).user_id ?? (u as any).pk
+        state.user = { ...u, id: normalizedId }
+      } else {
+        state.user = null
+      }
       state.isAuthenticated = true
       state.error = null
     },
     setUser: (state, action: PayloadAction<User | null>) => {
-      state.user = action.payload
+      const u = action.payload
+      if (u) {
+        const existing = state.user || {}
+        const normalizedId = u.id || (u as any).user_id || (u as any).pk || (existing as any).id
+        state.user = { ...existing, ...u, id: normalizedId }
+      } else {
+        state.user = null
+      }
     },
     clearCredentials: (state) => {
       state.user = null

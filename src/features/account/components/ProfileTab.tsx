@@ -5,6 +5,7 @@ import { Pencil, X, Check, Mail, Phone, MapPin, User as UserIcon } from "lucide-
 import { profileSchema, type ProfileFormValues } from "../schema/account.schema"
 import { useUpdateProfile } from "../hook/useAccount.hook"
 import type { User } from "@/auth/types/auth.types"
+import { getUserId } from "@/auth/services/auth.service"
 
 export function ProfileTab({ user }: { user: User | null }) {
   const [isEditing, setIsEditing] = useState(false)
@@ -17,7 +18,8 @@ export function ProfileTab({ user }: { user: User | null }) {
     )
   }
 
-  const { mutate, isPending, isSuccess } = useUpdateProfile(user.id)
+  const userId = getUserId(user);
+  const { mutate, isPending, isSuccess } = useUpdateProfile(userId)
 
   const {
     register,
