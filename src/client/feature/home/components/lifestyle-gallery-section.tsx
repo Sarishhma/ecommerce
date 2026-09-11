@@ -28,12 +28,7 @@ export function LifestyleGallerySection({ images = mockImages }: { images?: any[
               From quiet mornings to gatherings with friends, our pieces are made
               to be used, loved, and passed on. Share how you style yours.
             </p>
-            <button
-              type="button"
-              className="self-start border border-ivory/40 px-6 py-3 rounded-full text-sm hover:bg-ivory hover:text-forest transition-all duration-300"
-            >
-              Explore the Lookbook
-            </button>
+        
           </div>
 
           {/* Images grid */}

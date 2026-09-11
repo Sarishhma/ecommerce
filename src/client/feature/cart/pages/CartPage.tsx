@@ -19,7 +19,7 @@ import {
   clearCart,
 } from "@/redux/slices/cartSlice";
 
-import { useScrollReveal } from "../feature/home/hooks/use-scroll-reveal";
+import { useScrollReveal } from "../../home/hooks/use-scroll-reveal";
 import { selectIsAuthenticated } from "@/redux/slices/authSlice";
 
 export const CartPage = () => {

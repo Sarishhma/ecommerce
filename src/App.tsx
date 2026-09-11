@@ -30,19 +30,14 @@ const ProductDetailPage = lazy(() =>
 );
 
 const CartPage = lazy(() =>
-  import("./client/pages/CartPage").then((module) => ({
+  import("./client/feature/cart/pages/CartPage").then((module) => ({
     default: module.CartPage,
   }))
 );
 
-const CollectionPage = lazy(() =>
-  import("./client/pages/CollectionPage").then((module) => ({
-    default: module.CollectionPage,
-  }))
-);
 
 const WishlistPage = lazy(() =>
-  import("./client/pages/WishlistPage").then((module) => ({
+  import("./client/feature/cart/pages/WishlistPage").then((module) => ({
     default: module.WishlistPage,
   }))
 );
@@ -110,6 +105,12 @@ const SearchResultsPage = lazy(() =>
 const ComingSoon = lazy(() =>
   import("./components/common/ComingSoon").then((module) => ({
     default: module.default,
+  }))
+);
+
+const StoryPage = lazy(() =>
+  import("./client/feature/story/components/OurStory").then((module) => ({
+    default: module.StoryPage,
   }))
 );
 
@@ -182,10 +183,7 @@ export default function App() {
               element={<WishlistPage />}
             />
 
-            <Route
-              path="/collections/:slug"
-              element={<CollectionPage />}
-            />
+         
 
             <Route
               path="/search"
@@ -195,6 +193,11 @@ export default function App() {
             <Route
               path="/help"
               element={<HelpPage />}
+            />
+
+             <Route
+              path="/story"
+              element={<StoryPage />}
             />
 
             <Route

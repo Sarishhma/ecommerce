@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { useAppDispatch, useAppSelector, selectWishlistIds, toggleWishlistItem } from '@/redux';
 
-import { useScrollReveal } from '../feature/home/hooks/use-scroll-reveal';
+import { useScrollReveal } from '../../home/hooks/use-scroll-reveal';
 import { useAddToCart } from '@/features/product';
 import { useGetProducts } from '@/features/product/hook/useProduct';
 
@@ -35,17 +35,19 @@ export const WishlistPage = () => {
   return (
     <div className="pb-20 lg:p-10 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="text-center mb-12">
-<h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal mb-8 relative inline-block">
-  <span className="relative inline-block px-6 py-3 border-b-2 border-t-2 border-charcoal/10 bg-white/50 backdrop-blur-sm">
-    <span className="absolute -top-3 -left-3 text-2xl text-amber-600/60">✦</span>
-    <span className="absolute -bottom-3 -right-3 text-2xl text-amber-600/60">✦</span>
-    Your <span className="text-amber-700 relative">
-      Wishlist
-      <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-amber-600/30"></span>
+<div className="mb-10">
+  <div className="flex items-center gap-3 mb-4">
+    <span className="w-8 h-px bg-amber-600/50" />
+    <span className="text-[10px] uppercase tracking-[0.35em] text-amber-700 font-medium">
+      Your Wishlist
     </span>
-  </span>
-</h1>
-        <p className="text-stone text-lg">{wishlistItems.length} item{wishlistItems.length !== 1 ? 's' : ''} saved</p>
+  </div>
+
+
+
+
+</div>
+
       </div>
 
       <div ref={contentReveal.ref as React.RefObject<HTMLDivElement | null>} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -76,14 +78,7 @@ export const WishlistPage = () => {
                 {product.title}
               </Link>
 
-              {/* <div className="flex items-center space-x-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-terracotta text-terracotta' : 'text-sand'}`}>
-                    ★
-                  </div>
-                ))}
-                <span className="text-xs text-stone ml-2">({product.reviewCount} reviews)</span>
-              </div> */}
+         
 
               <p className="text-stone text-sm mb-4 line-clamp-2">{product.description}</p>
 
