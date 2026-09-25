@@ -15,9 +15,8 @@ import { OrderStatusBadge } from "../components/orderStatusBadge";
 import { OrderTimeline } from "../components/orderTime";
 import { OrderItem } from "../components/orderItem";
 import { OrderSummary } from "../components/OrderSummery";
-import { useDeleteOrder } from "../hooks/useDeleteOrder";
 import { CancelOrderModal } from "../components/cancleOrderModal";
-
+import { useUpdateOrder } from "../hooks/useUpdateOrder";
 export const TrackOrderPage = () => {
   const {
     data: orders = [],
@@ -29,9 +28,9 @@ const [cancelOrderId, setCancelOrderId] =
   useState<number | null>(null);
 
 const {
-  mutate: cancelOrder,
+  mutate:updateOrder,
   isPending: isCancelling,
-} = useDeleteOrder();
+} = useUpdateOrder();
   const [selectedOrderId, setSelectedOrderId] =
     useState<number | undefined>();
 
@@ -51,7 +50,7 @@ const {
   } = useOrder(selectedOrderId);
 
   /*
-   * Loading orders
+   Loading orders
    */
   if (ordersLoading) {
     return (
@@ -121,7 +120,7 @@ const {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] pt-[calc(var(--nav-height)+2rem)] pb-20">
+    <div className="min-h-screen bg-[#faf9f7] pt-10  pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -275,7 +274,6 @@ const {
                     </div>
                   </div>
 
-                  {/* Summary */}
  {/* Summary */}
 <OrderSummary order={selectedOrder} />
 
@@ -331,16 +329,23 @@ const {
   onConfirm={() => {
     if (cancelOrderId === null) return;
 
-    cancelOrder(cancelOrderId, {
-      onSuccess:async () => {
-        setCancelOrderId(null);
-         await refetchOrders();
+    // Pass the required object structure here:
+    updateOrder(
+      {
+        orderId: cancelOrderId,
+        data: { status: "cancelled" }, // matches UpdateOrderRequest
       },
-      onError: (error) => {
-        console.error("Failed to cancel order:", error);
-        alert("Failed to cancel order. Please try again.");
-      },
-    });
+      {
+        onSuccess: async () => {
+          setCancelOrderId(null);
+          await refetchOrders();
+        },
+        onError: (error) => {
+          console.error("Failed to cancel order:", error);
+          alert("Failed to cancel order. Please try again.");
+        },
+      }
+    );
   }}
 />
                 </div>
