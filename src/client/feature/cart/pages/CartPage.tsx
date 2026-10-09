@@ -156,7 +156,7 @@ export const CartPage = () => {
                           {item.name}
                         </Link>
                         <p className="text-stone text-sm mt-0.5">
-                          Rs{item.price.toFixed(2)}
+                          Rs{item.price}
                         </p>
                       </div>
                     </div>
@@ -201,7 +201,7 @@ export const CartPage = () => {
                     {/* Total & Remove */}
                     <div className="col-span-3 flex items-center justify-between sm:justify-end gap-4">
                       <span className="font-semibold text-charcoal">
-                        Rs{(item.price * item.quantity).toFixed(2)}
+                        Rs{(item.price * item.quantity)}
                       </span>
                       <button
                         onClick={() => dispatch(removeFromCart(item.id))}
@@ -232,7 +232,7 @@ export const CartPage = () => {
                     Subtotal ({cartItems.length} items)
                   </span>
                   <span className="font-medium text-charcoal">
-                    Rs{cartTotal.toFixed(2)}
+                    Rs{cartTotal}
                   </span>
                 </div>
 
@@ -255,7 +255,7 @@ export const CartPage = () => {
                       Total
                     </span>
                     <span className=" text-2xl font-bold text-terracotta">
-                      Rs{cartTotal.toFixed(2)}
+                      Rs{cartTotal}
                     </span>
                   </div>
                   <p className="text-xs text-stone mt-1 text-right">

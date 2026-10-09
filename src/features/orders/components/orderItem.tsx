@@ -20,13 +20,13 @@ export const OrderItem = ({ item }: OrderItemProps) => {
           </h4>
 
           <p className="text-sm text-stone-500 mt-1">
-            Rs.{Number(item.price).toFixed(2)} × {item.quantity}
+            Rs.{Number(item.price)} × {item.quantity}
           </p>
         </div>
       </div>
 
       <p className="font-semibold text-charcoal flex-shrink-0">
-        Rs.{Number(item.subtotal).toFixed(2)}
+        Rs.{Number(item.subtotal)}
       </p>
     </div>
   );

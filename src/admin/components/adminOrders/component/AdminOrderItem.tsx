@@ -28,7 +28,7 @@ export const AdminOrderItem = ({
           </p>
 
           <p className="text-xs text-stone">
-            Unit price: <span className="text-charcoal font-medium">Rs{Number(item.price).toFixed(2)}</span>
+            Unit price: <span className="text-charcoal font-medium">Rs{Number(item.price)}</span>
           </p>
         </div>
       </div>
@@ -36,7 +36,7 @@ export const AdminOrderItem = ({
       {/* Subtotal */}
       <div className="text-right shrink-0">
         <p className="font-semibold text-charcoal font-display text-base">
-          Rs{Number(item.subtotal).toFixed(2)}
+          Rs{Number(item.subtotal)}
         </p>
 
         <p className="text-[10px] uppercase tracking-wider text-stone mt-0.5">

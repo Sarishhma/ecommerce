@@ -154,7 +154,7 @@ export const CheckoutPage = () => {
                   <div>
                     <p className="text-sm text-stone">Total Amount</p>
                     <p className="font-display text-3xl font-bold text-terracotta">
-                      Rs{subtotal.toFixed(2)}
+                      Rs{subtotal}
                     </p>
                   </div>
 

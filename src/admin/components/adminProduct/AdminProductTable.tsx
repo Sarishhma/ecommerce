@@ -32,10 +32,7 @@ interface AdminProductTableProps {
 const formatCurrency = (value: number | undefined) => {
   if (value === undefined || value === null) return "—";
 
-  return `Rs. ${value.toLocaleString("en-NP", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+return `Rs. ${value.toLocaleString("en-NP")}`;
 };
 
 export const AdminProductTable: React.FC<AdminProductTableProps> = ({

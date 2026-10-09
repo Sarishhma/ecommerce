@@ -8,7 +8,7 @@ import type { Category } from '@/features/category/types/category.types'
 
 function formatPrice(price: number | string): string {
   const value = typeof price === 'string' ? parseFloat(price) : price
-  return Number.isNaN(value) ? '—' : value.toFixed(2)
+  return Number.isNaN(value) ? '—' : String(value)
 }
 
 interface ProductCardProps {

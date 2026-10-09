@@ -53,7 +53,7 @@ export const ProductInfo = ({
       {/* Price */}
       <div className="flex items-baseline gap-3">
         <span className="text-3xl font-semibold tracking-tight text-neutral-900">
-          ${product.price.toFixed(2)}
+          Rs. {product.price}
         </span>
       </div>
 

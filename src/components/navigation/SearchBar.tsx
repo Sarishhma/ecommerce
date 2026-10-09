@@ -170,7 +170,7 @@ export const SearchBar = ({
                       />
                       <div className="min-w-0">
                         <p className="text-sm text-[#1a1a1a] truncate">{product.title}</p>
-                        <p className="text-xs text-[#1a1a1a]/50">Rs. {product.price.toFixed(2)}</p>
+                        <p className="text-xs text-[#1a1a1a]/50">Rs. {product.price}</p>
                       </div>
                     </button>
                   </li>

@@ -79,7 +79,7 @@ export const OrderCard = ({
           <OrderStatusBadge status={order.status} />
 
           <span className="font-semibold text-charcoal">
-            Rs.{Number(order.total_amount).toFixed(2)}
+            Rs.{Number(order.total_amount)}
           </span>
         </div>
       </div>

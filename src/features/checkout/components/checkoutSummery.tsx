@@ -40,12 +40,12 @@ export const CheckoutSummary = ({ items }: CheckoutSummaryProps) => {
               </p>
               <p className="text-xs text-stone">Qty: {item.quantity}</p>
               <p className="text-sm font-semibold text-charcoal">
-                Rs{item.price.toFixed(2)}
+                Rs{item.price}
               </p>
             </div>
 
             <div className="font-semibold text-charcoal text-sm">
-              Rs{(item.price * item.quantity).toFixed(2)}
+              Rs{(item.price * item.quantity)}
             </div>
           </div>
         ))}
@@ -56,7 +56,7 @@ export const CheckoutSummary = ({ items }: CheckoutSummaryProps) => {
         <div className="flex justify-between text-sm text-stone">
           <span>Subtotal ({items.length} items)</span>
           <span className="font-medium text-charcoal">
-            Rs{subtotal.toFixed(2)}
+            Rs{subtotal}
           </span>
         </div>
 
@@ -75,7 +75,7 @@ export const CheckoutSummary = ({ items }: CheckoutSummaryProps) => {
             Total
           </span>
           <span className="font-display font-bold text-2xl text-terracotta">
-            Rs{subtotal.toFixed(2)}
+            Rs{subtotal}
           </span>
         </div>
       </div>

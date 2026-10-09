@@ -84,7 +84,7 @@ export const WishlistPage = () => {
 
               <div className="mt-auto flex items-center justify-between">
                 <span className="font-display text-xl font-bold text-charcoal">
-                  Rs. {product.price.toFixed(2)}
+                  Rs. {product.price}
                 </span>
                 <button
                   onClick={() => addToCartMutation.mutate({ product, quantity: 1 })}

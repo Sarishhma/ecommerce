@@ -168,7 +168,7 @@ export const AdminOrderDetailsModal = ({
                         Total
                       </p>
                       <p className="text-base font-display font-semibold text-charcoal mt-0.5">
-                        Rs{Number(order.total_amount).toFixed(2)}
+                        Rs{Number(order.total_amount)}
                       </p>
                     </div>
                   </div>
@@ -270,7 +270,7 @@ export const AdminOrderDetailsModal = ({
                       Order Total
                     </span>
                     <span className="text-2xl font-display font-semibold text-charcoal">
-                      Rs{Number(order.total_amount).toFixed(2)}
+                      Rs{Number(order.total_amount)}
                     </span>
                   </div>
                 </div>
