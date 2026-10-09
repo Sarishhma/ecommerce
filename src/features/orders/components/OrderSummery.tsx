@@ -51,7 +51,7 @@ export const OrderSummary = ({
         </span>
 
         <span className="text-xl font-bold text-charcoal">
-          ${Number(order.total_amount).toFixed(2)}
+          Rs.{Number(order.total_amount).toFixed(2)}
         </span>
       </div>
     </div>
