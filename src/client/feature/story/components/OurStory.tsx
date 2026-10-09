@@ -4,7 +4,6 @@ import React from 'react';
 import { useScrollReveal } from '../../home/hooks/use-scroll-reveal';
 
 export const StoryPage = () => {
-  const heroReveal = useScrollReveal();
   const textReveal = useScrollReveal();
   const statsReveal = useScrollReveal();
 
