@@ -152,9 +152,9 @@ export const SalePage = () => {
 
               {/* Price */}
               <div className="flex items-center space-x-2">
-                <span className="text-lg font-bold text-charcoal">${product.price.toFixed(2)}</span>
+                <span className="text-lg font-bold text-charcoal">Rs.{product.price.toFixed(2)}</span>
                 {product.originalPrice && (
-                  <span className="text-sm text-stone line-through">${product.originalPrice.toFixed(2)}</span>
+                  <span className="text-sm text-stone line-through">Rs.{product.originalPrice.toFixed(2)}</span>
                 )}
               </div>
             </div>
